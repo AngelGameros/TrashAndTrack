@@ -35,3 +35,6 @@ TrashAndTrack/.env*.local
 
 # typescript
 TrashAndTrack/*.tsbuildinfo
+
+# Local Environment Variables
+.env

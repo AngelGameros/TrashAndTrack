@@ -2,27 +2,23 @@
 
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-// Si vas a usar Firestore o cualquier otro servicio, impórtalo aquí:
-// import { getFirestore } from 'firebase/firestore'; 
 
-// Tu configuración de Firebase específica
+// Tu configuración de Firebase específica, leyendo de variables de entorno
 const firebaseConfig = {
-  apiKey: "AIzaSyAFke4dQQfIPsBFkshWvCB9jVuYuilDWuA",
-  authDomain: "trashandtrack-928dc.firebaseapp.com",
-  projectId: "trashandtrack-928dc",
-  storageBucket: "trashandtrack-928dc.firebasestorage.app",
-  messagingSenderId: "412401788328",
-  appId: "1:412401788328:web:3e8574a349f16fe181299d"
+  // Asegúrate de que las variables de entorno tienen el prefijo EXPO_PUBLIC_
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID
 };
 
 // Inicializar la aplicación Firebase
 const app = initializeApp(firebaseConfig);
 
-// Obtener la instancia de autenticación
-const auth = getAuth(app);
+// Obtener la instancia de autenticación y asignarla a una variable antes de exportar.
+const authInstance = getAuth(app);
 
-// Si necesitas Firestore, puedes inicializarlo así:
-// const db = getFirestore(app);
-
-// Exportar los servicios de Firebase que vas a utilizar en tu aplicación
-export { auth /*, db*/ };
+// Exportar la instancia de autenticación con el nombre 'auth'
+export { authInstance as auth };

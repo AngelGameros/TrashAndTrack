@@ -1,42 +1,70 @@
-// src/pages/Home/HomeScreen.js
+// src/pages/Home/HomeScreen.js (Módulo de Camión Asignado)
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { auth } from '../../config/Firebase/firebaseConfig'; // Asegúrate de la ruta relativa correcta
-import { signOut } from 'firebase/auth';
+import { View, Text, StyleSheet, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { auth, db } from '../../config/Firebase/firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
 
 export default function HomeScreen() {
-  const [userEmail, setUserEmail] = useState('');
+  const [displayName, setDisplayName] = useState(''); // Estado para el nombre a mostrar
+  const [isLoadingName, setIsLoadingName] = useState(true);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Obtener el correo del usuario actual cuando la pantalla se carga
-    if (auth.currentUser) {
-      setUserEmail(auth.currentUser.email);
-    }
-  }, []);
+    const fetchUserName = async () => {
+      if (auth.currentUser) {
+        setIsLoadingName(true);
+        try {
+          const docRef = doc(db, "usersApproval", auth.currentUser.uid);
+          const docSnap = await getDoc(docRef);
 
-  const handleSignOut = async () => {
-    setLoading(true);
-    try {
-      await signOut(auth);
-      Alert.alert('Sesión Cerrada', 'Has cerrado sesión correctamente.');
-      // El observador en App.js detectará este cambio y redirigirá al usuario.
-    } catch (error) {
-      console.error('Error al cerrar sesión:', error.message);
-      Alert.alert('Error', 'No se pudo cerrar sesión. Por favor, inténtalo de nuevo.');
-    } finally {
-      setLoading(false);
-    }
-  };
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            const nombre = userData.nombre || '';
+            const apellidoPaterno = userData.apellidoPaterno || '';
+
+            // Construir el nombre completo, filtrando campos vacíos
+            const fullName = [nombre, apellidoPaterno]
+              .filter(Boolean) // Elimina cualquier string vacío o null/undefined
+              .join(' '); // Une los restantes con un espacio
+
+            setDisplayName(fullName || auth.currentUser.email);
+          } else {
+            // Si por alguna razón no hay documento de aprobación, usar el email
+            setDisplayName(auth.currentUser.email);
+          }
+        } catch (error) {
+          console.error("Error al obtener el nombre del usuario para HomeScreen:", error);
+          // En caso de error, usar el email
+          setDisplayName(auth.currentUser.email);
+        } finally {
+          setIsLoadingName(false);
+        }
+      } else {
+        setIsLoadingName(false); // No hay usuario, no hay nombre que cargar
+      }
+    };
+
+    fetchUserName();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>¡Bienvenido!</Text>
-      <Text style={styles.subtitle}>Has iniciado sesión como:</Text>
-      <Text style={styles.emailText}>{userEmail}</Text>
+      <Text style={styles.title}>Módulo de Camión Asignado</Text>
+      <Text style={styles.subtitle}>¡Bienvenido, {displayName}!</Text>
 
-      <TouchableOpacity
+      {/* Aquí podrías añadir la interfaz del camión asignado */}
+      <View style={styles.card}>
+        <Text style={styles.cardTitle}>Detalles del Camión</Text>
+        <Text style={styles.cardText}>Nivel de gasolina: 75%</Text>
+        <Text style={styles.cardText}>Peso de carga actual: 3.250 kg</Text>
+        <Text style={styles.cardText}>Temperatura: 18°C</Text>
+        <Text style={styles.cardText}>Humedad: 55%</Text>
+        <Text style={styles.cardText}>Detector de gases peligrosos: OK</Text>
+      </View>
+
+      {/* El botón de cerrar sesión ahora estará principalmente en el menú lateral */}
+      {/* <TouchableOpacity
         style={styles.signOutButton}
         onPress={handleSignOut}
         disabled={loading}
@@ -46,7 +74,7 @@ export default function HomeScreen() {
         ) : (
           <Text style={styles.signOutButtonText}>Cerrar Sesión</Text>
         )}
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }
@@ -60,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F8FF', // Azul claro de fondo
   },
   title: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 10,
     color: '#2C3E50', // Azul oscuro para el título
@@ -68,20 +96,42 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 18,
     color: '#5D6D7E', // Gris azulado para subtítulo
-    marginBottom: 5,
+    marginBottom: 20,
   },
-  emailText: {
-    fontSize: 20,
-    fontWeight: '600',
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15,
+    padding: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 8,
+    width: '100%',
+    maxWidth: 380,
+    alignItems: 'flex-start',
+    marginBottom: 30,
+  },
+  cardTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
     color: '#34495E',
-    marginBottom: 40,
-    textAlign: 'center',
+    marginBottom: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ECEFF1',
+    paddingBottom: 5,
+    width: '100%',
+  },
+  cardText: {
+    fontSize: 16,
+    color: '#5D6D7E',
+    marginBottom: 8,
   },
   signOutButton: {
     width: '100%',
     maxWidth: 250,
     height: 50,
-    backgroundColor: '#E74C3C', // Rojo para el botón de cerrar sesión
+    backgroundColor: '#E74C3C',
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -90,6 +140,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 5,
+    marginTop: 20,
   },
   signOutButtonText: {
     color: '#fff',

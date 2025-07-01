@@ -2,10 +2,11 @@
 
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore'; // IMPORTANTE: Importa Firestore
 
-// Tu configuración de Firebase específica, leyendo de variables de entorno
+// Tu configuración de Firebase específica, leyendo de variables de entorno.
+// ASEGÚRATE de que estas variables están en tu archivo /.env en /TNT/TrashAndTrack/.env
 const firebaseConfig = {
-  // Asegúrate de que las variables de entorno tienen el prefijo EXPO_PUBLIC_
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
@@ -17,8 +18,11 @@ const firebaseConfig = {
 // Inicializar la aplicación Firebase
 const app = initializeApp(firebaseConfig);
 
-// Obtener la instancia de autenticación y asignarla a una variable antes de exportar.
+// Obtener la instancia de autenticación (Auth)
 const authInstance = getAuth(app);
 
-// Exportar la instancia de autenticación con el nombre 'auth'
-export { authInstance as auth };
+// Obtener la instancia de Firestore Database (db)
+const db = getFirestore(app);
+
+// Exportar los servicios de Firebase que vas a utilizar en tu aplicación
+export { authInstance as auth, db }; // Exporta 'auth' Y 'db'

@@ -1,0 +1,15 @@
+﻿{
+    // si usan la autenticacion de microsoft para el sql server utilicen esta parte del JSON
+    "SqlServer": {
+        "Server": "LAPTOP-MIMAMM7U",
+        "Database": "TestTNT",
+        "Trusted_Connection": "True",
+        "TrustServer_Certificate": "True"
+    },
+    "Paths": {
+        "Domain": "http://localhost:5000",
+        "Photos": {
+            "Usuarios": "photos/Usuarios"
+        }
+    }
+}

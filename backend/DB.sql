@@ -98,9 +98,8 @@ CREATE TABLE CAMIONES (
     anio INT,
     capacidad_carga DECIMAL(10, 2),
     id_usuario INT,
-    id_empresa INT,
-    FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario),
-    FOREIGN KEY (id_empresa) REFERENCES EMPRESAS(id_empresa)
+    estado NVARCHAR(50),
+    FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
 );
 GO
 
@@ -185,12 +184,16 @@ CREATE TABLE REPORTES (
     id_reporte INT PRIMARY KEY IDENTITY(1,1),
     nombre NVARCHAR(255) NOT NULL,
     fecha_reporte DATETIME,
-    url_foto NVARCHAR(255),
     descripcion NVARCHAR(MAX),
     id_usuario INT,
-    FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
+    id_contenedor INT,
+    collected_amount DECIMAL(10,2),
+    container_status NVARCHAR(255),
+    FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario),
+    FOREIGN KEY (id_contenedor) REFERENCES CONTENEDORES(id_contenedor)
 );
 GO
+
 
 -- Crear Tabla CERTIFICADOS_EMPRESA
 CREATE TABLE CERTIFICADOS_EMPRESA (

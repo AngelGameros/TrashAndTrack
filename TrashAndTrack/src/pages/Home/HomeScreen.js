@@ -1,41 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Alert,
-  ActivityIndicator,
-  TouchableOpacity,
-  ScrollView,
-  SafeAreaView,
+  View, Text, StyleSheet, Alert, ActivityIndicator,
+  TouchableOpacity, ScrollView, SafeAreaView,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+
 import { auth, db } from '../../config/Firebase/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 
 export default function HomeScreen({ navigation }) {
+  // Estado para el nombre a mostrar
   const [displayName, setDisplayName] = useState('');
   const [isLoadingName, setIsLoadingName] = useState(true);
 
-  const [assignedTruck, setAssignedTruck] = useState({
-    id: 'TRUCK-789',
-    name: 'Unidad de Recolección Rápida',
-    status: 'operativo',
-    brand: 'Mercedes-Benz',
-    model: 'Actros 2545',
-    licensePlate: 'ABC-123',
-    capacity: '10,000 kg',
-    currentLoad: '3,250 kg',
-    totalTrips: 15,
-    lastTripDate: '2025-07-03',
-  });
+  // Estado para el camión
+  const [assignedTruck, setAssignedTruck] = useState(null);
+  const [loadingTruck, setLoadingTruck] = useState(true);
 
   useEffect(() => {
+    // Función para obtener el nombre del usuario desde Firebase Firestore
     const fetchUserName = async () => {
       if (auth.currentUser) {
         setIsLoadingName(true);
         try {
-          const docRef = doc(db, 'usersApproval', auth.currentUser.uid);
+          const docRef = doc(db, "usersApproval", auth.currentUser.uid);
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
@@ -48,7 +36,7 @@ export default function HomeScreen({ navigation }) {
             setDisplayName(auth.currentUser.email);
           }
         } catch (error) {
-          console.error('Error al obtener el nombre del usuario:', error);
+          console.error("Error al obtener el nombre del usuario para HomeScreen:", error);
           setDisplayName(auth.currentUser.email);
         } finally {
           setIsLoadingName(false);
@@ -58,13 +46,29 @@ export default function HomeScreen({ navigation }) {
       }
     };
 
+    // Función para obtener el camión asignado del backend
+    const fetchAssignedTruck = async () => {
+      try {
+        setLoadingTruck(true);
+        const uid = auth.currentUser.uid;
+        const response = await fetch(`http://192.168.0.2:5000/api/camionasignado/${uid}`);
+        const data = await response.json();
+        setAssignedTruck(data.camion);
+      } catch (error) {
+        Alert.alert('Error', error.message);
+      } finally {
+        setLoadingTruck(false);
+      }
+    };
+
     fetchUserName();
+    fetchAssignedTruck();
   }, []);
 
   const getStatusDisplay = (status) => {
     switch (status) {
-      case 'operativo':
-        return { text: 'OPERATIVO', color: '#4CAF50', backgroundColor: '#E8F5E9' };
+      case 'activo':
+        return { text: 'ACTIVO', color: '#4CAF50', backgroundColor: '#E8F5E9' };
       case 'en_mantenimiento':
         return { text: 'EN MANTENIMIENTO', color: '#FFC107', backgroundColor: '#FFF8E1' };
       case 'fuera_de_servicio':
@@ -74,65 +78,59 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
-  const statusInfo = getStatusDisplay(assignedTruck.status);
+  if (loadingTruck || isLoadingName) {
+    return (
+      <View style={[styles.safeArea, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color="#0097A7" />
+        <Text>Cargando información...</Text>
+      </View>
+    );
+  }
 
-  const handleViewRoutes = () => {
-    if (navigation) {
-      navigation.navigate('Ruta'); // Debe coincidir con el nombre en App.js
-    } else {
-      Alert.alert('Error de Navegación', 'No se pudo acceder a la navegación.');
-    }
-  };
+  if (!assignedTruck) {
+    return (
+      <View style={[styles.safeArea, { justifyContent: 'center', alignItems: 'center' }]}>
+        <Text>No hay camión asignado.</Text>
+      </View>
+    );
+  }
 
-  const handleReportIssue = () => {
-    if (navigation) {
-      navigation.navigate('Incidentes');
-    } else {
-      Alert.alert('Error de Navegación', 'No se pudo acceder a la navegación.');
-    }
-  };
+  const statusInfo = getStatusDisplay(assignedTruck.estado);
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.welcomeTitle}>
-          ¡Bienvenido,{' '}
-          {isLoadingName ? (
-            <ActivityIndicator size="small" color="#5D6D7E" />
-          ) : (
-            displayName
-          )}
-          !
+          ¡Bienvenido, {displayName}!
         </Text>
         <Text style={styles.moduleTitle}>Mi Camión Asignado</Text>
 
         <View style={styles.truckCard}>
           <MaterialIcons name="local-shipping" size={80} color="#00796B" style={styles.truckIcon} />
-          <Text style={styles.truckName}>{assignedTruck.name}</Text>
-          <Text style={styles.truckId}>ID: {assignedTruck.id}</Text>
+          <Text style={styles.truckName}>{assignedTruck.marca} {assignedTruck.modelo}</Text>
+          <Text style={styles.truckId}>ID: {assignedTruck.idCamion}</Text>
 
           <View style={[styles.statusBadge, { backgroundColor: statusInfo.backgroundColor }]}>
             <Text style={[styles.statusText, { color: statusInfo.color }]}>{statusInfo.text}</Text>
           </View>
 
           <View style={styles.infoSection}>
-            <InfoRow icon="branding-watermark" label="Marca:" value={assignedTruck.brand} />
-            <InfoRow icon="model-training" label="Modelo:" value={assignedTruck.model} />
-            <InfoRow icon="car-rental" label="Placas:" value={assignedTruck.licensePlate} />
-            <InfoRow icon="inventory" label="Capacidad de Carga:" value={assignedTruck.capacity} />
-            <InfoRow icon="monitor-weight" label="Carga Actual:" value={assignedTruck.currentLoad} />
-            <InfoRow icon="alt-route" label="Viajes Realizados (hoy):" value={assignedTruck.totalTrips} />
-            <InfoRow icon="history" label="Último Viaje:" value={assignedTruck.lastTripDate} />
+            <InfoRow icon="branding-watermark" label="Marca:" value={assignedTruck.marca} />
+            <InfoRow icon="model-training" label="Modelo:" value={assignedTruck.modelo} />
+            <InfoRow icon="car-rental" label="Placas:" value={assignedTruck.placa} />
+            <InfoRow icon="inventory" label="Capacidad de Carga:" value={`${assignedTruck.capacidadCarga} kg`} />
+            <InfoRow icon="alt-route" label="Viajes Realizados:" value={assignedTruck.totalViajes} />
+            <InfoRow icon="history" label="Último Viaje:" value={assignedTruck.ultimaFechaViaje ?? 'N/A'} />
           </View>
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.actionButton} onPress={handleViewRoutes}>
+          <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Ruta')}>
             <MaterialIcons name="map" size={24} color="#fff" />
             <Text style={styles.actionButtonText}>VER RUTAS ASIGNADAS</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.actionButton, styles.reportButton]} onPress={handleReportIssue}>
+          <TouchableOpacity style={[styles.actionButton, styles.reportButton]} onPress={() => navigation.navigate('Incidentes')}>
             <MaterialIcons name="report-problem" size={24} color="#fff" />
             <Text style={styles.actionButtonText}>REPORTAR INCIDENCIA</Text>
           </TouchableOpacity>

@@ -1,15 +1,15 @@
 ﻿{
-    // si usan la autenticacion de microsoft para el sql server utilicen esta parte del JSON
-    "SqlServer": {
-        "Server": "LAPTOP-MIMAMM7U",
-        "Database": "TestTNT",
+    "sqlServer": {
+        "Server": "DESKTOP-LOJ8TIC\\SQLEXPRESS",
+        "Database": "tnt",
         "Trusted_Connection": "True",
         "TrustServer_Certificate": "True"
     },
     "Paths": {
-        "Domain": "http://localhost:5000",
+        "Domain": "http://localhost/callcenter/",
         "Photos": {
-            "Usuarios": "photos/Usuarios"
+            "Users": "photos/users_photos",
+            "Agents": "photos/agents_photos"
         }
     }
 }

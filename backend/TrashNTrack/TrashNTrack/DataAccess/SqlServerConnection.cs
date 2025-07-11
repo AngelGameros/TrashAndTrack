@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;  // Cambiado aquí
 using System.Data;
 using System;
 
@@ -17,7 +17,6 @@ public class SqlServerConnection
             TrustServerCertificate = true
         };
 
-        // Solo agrega usuario/contraseña si se especifican
         if (!string.IsNullOrEmpty(Config.Configuration.SqlServer.Usuario))
         {
             builder.UserID = Config.Configuration.SqlServer.Usuario;
@@ -42,7 +41,7 @@ public class SqlServerConnection
         catch (Exception e)
         {
             Console.WriteLine($"Error al abrir conexión: {e.Message}");
-            throw; // Relanza la excepción para manejo superior
+            throw;
         }
     }
 
@@ -54,7 +53,7 @@ public class SqlServerConnection
             try
             {
                 command.Connection = connection;
-                new SqlDataAdapter(command).Fill(table);
+                new SqlDataAdapter(command).Fill(table);  // SqlDataAdapter también de Microsoft.Data.SqlClient
                 Console.WriteLine($"Consulta ejecutada. Filas obtenidas: {table.Rows.Count}");
             }
             catch (Exception e)
@@ -64,5 +63,40 @@ public class SqlServerConnection
             }
         }
         return table;
+    }
+
+    public static object ExecuteScalar(SqlCommand command)
+    {
+        using (var connection = GetConnection())
+        {
+            try
+            {
+                command.Connection = connection;
+                return command.ExecuteScalar();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error en ExecuteScalar: {e.Message}");
+                throw;
+            }
+        }
+    }
+
+    public static void ExecuteCommand(SqlCommand command)
+    {
+        using (var connection = GetConnection())
+        {
+            try
+            {
+                command.Connection = connection;
+                command.ExecuteNonQuery();
+                Console.WriteLine("Comando ejecutado correctamente.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error en ExecuteCommand: {e.Message}");
+                throw;
+            }
+        }
     }
 }

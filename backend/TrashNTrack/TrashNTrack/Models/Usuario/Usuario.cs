@@ -1,80 +1,82 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 public class Usuario
 {
     #region statements
-    private static string UsuarioGetAll = @"
-        SELECT id_usuario, nombre, primer_apellido, segundo_apellido, correo, numero_telefono, firebase_uid
-        FROM USUARIOS ORDER BY id_usuario";
+    private static String UsuarioGetAll = @"select id_usuario, primer_apell, segundo_apell, firebase_uid from usuarios";
 
-    private static string UsuarioGetOne = @"
-        SELECT id_usuario, nombre, primer_apellido, segundo_apellido, correo, numero_telefono, firebase_uid
-        FROM USUARIOS WHERE id_usuario = @ID";
+    private static String UsuarioGetOne = @"
+    select id_usuario, primer_apell, segundo_apell, firebase_uid from usuarios
+    where id_usuario = @ID";
     #endregion
 
     #region attributes
+
     private int _id_usuario;
-    private string _nombre;
-    private string _primer_apellido;
-    private string _segundo_apellido;
-    private string _correo;
-    private string _numero_telefono;
-    private string _firebase_uid;
+    private String _primer_apell;
+    private String _segundo_apell;
+    private int _firebase_uid;
+
     #endregion
 
     #region properties
-    public int IdUsuario { get => _id_usuario; }
-    public string Nombre { get => _nombre; set => _nombre = value; }
-    public string PrimerApellido { get => _primer_apellido; set => _primer_apellido = value; }
-    public string SegundoApellido { get => _segundo_apellido; set => _segundo_apellido = value; }
-    public string Correo { get => _correo; set => _correo = value; }
-    public string NumeroTelefono { get => _numero_telefono; set => _numero_telefono = value; }
-    public string FirebaseUid { get => _firebase_uid; }
+
+    public int id_Usuario { get => _id_usuario; }
+    public string primerApell { get => _primer_apell; set => _primer_apell = value; }
+    public string secundoApell { get => _segundo_apell; set => _segundo_apell = value; }
+    public int firebaseUid {  get => _firebase_uid; }
+
+
     #endregion
 
-    #region constructors
+    #region Constructors
+
     public Usuario()
     {
         _id_usuario = 0;
-        _nombre = "";
-        _primer_apellido = "";
-        _segundo_apellido = "";
-        _correo = "";
-        _numero_telefono = "";
-        _firebase_uid = "";
+        _primer_apell = "";
+        _segundo_apell = "";
+        _firebase_uid = 0;
     }
-
-    public Usuario(int id_usuario, string nombre, string primer_apellido, string segundo_apellido, string correo, string numero_telefono, string firebase_uid)
+    public Usuario(int id_usuario, String primer_apell, String segundo_apell, int firebase_uid)
     {
         _id_usuario = id_usuario;
-        _nombre = nombre;
-        _primer_apellido = primer_apellido;
-        _segundo_apellido = segundo_apellido;
-        _correo = correo;
-        _numero_telefono = numero_telefono;
+        _primer_apell = primer_apell;
+        _segundo_apell = segundo_apell;
         _firebase_uid = firebase_uid;
     }
+
     #endregion
 
     #region classMethods
+
     public static List<Usuario> Get()
     {
         SqlCommand command = new SqlCommand(UsuarioGetAll);
         return UsuarioMapper.ToList(SqlServerConnection.ExecuteQuery(command));
     }
 
+
+
     public static Usuario Get(int id)
     {
+        //sql command
         SqlCommand command = new SqlCommand(UsuarioGetOne);
+        //paramaters
         command.Parameters.AddWithValue("@ID", id);
+        //execute query 
         DataTable table = SqlServerConnection.ExecuteQuery(command);
+        //check if rows were found
         if (table.Rows.Count > 0)
             return UsuarioMapper.ToObject(table.Rows[0]);
         else
             throw new UsuarioNotFoundException(id);
     }
+
     #endregion
 }

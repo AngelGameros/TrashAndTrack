@@ -7,8 +7,18 @@ using System.Collections.Generic;
 public class CamionesController : ControllerBase
 {
     [HttpGet]
-    public ActionResult GetAll() => Ok(CamionListResponse.GetResponse(Camion.GetAll()));
+    public ActionResult GetAll()
+    {
+        var listaCamiones = Camiones.Get(); // Obtener la lista de camiones
+        var response = CamionesListResponse.GetResponse(listaCamiones); // Generar la respuesta
+        return Ok(response); // Retornar al cliente
+    }
 
     [HttpGet("{id}")]
-    public ActionResult GetById(int id) => Ok(CamionResponse.GetResponse(Camion.GetById(id)));
+    public ActionResult GetById(int id)
+    {
+        var camion = Camiones.Get(id);
+        var response = CamionesResponse.GetResponse(camion);
+        return Ok(response);
+    }
 }

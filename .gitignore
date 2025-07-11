@@ -38,3 +38,6 @@ TrashAndTrack/*.tsbuildinfo
 
 # Local Environment Variables
 .env
+
+# backend
+**/serviceAccountKey.json.json

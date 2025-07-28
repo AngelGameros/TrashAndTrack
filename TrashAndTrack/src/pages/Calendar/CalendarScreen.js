@@ -196,7 +196,6 @@ const CalendarScreen = () => {
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
       <Text style={styles.headerTitle}>Mis Recolecciones</Text>
-
       <Calendar
         style={styles.calendar}
         current={selectedDate}
@@ -263,7 +262,6 @@ const CalendarScreen = () => {
     </Modal>
   </View>
 );
-
 };
 
 const styles = StyleSheet.create({

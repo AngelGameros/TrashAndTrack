@@ -55,11 +55,80 @@ namespace TrashNTrack.Controllers
             }
         }
 
+        // Obtener usuario por Firebase UID
+        [HttpGet]
+        [Route("firebase/{uid}")]
+        public ActionResult GetByFirebaseUid(string uid)
+        {
+            try
+            {
+                // Necesitarás implementar este método en tu clase Usuario
+                Usuario a = Usuario.GetByFirebaseUid(uid);
+                return Ok(UsuarioResponse.GetResponse(a));
+            }
+            catch (UsuarioNotFoundException e)
+            {
+                return Ok(MessageResponse.GetResponse(1, e.Message, MessageType.Error));
+            }
+            catch (Exception e)
+            {
+                return Ok(MessageResponse.GetResponse(999, e.Message, MessageType.Error));
+            }
+        }
+
+        // Actualizar número de teléfono
+        [HttpPut]
+        [Route("phone")]
+        public ActionResult UpdatePhone([FromBody] PhoneUpdateRequest request)
+        {
+            try
+            {
+                // Necesitarás implementar este método en tu clase Usuario
+                bool updated = Usuario.UpdatePhone(request.firebase_uid, request.numero_telefono);
+
+                if (updated)
+                    return Ok(new { status = "success", message = "Número actualizado correctamente" });
+                else
+                    return BadRequest(new { status = "error", message = "No se pudo actualizar el número" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { status = "error", message = ex.Message });
+            }
+        }
+
+        public class PhoneUpdateRequest
+        {
+            public string firebase_uid { get; set; }
+            public string numero_telefono { get; set; }
+        }
+
         [HttpPost]
         [Route("")]
-        public ActionResult Post()
+        public ActionResult Post([FromBody] Usuario usuario)
         {
-            return Ok("post");
+            if (usuario == null)
+                return BadRequest("Datos del usuario inválidos.");
+
+            try
+            {
+                if (string.IsNullOrEmpty(usuario.TipoUsuario) || (usuario.TipoUsuario != "admin" && usuario.TipoUsuario != "recolector"))
+                {
+                    usuario.TipoUsuario = "recolector";
+                }
+
+                bool inserted = usuario.Insert();
+
+                if (inserted)
+                    return Ok(new { status = "success", message = "Usuario creado correctamente" });
+                else
+                    return BadRequest(new { status = "error", message = "No se pudo crear el usuario" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { status = "error", message = ex.Message });
+            }
         }
+
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 
 public class UsuarioMapper
 {
@@ -7,9 +9,6 @@ public class UsuarioMapper
     {
         try
         {
-            if (row == null)
-                throw new ArgumentNullException(nameof(row), "DataRow no puede ser nulo");
-
             int id_usuario = GetValue<int>(row, "id_usuario");
             string nombre = GetValue<string>(row, "nombre");
             string primer_apellido = GetValue<string>(row, "primer_apellido");
@@ -17,8 +16,9 @@ public class UsuarioMapper
             string correo = GetValue<string>(row, "correo");
             string numero_telefono = GetValue<string>(row, "numero_telefono");
             string firebase_uid = GetValue<string>(row, "firebase_uid");
+            string tipo_usuario = GetValue<string>(row, "tipo_usuario");
 
-            return new Usuario(id_usuario, nombre, primer_apellido, segundo_apellido, correo, numero_telefono, firebase_uid);
+            return new Usuario(id_usuario, nombre, primer_apellido, segundo_apellido, correo, numero_telefono, firebase_uid, tipo_usuario);
         }
         catch (Exception ex)
         {
@@ -27,9 +27,11 @@ public class UsuarioMapper
         }
     }
 
+
+
     public static List<Usuario> ToList(DataTable table)
     {
-        List<Usuario> list = new List<Usuario>();
+        var list = new List<Usuario>();
 
         if (table == null || table.Rows.Count == 0)
         {
@@ -40,7 +42,9 @@ public class UsuarioMapper
         try
         {
             foreach (DataRow row in table.Rows)
+            {
                 list.Add(ToObject(row));
+            }
         }
         catch (Exception ex)
         {
@@ -52,6 +56,7 @@ public class UsuarioMapper
         return list;
     }
 
+    // Método auxiliar para obtener valores de forma segura
     private static T GetValue<T>(DataRow row, string columnName)
     {
         if (!row.Table.Columns.Contains(columnName))
@@ -60,10 +65,18 @@ public class UsuarioMapper
         if (row.IsNull(columnName))
             return default(T);
 
-        return (T)Convert.ChangeType(row[columnName], typeof(T));
+        try
+        {
+            return (T)Convert.ChangeType(row[columnName], typeof(T));
+        }
+        catch (InvalidCastException)
+        {
+            throw new InvalidCastException($"No se puede convertir {columnName} a {typeof(T).Name}");
+        }
     }
 }
 
+// Excepción personalizada para errores de mapeo
 public class UsuarioMappingException : Exception
 {
     public UsuarioMappingException(string message, Exception innerException)

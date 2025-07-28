@@ -19,7 +19,19 @@ namespace TrashNTrack
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+    WebHost.CreateDefaultBuilder(args)
+        .UseKestrel(options =>
+        {
+            // Escucha en todas las IPs disponibles en el puerto 5000 (HTTP)
+            options.ListenAnyIP(5000);
+
+            // Escucha en todas las IPs disponibles en el puerto 5001 (HTTPS)
+            options.ListenAnyIP(5001, listenOptions =>
+            {
+                listenOptions.UseHttps(); // Requiere que tengas certificado válido (usa el default)
+            });
+        })
+        .UseStartup<Startup>();
+
     }
 }

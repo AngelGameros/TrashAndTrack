@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-public class UsuarioNotFoundException: Exception
+public class UsuarioNotFoundException : Exception
 {
-    private string _message;
-
-    public override string Message => _message;
+    public UsuarioNotFoundException() { }
 
     public UsuarioNotFoundException(int id)
-    {
-        _message = "Could not find Usuario with id " + id.ToString();
-    }
+        : base($"Usuario con ID {id} no encontrado.") { }
+
+    public UsuarioNotFoundException(string message)
+        : base(message) { }
+
+    public UsuarioNotFoundException(string message, Exception inner)
+        : base(message, inner) { }
 }

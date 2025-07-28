@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 public class Ruta
 {
     #region statements
     private static string RutaGetAll = @"
-        SELECT id_ruta, nombre_ruta, fecha_creacion, descripcion, id_empresa, id_planta 
-        FROM Rutas";
+        SELECT id_ruta, nombre_ruta, fecha_creacion, descripcion, estado, id_usuario_asignado, progreso_ruta
+        FROM RUTAS"; // Corregido para coincidir con la tabla
 
     private static string RutaGetById = @"
-        SELECT id_ruta, nombre_ruta, fecha_creacion, descripcion, id_empresa, id_planta 
-        FROM Rutas 
-        WHERE id_ruta = @Id";
+        SELECT id_ruta, nombre_ruta, fecha_creacion, descripcion, estado, id_usuario_asignado, progreso_ruta
+        FROM RUTAS
+        WHERE id_ruta = @Id"; // Corregido para coincidir con la tabla
 
-    private static string RutaGetByEmpresa = @"
-        SELECT id_ruta, nombre_ruta, fecha_creacion, descripcion, id_empresa, id_planta 
-        FROM Rutas 
-        WHERE id_empresa = @EmpresaId";
+    private static string RutaGetByUsuarioAsignado = @"
+        SELECT id_ruta, nombre_ruta, fecha_creacion, descripcion, estado, id_usuario_asignado, progreso_ruta
+        FROM RUTAS
+        WHERE id_usuario_asignado = @IdUsuarioAsignado"; // Nuevo método de consulta
 
-    private static string RutaGetByPlanta = @"
-        SELECT id_ruta, nombre_ruta, fecha_creacion, descripcion, id_empresa, id_planta 
-        FROM Rutas 
-        WHERE id_planta = @PlantaId";
+    private static string RutaUpdateProgresoEstado = @"
+        UPDATE RUTAS
+        SET progreso_ruta = @ProgresoRuta, estado = @Estado
+        WHERE id_ruta = @IdRuta";
     #endregion
 
     #region properties
@@ -31,8 +31,9 @@ public class Ruta
     public string NombreRuta { get; set; }
     public DateTime FechaCreacion { get; set; }
     public string Descripcion { get; set; }
-    public int IdEmpresa { get; set; }
-    public int IdPlanta { get; set; }
+    public string Estado { get; set; } // Nueva propiedad
+    public int? IdUsuarioAsignado { get; set; } // Nueva propiedad, nullable
+    public int ProgresoRuta { get; set; } // Nueva propiedad
     #endregion
 
     #region constructors
@@ -42,18 +43,20 @@ public class Ruta
         NombreRuta = "";
         FechaCreacion = DateTime.MinValue;
         Descripcion = "";
-        IdEmpresa = 0;
-        IdPlanta = 0;
+        Estado = "";
+        IdUsuarioAsignado = null;
+        ProgresoRuta = 0;
     }
 
-    public Ruta(int id, string nombre, DateTime fecha, string descripcion, int idEmpresa, int idPlanta)
+    public Ruta(int id, string nombre, DateTime fecha, string descripcion, string estado, int? idUsuarioAsignado, int progresoRuta)
     {
         IdRuta = id;
         NombreRuta = nombre;
         FechaCreacion = fecha;
         Descripcion = descripcion;
-        IdEmpresa = idEmpresa;
-        IdPlanta = idPlanta;
+        Estado = estado;
+        IdUsuarioAsignado = idUsuarioAsignado;
+        ProgresoRuta = progresoRuta;
     }
     #endregion
 
@@ -72,18 +75,21 @@ public class Ruta
         return table.Rows.Count > 0 ? RutaMapper.ToObject(table.Rows[0]) : null;
     }
 
-    public static List<Ruta> GetByEmpresa(int empresaId)
+    public static List<Ruta> GetByUsuarioAsignado(int idUsuarioAsignado)
     {
-        SqlCommand command = new SqlCommand(RutaGetByEmpresa);
-        command.Parameters.AddWithValue("@EmpresaId", empresaId);
+        SqlCommand command = new SqlCommand(RutaGetByUsuarioAsignado);
+        command.Parameters.AddWithValue("@IdUsuarioAsignado", idUsuarioAsignado);
         return RutaMapper.ToList(SqlServerConnection.ExecuteQuery(command));
     }
 
-    public static List<Ruta> GetByPlanta(int plantaId)
+    public static bool UpdateProgresoAndEstado(int idRuta, int progresoRuta, string estado)
     {
-        SqlCommand command = new SqlCommand(RutaGetByPlanta);
-        command.Parameters.AddWithValue("@PlantaId", plantaId);
-        return RutaMapper.ToList(SqlServerConnection.ExecuteQuery(command));
+        SqlCommand command = new SqlCommand(RutaUpdateProgresoEstado);
+        command.Parameters.AddWithValue("@IdRuta", idRuta);
+        command.Parameters.AddWithValue("@ProgresoRuta", progresoRuta);
+        command.Parameters.AddWithValue("@Estado", estado);
+        int rowsAffected = SqlServerConnection.ExecuteCommand(command);
+        return rowsAffected > 0;
     }
     #endregion
 }

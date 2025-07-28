@@ -10,9 +10,11 @@
             {
                 id = itinerario.IdItinerario,
                 estado = itinerario.Estado,
-                fechaProgramada = itinerario.FechaProgramada.ToString("yyyy-MM-dd HH:mm"),
-                idUsuario = itinerario.IdUsuario,
-                idRuta = itinerario.IdRuta
+                fechaProgramada = itinerario.FechaProgramada.ToString("yyyy-MM-dd"),
+                idRuta = itinerario.IdRuta,
+                horaInicioReal = itinerario.HoraInicioReal?.ToString("HH:mm") ?? null,
+                horaFinReal = itinerario.HoraFinReal?.ToString("HH:mm") ?? null,
+                idAprobador = itinerario.IdAprobador
             }
         };
     }

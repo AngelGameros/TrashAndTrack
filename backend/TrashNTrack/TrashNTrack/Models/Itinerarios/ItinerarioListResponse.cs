@@ -13,9 +13,11 @@ public class ItinerarioListResponse
             {
                 id = i.IdItinerario,
                 estado = i.Estado,
-                fechaProgramada = i.FechaProgramada.ToString("yyyy-MM-dd HH:mm"),
-                idUsuario = i.IdUsuario,
-                idRuta = i.IdRuta
+                fechaProgramada = i.FechaProgramada.ToString("yyyy-MM-dd"),
+                idRuta = i.IdRuta,
+                horaInicioReal = i.HoraInicioReal?.ToString("HH:mm") ?? null,
+                horaFinReal = i.HoraFinReal?.ToString("HH:mm") ?? null,
+                idAprobador = i.IdAprobador
             }).ToList()
         };
     }

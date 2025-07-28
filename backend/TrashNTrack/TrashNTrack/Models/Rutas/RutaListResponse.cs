@@ -15,8 +15,9 @@ public class RutaListResponse
                 nombre = r.NombreRuta,
                 fechaCreacion = r.FechaCreacion.ToString("yyyy-MM-dd"),
                 descripcion = r.Descripcion,
-                idEmpresa = r.IdEmpresa,
-                idPlanta = r.IdPlanta
+                estado = r.Estado, // Nueva propiedad
+                idUsuarioAsignado = r.IdUsuarioAsignado, // Nueva propiedad
+                progresoRuta = r.ProgresoRuta // Nueva propiedad
             }).ToList()
         };
     }

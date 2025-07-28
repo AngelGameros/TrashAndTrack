@@ -53,25 +53,6 @@ public class ItinerariosController : ControllerBase
         }
     }
 
-    [HttpGet("por-usuario/{usuarioId}")]
-    public ActionResult GetByUsuario(int usuarioId)
-    {
-        try
-        {
-            var itinerarios = Itinerario.GetByUsuario(usuarioId);
-            return Ok(ItinerarioListResponse.GetResponse(itinerarios));
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new
-            {
-                status = 999,
-                message = ex.Message,
-                type = "error"
-            });
-        }
-    }
-
     [HttpGet("por-ruta/{rutaId}")]
     public ActionResult GetByRuta(int rutaId)
     {
@@ -107,6 +88,30 @@ public class ItinerariosController : ControllerBase
                 message = ex.Message,
                 type = "error"
             });
+        }
+    }
+
+    [HttpGet("usuario/{idUsuario}")]
+    public IActionResult GetItinerariosPorUsuario(int idUsuario)
+    {
+        var itinerarios = ItinerarioSimplificadoService.GetByUsuarioAsignado(idUsuario);
+        return Ok(ItinerarioSimplificadoResponse.GetListResponse(itinerarios));
+    }
+
+    [HttpPut("{id}/estado")]
+    public IActionResult CambiarEstado(int id, [FromBody] string nuevoEstado)
+    {
+        try
+        {
+            bool actualizado = Itinerario.CambiarEstado(id, nuevoEstado);
+            if (!actualizado)
+                return NotFound(new { status = 1, message = "Itinerario no encontrado" });
+
+            return Ok(new { status = 0, message = "Estado actualizado correctamente" });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { status = 999, message = ex.Message });
         }
     }
 

@@ -1,6 +1,5 @@
 // src/pages/Login/LoginScreen.js
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,66 +8,102 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
-  KeyboardAvoidingView, // Para manejar el teclado
-  Platform, // Para determinar el SO (iOS/Android)
-  ScrollView // Para permitir scroll si los campos exceden la pantalla
-} from 'react-native';
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from "react-native";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut, // Asegúrate de que signOut esté importado
-} from 'firebase/auth';
-import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore'; // Importa serverTimestamp
-import { auth, db } from '../../config/Firebase/firebaseConfig';
+  signOut,
+} from "firebase/auth";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "../../config/Firebase/firebaseConfig";
 
-// Constantes de estado de aprobación (igual que en tus reglas de seguridad y web panel)
 const STATUS_PENDING = 0;
 const STATUS_APPROVED = 1;
 const STATUS_REJECTED = 2;
+const IP_URL = process.env.EXPO_PUBLIC_IP_URL
+
+const API_URL = "http://${IP_URL}:5000/api/usuarios"; // Reemplaza con tu IP y puerto correctos
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // Para confirmar contraseña en registro
-  const [nombre, setNombre] = useState('');
-  const [apellidoPaterno, setApellidoPaterno] = useState('');
-  const [apellidoMaterno, setApellidoMaterno] = useState('');
-  const [numeroTelefono, setNumeroTelefono] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellidoPaterno, setApellidoPaterno] = useState("");
+  const [apellidoMaterno, setApellidoMaterno] = useState("");
+  const [numeroTelefono, setNumeroTelefono] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [isRegistering, setIsRegistering] = useState(false); // Para alternar entre login y registro
-  const [loading, setLoading] = useState(false); // Para mostrar indicador de carga
+  const saveUserToSQLServer = async (userData) => {
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Error al guardar usuario en SQL Server"
+        );
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error al guardar en SQL Server:", error);
+      throw error;
+    }
+  };
 
   const handleAuthentication = async () => {
     setLoading(true);
 
-    // --- VALIDACIONES COMUNES A AMBOS MODOS (Login y Registro) ---
+    // Validaciones comunes
     if (!email || !password) {
-      Alert.alert('Campos Obligatorios', 'Por favor, ingresa tu correo y contraseña.');
+      Alert.alert(
+        "Campos Obligatorios",
+        "Por favor, ingresa tu correo y contraseña."
+      );
       setLoading(false);
       return;
     }
 
-    // --- VALIDACIONES ESPECÍFICAS PARA EL MODO REGISTRO ---
+    // Validaciones específicas para registro
     if (isRegistering) {
       if (password !== confirmPassword) {
-        Alert.alert('Error', 'Las contraseñas no coinciden.');
+        Alert.alert("Error", "Las contraseñas no coinciden.");
         setLoading(false);
         return;
       }
       if (password.length < 6) {
-        Alert.alert('Contraseña Débil', 'La contraseña debe tener al menos 6 caracteres.');
+        Alert.alert(
+          "Contraseña Débil",
+          "La contraseña debe tener al menos 6 caracteres."
+        );
         setLoading(false);
         return;
       }
-      // Validar que todos los campos adicionales estén llenos para el registro
       if (!nombre || !apellidoPaterno || !apellidoMaterno || !numeroTelefono) {
-        Alert.alert('Campos Obligatorios', 'Por favor, llena todos los campos: Nombre, Apellido Paterno, Apellido Materno y Número de Teléfono.');
+        Alert.alert(
+          "Campos Obligatorios",
+          "Por favor, llena todos los campos: Nombre, Apellido Paterno, Apellido Materno y Número de Teléfono."
+        );
         setLoading(false);
         return;
       }
-      // Validar formato de número de teléfono (exactamente 10 dígitos numéricos)
       if (!/^\d{10}$/.test(numeroTelefono)) {
-        Alert.alert('Número de Teléfono Inválido', 'El número de teléfono debe contener exactamente 10 dígitos numéricos.');
+        Alert.alert(
+          "Número de Teléfono Inválido",
+          "El número de teléfono debe contener exactamente 10 dígitos numéricos."
+        );
         setLoading(false);
         return;
       }
@@ -76,78 +111,116 @@ export default function LoginScreen() {
 
     try {
       if (isRegistering) {
-        // --- LÓGICA DE REGISTRO DE USUARIO ---
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        // Registro de usuario
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
         const user = userCredential.user;
 
-        // Guarda la información adicional del usuario, su estado y el tipo de cuenta en Firestore
-        await setDoc(doc(db, "usersApproval", user.uid), {
+        // Datos para Firestore
+        const firestoreUserData = {
           email: user.email,
-          nombre: nombre,
-          apellidoPaterno: apellidoPaterno,
-          apellidoMaterno: apellidoMaterno,
-          numeroTelefono: numeroTelefono,
-          status: STATUS_PENDING, // Estado inicial: pendiente de aprobación
-          accountType: 'user',    // Tipo de cuenta por defecto para nuevos registros
-          createdAt: serverTimestamp(), // Fecha y hora de creación del registro
-        });
+          nombre: nombre.trim(),
+          apellidoPaterno: apellidoPaterno.trim(),
+          apellidoMaterno: apellidoMaterno.trim(),
+          numeroTelefono: numeroTelefono.trim(),
+          status: STATUS_PENDING,
+          accountType: "user",
+          createdAt: serverTimestamp(),
+        };
+
+        // Datos para SQL Server - NOMBRES DE CAMPOS CORREGIDOS
+        const sqlUserData = {
+          nombre: nombre.trim(),
+          primerApellido: apellidoPaterno.trim(),
+          segundoApellido: apellidoMaterno.trim(),
+          correo: email.trim(),
+          numeroTelefono: numeroTelefono.trim(),
+          firebaseUid: user.uid,
+          tipoUsuario: "recolector",
+        };
+
+        console.log("Enviando a SQL Server:", sqlUserData); // Debug
+
+        // Guardar en ambas bases de datos
+        await Promise.all([
+          setDoc(doc(db, "usersApproval", user.uid), firestoreUserData),
+          saveUserToSQLServer(sqlUserData),
+        ]);
 
         Alert.alert(
-          'Registro Exitoso',
-          '¡Tu cuenta ha sido creada y está pendiente de aprobación por un administrador. Una vez aprobada, podrás iniciar sesión.'
+          "Registro Exitoso",
+          "¡Tu cuenta ha sido creada y está pendiente de aprobación por un administrador. Una vez aprobada, podrás iniciar sesión."
         );
-        // Limpiar campos y volver al modo de inicio de sesión
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
-        setNombre('');
-        setApellidoPaterno('');
-        setApellidoMaterno('');
-        setNumeroTelefono('');
-        setIsRegistering(false); // Vuelve a la pantalla de login para esperar la aprobación
-        await signOut(auth); // Cierra la sesión del usuario recién registrado
 
+        // Limpiar campos
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setNombre("");
+        setApellidoPaterno("");
+        setApellidoMaterno("");
+        setNumeroTelefono("");
+        setIsRegistering(false);
+        await signOut(auth);
       } else {
-        // --- LÓGICA DE INICIO DE SESIÓN DE USUARIO ---
+        // Inicio de sesión
         await signInWithEmailAndPassword(auth, email, password);
-        // La verificación del estado de aprobación y tipo de cuenta se realizará en App.js
-        setEmail('');
-        setPassword('');
+        setEmail("");
+        setPassword("");
       }
     } catch (error) {
-      console.error('Error de autenticación:', error.message);
-      let errorMessage = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
+      console.error("Error completo:", error);
 
-      // Mensajes de error específicos de Firebase Auth
-      if (error.code === 'auth/email-already-in-use') {
-        errorMessage = 'Ese correo electrónico ya está en uso.';
-      } else if (error.code === 'auth/invalid-email') {
-        errorMessage = 'El formato del correo electrónico no es válido.';
-      } else if (error.code === 'auth/weak-password') {
-        errorMessage = 'La contraseña debe tener al menos 6 caracteres.';
-      } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-        errorMessage = 'Credenciales inválidas. Verifica tu email y contraseña.';
-      } else if (error.code === 'auth/user-disabled') {
-        errorMessage = 'Este usuario ha sido deshabilitado.';
+      let errorMessage = "Ha ocurrido un error. Por favor, inténtalo de nuevo.";
+
+      if (error.message.includes("Network request failed")) {
+        errorMessage =
+          "No se pudo conectar al servidor. Verifica tu conexión a internet.";
+      } else if (error.code === "auth/email-already-in-use") {
+        errorMessage = "Ese correo electrónico ya está en uso.";
+      } else if (error.code === "auth/invalid-email") {
+        errorMessage = "El formato del correo electrónico no es válido.";
+      } else if (error.code === "auth/weak-password") {
+        errorMessage = "La contraseña debe tener al menos 6 caracteres.";
+      } else if (
+        error.code === "auth/user-not-found" ||
+        error.code === "auth/wrong-password"
+      ) {
+        errorMessage =
+          "Credenciales inválidas. Verifica tu email y contraseña.";
+      } else if (error.code === "auth/user-disabled") {
+        errorMessage = "Este usuario ha sido deshabilitado.";
       }
 
-      Alert.alert('Error', errorMessage);
+      Alert.alert("Error", errorMessage);
+
+      // Intenta eliminar el usuario de Firebase si falló SQL Server
+      if (userCredential?.user && error.message.includes("SQL Server")) {
+        try {
+          await userCredential.user.delete();
+          console.log("Usuario eliminado de Firebase por fallo en SQL Server");
+        } catch (deleteError) {
+          console.error("Error al eliminar usuario:", deleteError);
+        }
+      }
     } finally {
-      setLoading(false); // Desactivar indicador de carga
+      setLoading(false);
     }
   };
 
   return (
-    // KeyboardAvoidingView para manejar el teclado en iOS
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      {/* ScrollView para permitir el desplazamiento si hay muchos campos */}
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>{isRegistering ? 'Regístrate' : 'Iniciar Sesión'}</Text>
+        <Text style={styles.title}>
+          {isRegistering ? "Regístrate" : "Iniciar Sesión"}
+        </Text>
 
-        {/* Campos de Correo y Contraseña (siempre presentes) */}
         <TextInput
           style={styles.input}
           placeholder="Correo Electrónico"
@@ -165,7 +238,6 @@ export default function LoginScreen() {
           secureTextEntry
         />
 
-        {/* Campos adicionales para el registro */}
         {isRegistering && (
           <>
             <TextInput
@@ -202,46 +274,43 @@ export default function LoginScreen() {
               value={numeroTelefono}
               onChangeText={setNumeroTelefono}
               keyboardType="phone-pad"
-              maxLength={10} // Limita la entrada a 10 dígitos
+              maxLength={10}
             />
           </>
         )}
 
-        {/* Botón principal de autenticación (Registrarse o Iniciar Sesión) */}
         <TouchableOpacity
           style={styles.button}
           onPress={handleAuthentication}
-          disabled={loading} // Deshabilita el botón mientras se carga
+          disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator color="#fff" /> // Muestra un indicador de carga
+            <ActivityIndicator color="#fff" />
           ) : (
             <Text style={styles.buttonText}>
-              {isRegistering ? 'Registrarse' : 'Iniciar Sesión'}
+              {isRegistering ? "Registrarse" : "Iniciar Sesión"}
             </Text>
           )}
         </TouchableOpacity>
 
-        {/* Botón para alternar entre registro e inicio de sesión */}
         <TouchableOpacity
           style={styles.toggleButton}
           onPress={() => {
             setIsRegistering(!isRegistering);
-            // Limpiar todos los campos al cambiar de modo para evitar confusiones
-            setEmail('');
-            setPassword('');
-            setConfirmPassword('');
-            setNombre('');
-            setApellidoPaterno('');
-            setApellidoMaterno('');
-            setNumeroTelefono('');
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+            setNombre("");
+            setApellidoPaterno("");
+            setApellidoMaterno("");
+            setNumeroTelefono("");
           }}
-          disabled={loading} // Deshabilita también el toggle si se está cargando
+          disabled={loading}
         >
           <Text style={styles.toggleButtonText}>
             {isRegistering
-              ? '¿Ya tienes una cuenta? Inicia Sesión'
-              : '¿No tienes una cuenta? Regístrate'}
+              ? "¿Ya tienes una cuenta? Inicia Sesión"
+              : "¿No tienes una cuenta? Regístrate"}
           </Text>
         </TouchableOpacity>
       </ScrollView>
@@ -252,43 +321,43 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
-    backgroundColor: '#F7F7F7', // <-- Estilo anterior
+    backgroundColor: "#F7F7F7",
   },
   title: {
-    fontSize: 28, // <-- Estilo anterior
-    fontWeight: 'bold',
+    fontSize: 28,
+    fontWeight: "bold",
     marginBottom: 30,
-    color: '#333',
+    color: "#333",
   },
   input: {
-    width: '100%',
+    width: "100%",
     maxWidth: 350,
-    height: 55, // <-- Estilo anterior
-    backgroundColor: '#fff',
+    height: 55,
+    backgroundColor: "#fff",
     borderRadius: 10,
     paddingHorizontal: 20,
     marginBottom: 12,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
-    shadowColor: '#000',
+    borderColor: "#E0E0E0",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 2,
   },
   button: {
-    width: '100%',
+    width: "100%",
     maxWidth: 350,
-    height: 55, // <-- Estilo anterior
-    backgroundColor: '#007AFF',
+    height: 55,
+    backgroundColor: "#007AFF",
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#007AFF',
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#007AFF",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 6,
@@ -296,16 +365,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   toggleButton: {
     marginTop: 20,
     padding: 10,
   },
   toggleButtonText: {
-    color: '#007AFF',
+    color: "#007AFF",
     fontSize: 16,
   },
 });

@@ -9,9 +9,9 @@ public class IncidenteMapper
         return new Incidente
         {
             IdIncidente = Convert.ToInt32(row["id_incidente"]),
-            Nombre = row["nombre"].ToString(),
+            Nombre = row["nombre_incidente"].ToString(),        // alias usado en la vista
             FechaIncidente = Convert.ToDateTime(row["fecha_incidente"]),
-            PhotoUrl = row["photo_url"]?.ToString() ?? string.Empty,
+            PhotoUrl = row["url_foto"]?.ToString() ?? string.Empty,  // alias usado en la vista
             Descripcion = row["descripcion"].ToString(),
             IdUsuario = Convert.ToInt32(row["id_usuario"])
         };

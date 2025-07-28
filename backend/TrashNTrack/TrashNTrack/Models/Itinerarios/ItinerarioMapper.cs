@@ -11,8 +11,10 @@ public class ItinerarioMapper
             IdItinerario = Convert.ToInt32(row["id_itinerario"]),
             Estado = row["estado"].ToString(),
             FechaProgramada = Convert.ToDateTime(row["fecha_programada"]),
-            IdUsuario = Convert.ToInt32(row["id_usuario"]),
-            IdRuta = Convert.ToInt32(row["id_ruta"])
+            IdRuta = Convert.ToInt32(row["id_ruta"]),
+            HoraInicioReal = row["hora_inicio_real"] != DBNull.Value ? Convert.ToDateTime(row["hora_inicio_real"]) : (DateTime?)null,
+            HoraFinReal = row["hora_fin_real"] != DBNull.Value ? Convert.ToDateTime(row["hora_fin_real"]) : (DateTime?)null,
+            IdAprobador = Convert.ToInt32(row["id_aprobador"])
         };
     }
 

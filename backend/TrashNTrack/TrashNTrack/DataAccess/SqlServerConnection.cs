@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
 using System;
 
@@ -16,15 +16,12 @@ public class SqlServerConnection
             IntegratedSecurity = true, // Para Trusted_Connection=True
             TrustServerCertificate = true
         };
-
-        // Solo agrega usuario/contraseña si se especifican
         if (!string.IsNullOrEmpty(Config.Configuration.SqlServer.Usuario))
         {
             builder.UserID = Config.Configuration.SqlServer.Usuario;
             builder.Password = Config.Configuration.SqlServer.Password;
             builder.IntegratedSecurity = false;
         }
-
         var connString = builder.ToString();
         Console.WriteLine($"Cadena de conexión: {connString}");
         return connString;
@@ -42,7 +39,7 @@ public class SqlServerConnection
         catch (Exception e)
         {
             Console.WriteLine($"Error al abrir conexión: {e.Message}");
-            throw; // Relanza la excepción para manejo superior
+            throw;
         }
     }
 
@@ -65,4 +62,42 @@ public class SqlServerConnection
         }
         return table;
     }
+
+    public static object ExecuteScalar(SqlCommand command)
+    {
+        using (var connection = GetConnection())
+        {
+            try
+            {
+                command.Connection = connection;
+                return command.ExecuteScalar();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error en ExecuteScalar: {e.Message}");
+                throw;
+            }
+        }
+    }
+
+    // CORREGIDO: Cambiado de 'void' a 'int' para devolver el número de filas afectadas
+    public static int ExecuteCommand(SqlCommand command)
+    {
+        using (var connection = GetConnection())
+        {
+            try
+            {
+                command.Connection = connection;
+                int rowsAffected = command.ExecuteNonQuery(); // Captura el resultado
+                Console.WriteLine($"Comando ejecutado correctamente. Filas afectadas: {rowsAffected}");
+                return rowsAffected; // Devuelve el número de filas afectadas
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error en ExecuteCommand: {e.Message}");
+                throw;
+            }
+        }
+    }
+
 }

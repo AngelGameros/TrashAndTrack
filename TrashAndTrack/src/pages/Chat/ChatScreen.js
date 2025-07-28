@@ -12,6 +12,8 @@ import {
   ActivityIndicator,
   Alert,
   SafeAreaView,
+  RefreshControl,
+  ScrollView,
 } from "react-native";
 import { auth, db } from "../../config/Firebase/firebaseConfig";
 import {
@@ -36,6 +38,8 @@ export default function ChatScreen() {
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [keyboardKey, setKeyboardKey] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
+
   const flatListRef = useRef(null);
 
   const currentUser = auth.currentUser;
@@ -57,7 +61,8 @@ export default function ChatScreen() {
     };
   }, []);
 
-  useEffect(() => {
+  const fetchAdmins = () => {
+    setLoadingAdmins(true);
     const q = query(
       collection(db, "usersApproval"),
       where("accountType", "==", "admin")
@@ -79,14 +84,21 @@ export default function ChatScreen() {
         setAdmins(adminsList);
         setAdminNamesMap(namesMap);
         setLoadingAdmins(false);
+        setRefreshing(false);
       },
       (error) => {
         console.error("Error al cargar administradores:", error);
         Alert.alert("Error", "No se pudo cargar la lista de administradores.");
         setLoadingAdmins(false);
+        setRefreshing(false);
       }
     );
     return unsubscribe;
+  };
+
+  useEffect(() => {
+    const unsubscribeAdmins = fetchAdmins();
+    return () => unsubscribeAdmins && unsubscribeAdmins();
   }, []);
 
   useEffect(() => {
@@ -118,6 +130,7 @@ export default function ChatScreen() {
           const msgs = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
           setMessages(msgs);
           setLoadingMessages(false);
+          setRefreshing(false);
           if (flatListRef.current && msgs.length > 0) {
             setTimeout(() => flatListRef.current.scrollToEnd({ animated: true }), 100);
           }
@@ -126,14 +139,32 @@ export default function ChatScreen() {
           console.error("Error al obtener mensajes:", error);
           Alert.alert("Error", "No se pudieron cargar los mensajes de la conversación.");
           setLoadingMessages(false);
+          setRefreshing(false);
         }
       );
     } else {
       setMessages([]);
       setLoadingMessages(false);
+      setRefreshing(false);
     }
     return () => unsubscribe && unsubscribe();
   }, [userUID, selectedAdmin]);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    if (!selectedAdmin) {
+      // Refrescar admins
+      fetchAdmins();
+    } else {
+      // Refrescar mensajes
+      // Esto se hace con onSnapshot en tiempo real, pero si quieres forzar recarga,
+      // puedes reiniciar la suscripción o hacer fetch manual.
+      // Aquí solo para ejemplo forzamos carga quitando y poniendo selectedAdmin:
+      setSelectedAdmin(null);
+      setTimeout(() => setSelectedAdmin((prev) => prev), 500);
+      setRefreshing(false);
+    }
+  };
 
   const handleSelectAdmin = (admin) => {
     setSelectedAdmin(admin);
@@ -202,9 +233,7 @@ export default function ChatScreen() {
   if (!selectedAdmin) {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.listTitle}>
-          Selecciona un Administrador para Chatear
-        </Text>
+        <Text style={styles.listTitle}>Selecciona un Administrador para Chatear</Text>
         {admins.length === 0 ? (
           <Text style={styles.noAdminsText}>
             No hay administradores disponibles en este momento.
@@ -223,6 +252,14 @@ export default function ChatScreen() {
               </TouchableOpacity>
             )}
             contentContainerStyle={styles.adminList}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                colors={["#007AFF"]} // azul para fondo claro
+                tintColor="#007AFF"
+              />
+            }
           />
         )}
       </SafeAreaView>
@@ -260,9 +297,7 @@ export default function ChatScreen() {
             </View>
           ) : messages.length === 0 ? (
             <View style={styles.noMessagesContainer}>
-              <Text style={styles.noMessagesText}>
-                No hay mensajes aún. ¡Envía el primero!
-              </Text>
+              <Text style={styles.noMessagesText}>No hay mensajes aún. ¡Envía el primero!</Text>
             </View>
           ) : (
             <FlatList
@@ -278,6 +313,14 @@ export default function ChatScreen() {
                 flatListRef.current?.scrollToEnd({ animated: true })
               }
               style={styles.flatListContentArea}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  colors={["#fff"]} // blanco para fondo oscuro (header azul)
+                  tintColor="#fff"
+                />
+              }
             />
           )}
 
@@ -423,7 +466,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     maxHeight: 120,
     minHeight: 40,
-    marginBottom: 20
+    marginBottom: 20,
   },
   sendButton: {
     backgroundColor: "#007AFF",
@@ -433,7 +476,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20
+    marginBottom: 20,
   },
   sendButtonText: { color: "#FFFFFF", fontSize: 17, fontWeight: "bold" },
   noMessagesContainer: {

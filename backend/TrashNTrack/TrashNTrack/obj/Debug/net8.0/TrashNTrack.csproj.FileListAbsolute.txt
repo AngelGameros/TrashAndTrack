@@ -97,6 +97,7 @@ C:\Users\erick\OneDrive\Documentos\Trabajos escolares\Cuatri5\WEB\TrashNTrack\Tr
 C:\Users\erick\OneDrive\Documentos\Trabajos escolares\Cuatri5\WEB\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.pdb
 C:\Users\erick\OneDrive\Documentos\Trabajos escolares\Cuatri5\WEB\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.genruntimeconfig.cache
 C:\Users\erick\OneDrive\Documentos\Trabajos escolares\Cuatri5\WEB\TrashNTrack\TrashNTrack\obj\Debug\net8.0\ref\TrashNTrack.dll
+C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\ZstdSharp.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.csproj.AssemblyReference.cache
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.AssemblyInfoInputs.cache
@@ -104,9 +105,6 @@ C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\Tr
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.csproj.CoreCompileInputs.cache
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.sourcelink.json
-C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.dll
-C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\refint\TrashNTrack.dll
-C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.pdb
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\appsettings.json
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Config\Config.json
@@ -120,6 +118,7 @@ C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Tr
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\TrashNTrack.pdb
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Azure.Identity.dll
+C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\DnsClient.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Humanizer.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
@@ -162,7 +161,11 @@ C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Mi
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\MongoDB.Bson.dll
+C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\MongoDB.Driver.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Mono.TextTemplating.dll
+C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\MQTTnet.dll
+C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\MQTTnet.Extensions.ManagedClient.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\NuGet.Common.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\NuGet.Configuration.dll
@@ -173,6 +176,8 @@ C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Nu
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\NuGet.ProjectModel.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\NuGet.Protocol.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\NuGet.Versioning.dll
+C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\SharpCompress.dll
+C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Snappier.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\System.ClientModel.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\System.CodeDom.dll
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\System.Composition.AttributedModel.dll
@@ -358,5 +363,8 @@ C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\st
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTr.A29B69E4.Up2Date
+C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.dll
+C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\refint\TrashNTrack.dll
+C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.pdb
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\TrashNTrack.genruntimeconfig.cache
 C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\ref\TrashNTrack.dll

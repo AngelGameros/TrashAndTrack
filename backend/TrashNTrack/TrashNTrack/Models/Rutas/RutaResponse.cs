@@ -1,7 +1,19 @@
-﻿public class RutaResponse
+﻿using System;
+
+public class RutaResponse
 {
     public static object GetResponse(Ruta ruta)
     {
+        if (ruta == null)
+        {
+            return new
+            {
+                status = 1,
+                message = "Ruta no encontrada",
+                data = (object)null
+            };
+        }
+
         return new
         {
             status = 0,
@@ -12,8 +24,9 @@
                 nombre = ruta.NombreRuta,
                 fechaCreacion = ruta.FechaCreacion.ToString("yyyy-MM-dd"),
                 descripcion = ruta.Descripcion,
-                idEmpresa = ruta.IdEmpresa,
-                idPlanta = ruta.IdPlanta
+                estado = ruta.Estado, // Nueva propiedad
+                idUsuarioAsignado = ruta.IdUsuarioAsignado, // Nueva propiedad
+                progresoRuta = ruta.ProgresoRuta // Nueva propiedad
             }
         };
     }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace TrashNTrack
@@ -23,6 +24,12 @@ namespace TrashNTrack
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // ✅ Registrar MongoDbConnection como servicio SINGLETON
+            services.AddSingleton<MongoDbConnection>();
+
+            // ✅ Registrar el servicio MQTT como HostedService
+            services.AddHostedService<MqttBackgroundService>();
 
             services.AddCors(options =>
             {
@@ -48,7 +55,6 @@ namespace TrashNTrack
             app.UseCors("CorsPolicy");
 
             app.UseRouting();
-            //app.UseAuthorization(); // puedes quitar si no usas autenticación
 
             app.UseEndpoints(endpoints =>
             {

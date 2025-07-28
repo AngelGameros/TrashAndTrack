@@ -4,19 +4,20 @@ import {
   Text,
   StyleSheet,
   SafeAreaView,
-  ScrollView,
   TouchableOpacity,
   TextInput,
   Alert,
   ActivityIndicator,
   FlatList,
+  RefreshControl,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
-import { auth } from "../../config/Firebase/firebaseConfig"; // <-- IMPORTACIÓN NUEVA
+import { auth } from "../../config/Firebase/firebaseConfig";
 
 export default function ReportsScreen({ route }) {
+  const IP_URL = process.env.EXPO_PUBLIC_IP_URL
   const [activeTab, setActiveTab] = useState("create");
 
   // Empresas y selección
@@ -37,20 +38,19 @@ export default function ReportsScreen({ route }) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [createdReports, setCreatedReports] = useState([]);
-  const [loadingReports, setLoadingReports] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [loadingContenedores, setLoadingContenedores] = useState(false);
 
   const idUsuario = route?.params?.idUsuario || 2;
-  const [idCamion, setIdCamion] = useState(null); // NUEVO ESTADO
+  const [idCamion, setIdCamion] = useState(null);
 
-  // Obtener camión asignado automáticamente
   useEffect(() => {
     const fetchCamionAsignado = async () => {
       try {
         const uid = auth.currentUser?.uid;
         if (!uid) return;
 
-        const res = await axios.get(`http://192.168.0.2:5000/api/camionasignado/${uid}`);
+        const res = await axios.get(`http://${IP_URL}:5000/api/camionasignado/${uid}`);
         if (res.data?.camion?.idCamion) {
           setIdCamion(res.data.camion.idCamion);
         } else {
@@ -67,7 +67,7 @@ export default function ReportsScreen({ route }) {
   useEffect(() => {
     const fetchEmpresas = async () => {
       try {
-        const res = await axios.get("http://192.168.0.2:5000/api/empresas");
+        const res = await axios.get("http://${IP_URL}:5000/api/empresas");
         setEmpresas(res.data.data || []);
         if (res.data.data.length > 0) {
           setEmpresaSeleccionada(res.data.data[0].id);
@@ -86,7 +86,7 @@ export default function ReportsScreen({ route }) {
     const fetchContenedores = async () => {
       try {
         const res = await axios.get(
-          `http://192.168.0.2:5000/api/contenedores/empresa/${empresaSeleccionada}`
+          `http://${IP_URL}:5000/api/contenedores/empresa/${empresaSeleccionada}`
         );
         setContenedores(res.data.contenedores || []);
         setReportData((prev) => ({ ...prev, containerId: "" }));
@@ -100,31 +100,32 @@ export default function ReportsScreen({ route }) {
   }, [empresaSeleccionada]);
 
   useEffect(() => {
-    if (activeTab !== "view") return;
-
-    const fetchReports = async () => {
-      setLoadingReports(true);
-      try {
-        const uid = auth.currentUser.uid;
-        const response = await axios.get(
-          `http://192.168.0.2:5000/api/reportes/uid/${uid}`
-        );
-        if (response.data.status === 0) {
-          setCreatedReports(response.data.data);
-        } else {
-          Alert.alert(
-            "Error",
-            response.data.message || "No se pudieron obtener los reportes."
-          );
-        }
-      } catch (error) {
-        Alert.alert("Error", "No se pudieron cargar los reportes.");
-      } finally {
-        setLoadingReports(false);
-      }
-    };
-    fetchReports();
+    if (activeTab === "view") {
+      fetchReports();
+    }
   }, [activeTab]);
+
+  const fetchReports = async () => {
+    setRefreshing(true);
+    try {
+      const uid = auth.currentUser.uid;
+      const response = await axios.get(
+        `http://${IP_URL}:5000/api/reportes/uid/${uid}`
+      );
+      if (response.data.status === 0) {
+        setCreatedReports(response.data.data);
+      } else {
+        Alert.alert(
+          "Error",
+          response.data.message || "No se pudieron obtener los reportes."
+        );
+      }
+    } catch (error) {
+      Alert.alert("Error", "No se pudieron cargar los reportes.");
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const handleInputChange = (field, value) => {
     setReportData({ ...reportData, [field]: value });
@@ -158,10 +159,10 @@ export default function ReportsScreen({ route }) {
       formData.append("cantidadRecolectada", parseFloat(collectedAmount));
       formData.append("estadoContenedor", containerStatus);
       formData.append("idUsuario", idUsuario);
-      formData.append("idCamion", idCamion); // <-- NUEVO DATO
+      formData.append("idCamion", idCamion);
 
       const response = await axios.post(
-        "http://192.168.0.2:5000/api/reportes/registrar",
+        "http://${IP_URL}:5000/api/reportes/registrar",
         formData,
         {
           headers: {
@@ -180,6 +181,7 @@ export default function ReportsScreen({ route }) {
           containerStatus: "",
         });
         setActiveTab("view");
+        fetchReports();
       } else {
         Alert.alert(
           "Error",
@@ -205,28 +207,55 @@ export default function ReportsScreen({ route }) {
         <Text style={styles.reportDate}>{item.fecha}</Text>
       </View>
       <Text style={styles.reportDetail}>
-        ID Contenedor:{" "}
-        <Text style={styles.reportDetailValue}>{item.containerId}</Text>
+        ID Contenedor: <Text style={styles.reportDetailValue}>{item.containerId}</Text>
       </Text>
       <Text style={styles.reportDetail}>
-        Cantidad Recolectada:{" "}
-        <Text style={styles.reportDetailValue}>{item.collectedAmount}</Text>
+        Cantidad Recolectada: <Text style={styles.reportDetailValue}>{item.collectedAmount}</Text>
       </Text>
       <Text style={styles.reportDetail}>
-        Estado Contenedor:{" "}
-        <Text style={styles.reportDetailValue}>{item.containerStatus}</Text>
+        Estado Contenedor: <Text style={styles.reportDetailValue}>{item.containerStatus}</Text>
       </Text>
       {item.descripcion ? (
         <Text style={styles.reportDetail}>
-          Descripción:{" "}
-          <Text style={styles.reportDetailValue}>{item.descripcion}</Text>
+          Descripción: <Text style={styles.reportDetailValue}>{item.descripcion}</Text>
         </Text>
       ) : null}
     </View>
   );
 
-  const renderCreateReportTab = () => (
-    <ScrollView contentContainerStyle={styles.tabContentScroll}>
+  const renderTabs = () => (
+    <View style={styles.tabsContainer}>
+      <TouchableOpacity
+        style={[styles.tabButton, activeTab === "create" && styles.activeTabButton]}
+        onPress={() => setActiveTab("create")}
+      >
+        <MaterialIcons
+          name="add-task"
+          size={20}
+          color={activeTab === "create" ? "#fff" : "#00796B"}
+        />
+        <Text style={[styles.tabButtonText, activeTab === "create" && styles.activeTabButtonText]}>
+          Nuevo Reporte
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.tabButton, activeTab === "view" && styles.activeTabButton]}
+        onPress={() => setActiveTab("view")}
+      >
+        <MaterialIcons
+          name="view-list"
+          size={20}
+          color={activeTab === "view" ? "#fff" : "#00796B"}
+        />
+        <Text style={[styles.tabButtonText, activeTab === "view" && styles.activeTabButtonText]}>
+          Ver Reportes
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderCreateReport = () => (
+    <>
       <Text style={styles.formLabel}>Empresa:</Text>
       <View style={styles.pickerContainer}>
         <Picker
@@ -236,11 +265,7 @@ export default function ReportsScreen({ route }) {
           style={{ backgroundColor: "#fff" }}
         >
           {empresas.map((empresa) => (
-            <Picker.Item
-              key={empresa.id.toString()} // <- ESTA LÍNEA ES IMPORTANTE
-              label={empresa.nombre}
-              value={empresa.id}
-            />
+            <Picker.Item key={empresa.id.toString()} label={empresa.nombre} value={empresa.id} />
           ))}
         </Picker>
       </View>
@@ -260,9 +285,7 @@ export default function ReportsScreen({ route }) {
             {contenedores.map((c) => (
               <Picker.Item
                 key={c.id.toString()}
-                label={`${c.id} - ${c.descripcion} (${
-                  c.tipoContenedor || "Sin tipo"
-                })`}
+                label={`${c.id} - ${c.descripcion} (${c.tipoContenedor || "Sin tipo"})`}
                 value={c.id}
               />
             ))}
@@ -316,85 +339,38 @@ export default function ReportsScreen({ route }) {
           <Text style={styles.submitButtonText}>ENVIAR REPORTE</Text>
         )}
       </TouchableOpacity>
-    </ScrollView>
-  );
-
-  const renderViewReportsTab = () => (
-    <View style={styles.tabContent}>
-      {loadingReports ? (
-        <ActivityIndicator
-          size="large"
-          color="#00796B"
-          style={{ marginTop: 30 }}
-        />
-      ) : createdReports.length === 0 ? (
-        <Text style={styles.noReportsText}>No hay reportes creados aún.</Text>
-      ) : (
-        <FlatList
-          data={createdReports}
-          renderItem={renderReportItem}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.flatListContentContainer}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
-    </View>
+    </>
   );
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.screenTitle}>Reportes de Recolección</Text>
-      </View>
+      <FlatList
+        data={activeTab === "view" ? createdReports : []}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderReportItem}
+        ListHeaderComponent={
+          <>
+            <View style={styles.headerContainer}>
+              <Text style={styles.screenTitle}>Reportes de Recolección</Text>
+            </View>
 
-      <View style={styles.tabsContainer}>
-        <TouchableOpacity
-          style={[
-            styles.tabButton,
-            activeTab === "create" && styles.activeTabButton,
-          ]}
-          onPress={() => setActiveTab("create")}
-        >
-          <MaterialIcons
-            name="add-task"
-            size={20}
-            color={activeTab === "create" ? "#fff" : "#00796B"}
-          />
-          <Text
-            style={[
-              styles.tabButtonText,
-              activeTab === "create" && styles.activeTabButtonText,
-            ]}
-          >
-            Nuevo Reporte
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.tabButton,
-            activeTab === "view" && styles.activeTabButton,
-          ]}
-          onPress={() => setActiveTab("view")}
-        >
-          <MaterialIcons
-            name="view-list"
-            size={20}
-            color={activeTab === "view" ? "#fff" : "#00796B"}
-          />
-          <Text
-            style={[
-              styles.tabButtonText,
-              activeTab === "view" && styles.activeTabButtonText,
-            ]}
-          >
-            Ver Reportes
-          </Text>
-        </TouchableOpacity>
-      </View>
+            {renderTabs()}
 
-      {activeTab === "create"
-        ? renderCreateReportTab()
-        : renderViewReportsTab()}
+            {activeTab === "create" && (
+              <View style={styles.createTabContainer}>{renderCreateReport()}</View>
+            )}
+
+            {activeTab === "view" && createdReports.length === 0 && !refreshing && (
+              <Text style={styles.noReportsText}>No hay reportes creados aún.</Text>
+            )}
+          </>
+        }
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={fetchReports} />
+        }
+        contentContainerStyle={{ paddingBottom: 40 }}
+        showsVerticalScrollIndicator={false}
+      />
     </SafeAreaView>
   );
 }
@@ -432,8 +408,9 @@ const styles = StyleSheet.create({
   activeTabButtonText: {
     color: "#fff",
   },
-  tabContentScroll: {
-    padding: 20,
+  createTabContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 10,
   },
   formLabel: {
     marginBottom: 6,
@@ -470,15 +447,11 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 14,
     alignItems: "center",
+    marginBottom: 20,
   },
   submitButtonText: {
     color: "#fff",
     fontWeight: "bold",
-  },
-  tabContent: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 10,
   },
   reportItem: {
     backgroundColor: "#fff",
@@ -515,8 +488,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     color: "#666",
-  },
-  flatListContentContainer: {
-    paddingBottom: 40,
   },
 });

@@ -9,25 +9,25 @@ public class UsuarioMapper
     {
         try
         {
-            // Validación de fila
-            if (row == null)
-                throw new ArgumentNullException(nameof(row), "DataRow no puede ser nulo");
-
-            // Mapeo seguro de columnas con verificación
             int id_usuario = GetValue<int>(row, "id_usuario");
-            string primer_apell = GetValue<string>(row, "primer_apell");
-            string segundo_apell = GetValue<string>(row, "segundo_apell");
-            int firebase_uid = GetValue<int>(row, "firebase_uid");
+            string nombre = GetValue<string>(row, "nombre");
+            string primer_apellido = GetValue<string>(row, "primer_apellido");
+            string segundo_apellido = GetValue<string>(row, "segundo_apellido");
+            string correo = GetValue<string>(row, "correo");
+            string numero_telefono = GetValue<string>(row, "numero_telefono");
+            string firebase_uid = GetValue<string>(row, "firebase_uid");
+            string tipo_usuario = GetValue<string>(row, "tipo_usuario");
 
-            return new Usuario(id_usuario, primer_apell, segundo_apell, firebase_uid);
+            return new Usuario(id_usuario, nombre, primer_apellido, segundo_apellido, correo, numero_telefono, firebase_uid, tipo_usuario);
         }
         catch (Exception ex)
         {
-            // Loggear error para diagnóstico
             Console.WriteLine($"Error al mapear DataRow a Usuario: {ex.Message}");
             throw new UsuarioMappingException("Error en el mapeo de Usuario", ex);
         }
     }
+
+
 
     public static List<Usuario> ToList(DataTable table)
     {

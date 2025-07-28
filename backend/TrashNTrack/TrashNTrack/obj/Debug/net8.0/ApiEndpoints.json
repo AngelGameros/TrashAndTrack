@@ -137,6 +137,42 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ContainersController",
+    "Method": "GetAllContainers",
+    "RelativePath": "api/Containers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[ContainerData, TrashNTrack, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ContainersController",
+    "Method": "BatchUpdateContainers",
+    "RelativePath": "api/Containers/batch-update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "containers",
+        "Type": "System.Collections.Generic.List\u00601[[ContainerData, TrashNTrack, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ContenedoresController",
     "Method": "GetAll",
     "RelativePath": "api/Contenedores",
@@ -427,6 +463,27 @@
   },
   {
     "ContainingType": "ItinerariosController",
+    "Method": "CambiarEstado",
+    "RelativePath": "api/Itinerarios/{id}/estado",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "nuevoEstado",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ItinerariosController",
     "Method": "GetByEstado",
     "RelativePath": "api/Itinerarios/por-estado/{estado}",
     "HttpMethod": "GET",
@@ -459,14 +516,14 @@
   },
   {
     "ContainingType": "ItinerariosController",
-    "Method": "GetByUsuario",
-    "RelativePath": "api/Itinerarios/por-usuario/{usuarioId}",
+    "Method": "GetItinerariosPorUsuario",
+    "RelativePath": "api/Itinerarios/usuario/{idUsuario}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "usuarioId",
+        "Name": "idUsuario",
         "Type": "System.Int32",
         "IsRequired": true
       }
@@ -668,14 +725,24 @@
   },
   {
     "ContainingType": "RutasController",
-    "Method": "GetByEmpresa",
-    "RelativePath": "api/Rutas/por-empresa/{empresaId}",
+    "Method": "GetRutasDetalladas",
+    "RelativePath": "api/Rutas/detalladas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasController",
+    "Method": "GetRutaDetalladaPorId",
+    "RelativePath": "api/Rutas/detalladas/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "empresaId",
+        "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
       }
@@ -684,15 +751,15 @@
   },
   {
     "ContainingType": "RutasController",
-    "Method": "GetByPlanta",
-    "RelativePath": "api/Rutas/por-planta/{plantaId}",
-    "HttpMethod": "GET",
+    "Method": "UpdateRutaProgressAndStatus",
+    "RelativePath": "api/Rutas/update-progress",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "plantaId",
-        "Type": "System.Int32",
+        "Name": "request",
+        "Type": "UpdateRutaProgressStatusRequest",
         "IsRequired": true
       }
     ],
@@ -757,7 +824,13 @@
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "usuario",
+        "Type": "Usuario",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -771,6 +844,38 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TrashNTrack.Controllers.UsuariosController",
+    "Method": "GetByFirebaseUid",
+    "RelativePath": "api/Usuarios/firebase/{uid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "uid",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TrashNTrack.Controllers.UsuariosController",
+    "Method": "UpdatePhone",
+    "RelativePath": "api/Usuarios/phone",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "TrashNTrack.Controllers.UsuariosController\u002BPhoneUpdateRequest",
         "IsRequired": true
       }
     ],

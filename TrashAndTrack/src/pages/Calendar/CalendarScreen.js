@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, ScrollView } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { 
+  View, Text, StyleSheet, TouchableOpacity, Modal, ScrollView, Alert, RefreshControl 
+} from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
+import axios from 'axios';
 
 LocaleConfig.locales['es'] = {
   monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
@@ -16,94 +20,85 @@ const CalendarScreen = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [collectionData, setCollectionData] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
+  const navigation = useNavigation();
+  const IP_URL = process.env.EXPO_PUBLIC_IP_URL
 
-  const collectionData = {
-    '2025-07-08': [
-      {
-        id: '1',
-        title: 'Recolección Zona Industrial',
-        time: '08:00 - 10:00',
-        location: 'Parque Industrial Norte, Nave 12',
-        status: 'completado',
-        details: { peso: '1,250 kg', tipoResiduo: 'Químicos industriales', vehiculo: 'Camión-0452', notas: 'Usar equipo de protección nivel 3' }
-      }
-    ],
-    '2025-07-15': [
-      {
-        id: '3',
-        title: 'Recolección Hospital Regional',
-        time: '09:30 - 11:00',
-        location: 'Hospital Regional, Área de Residuos',
-        status: 'asignado',
-        details: { peso: '850 kg estimados', tipoResiduo: 'Biológico-infecciosos', vehiculo: 'Camión-0781', notas: 'Requiere documentación de trazabilidad' }
-      }
-    ],
-    '2025-07-22': [
-      {
-        id: '4',
-        title: 'Recolección Planta Recicladora',
-        time: '10:00 - 11:00',
-        location: 'Planta de Reciclaje EcoSafe',
-        status: 'asignado',
-        details: { peso: '2,100 kg estimados', tipoResiduo: 'Metales pesados', vehiculo: 'Por asignar', notas: 'Necesario equipo especial para metales' }
-      },
-      {
-        id: '5',
-        title: 'Recolección Taller Automotriz',
-        time: '11:30 - 12:30',
-        location: 'Autoservicio "El Veloz"',
-        status: 'asignado',
-        details: { peso: '400 kg estimados', tipoResiduo: 'Aceites y solventes', vehiculo: 'Por asignar', notas: 'Verificar contenedores de aceite' }
-      },
-      {
-        id: '6',
-        title: 'Recolección Constructora Central',
-        time: '14:00 - 15:00',
-        location: 'Obra en Calle Revolución #123',
-        status: 'asignado',
-        details: { peso: '3,500 kg estimados', tipoResiduo: 'Escombros y amianto', vehiculo: 'Por asignar', notas: 'Precaución con material frágil' }
-      },
-      {
-        id: '7',
-        title: 'Recolección Farmacéutica',
-        time: '16:00 - 17:00',
-        location: 'Laboratorios VidaSana',
-        status: 'asignado',
-        details: { peso: '150 kg estimados', tipoResiduo: 'Medicamentos caducados', vehiculo: 'Por asignar', notas: 'Transporte controlado' }
-      },
-      {
-        id: '8',
-        title: 'Recolección de Pinturas',
-        time: '17:30 - 18:30',
-        location: 'Tienda de Pinturas ColorVida',
-        status: 'asignado',
-        details: { peso: '200 kg estimados', tipoResiduo: 'Pinturas y solventes', vehiculo: 'Por asignar', notas: 'Material inflamable' }
-      },
-      {
-        id: '9',
-        title: 'Recolección de Electrónica',
-        time: '19:00 - 20:00',
-        location: 'Centro de Electrónica TechRecycle',
-        status: 'asignado',
-        details: { peso: '700 kg estimados', tipoResiduo: 'Residuos electrónicos', vehiculo: 'Por asignar', notas: 'Desmontaje necesario' }
-      }
-    ]
+  const userId = 2; // ← CAMBIA este ID por el real del usuario logueado
+
+  const fetchItinerarios = async () => {
+    try {
+      const res = await axios.get(`http://${IP_URL}:5000/api/itinerarios/usuario/${userId}`);
+      const data = res.data.data;
+
+      const grouped = {};
+
+      data.forEach(it => {
+        if (it.estado.toLowerCase() === 'cancelado') return;
+
+        const fecha = it.fechaProgramada;
+        if (!grouped[fecha]) grouped[fecha] = [];
+
+        grouped[fecha].push({
+          id: it.id,
+          title: it.nombreRuta,
+          time: 'Sin hora',
+          location: it.descripcionRuta,
+          status: it.estado.toLowerCase(),
+          details: {
+            peso: calcularPeso(it.empresas),
+            tipoResiduo: extraerTiposResiduo(it.empresas),
+            notas: `Incluye ${contarEmpresas(it.empresas)} empresa(s)`
+          }
+        });
+      });
+
+      setCollectionData(grouped);
+    } catch (error) {
+      console.error("Error al obtener itinerarios:", error);
+    }
   };
 
-  const markedDates = {};
-  Object.keys(collectionData).forEach(date => {
-    const statuses = collectionData[date].map(c => c.status);
-    let dotColor = '#64B5F6';
-    if (statuses.every(s => s === 'completado')) dotColor = '#81C784';
-    
-    markedDates[date] = { marked: true, dotColor, selected: date === selectedDate };
-  });
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchItinerarios().finally(() => setRefreshing(false));
+  }, []);
 
-  if (markedDates[selectedDate]) {
-    markedDates[selectedDate].selectedColor = '#4DD0E1';
-  } else {
-    markedDates[selectedDate] = { selected: true, selectedColor: '#4DD0E1' };
-  }
+  useEffect(() => {
+    fetchItinerarios();
+  }, []);
+
+  const calcularPeso = (empresasJSON) => {
+    try {
+      const empresas = JSON.parse(empresasJSON);
+      const total = empresas.reduce((sum, e) => sum + (e.peso_estimado || 0), 0);
+      return `${total} kg estimados`;
+    } catch {
+      return "Peso no disponible";
+    }
+  };
+
+  const extraerTiposResiduo = (empresasJSON) => {
+    try {
+      const empresas = JSON.parse(empresasJSON);
+      const tipos = new Set();
+      empresas.forEach(emp =>
+        emp.tipos_residuos.forEach(r => tipos.add(r.nombre_tipo_residuo))
+      );
+      return Array.from(tipos).join(', ');
+    } catch {
+      return "Tipo no disponible";
+    }
+  };
+
+  const contarEmpresas = (empresasJSON) => {
+    try {
+      return JSON.parse(empresasJSON).length;
+    } catch {
+      return 0;
+    }
+  };
 
   const handleDayPress = (day) => {
     setSelectedDate(day.dateString);
@@ -114,9 +109,42 @@ const CalendarScreen = () => {
     setModalVisible(true);
   };
 
+  const iniciarRuta = async (idItinerario) => {
+    try {
+      await axios.put(`http://${IP_URL}:5000/api/itinerarios/${idItinerario}/estado`, '"INICIADO"', {
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      Alert.alert("Ruta iniciada", "Redirigiendo a tu ruta asignada...");
+      setModalVisible(false);
+      fetchItinerarios();
+
+      navigation.navigate('Ruta');
+    } catch (err) {
+      console.error("Error al iniciar ruta:", err);
+      Alert.alert("Error", "No se pudo actualizar el estado.");
+    }
+  };
+
+  const markedDates = {};
+  Object.keys(collectionData).forEach(date => {
+    const statuses = collectionData[date].map(c => c.status);
+    let dotColor = '#64B5F6';
+    if (statuses.every(s => s === 'completado')) dotColor = '#81C784';
+
+    markedDates[date] = { marked: true, dotColor, selected: date === selectedDate };
+  });
+
+  if (markedDates[selectedDate]) {
+    markedDates[selectedDate].selectedColor = '#4DD0E1';
+  } else {
+    markedDates[selectedDate] = { selected: true, selectedColor: '#4DD0E1' };
+  }
+
   const renderCollections = () => {
-    const collectionsForDay = collectionData[selectedDate];
-    if (!collectionsForDay || collectionsForDay.length === 0) {
+    const collections = collectionData[selectedDate];
+
+    if (!collections || collections.length === 0) {
       return (
         <View style={styles.noCollections}>
           <MaterialIcons name="event-available" size={60} color="#B0BEC5" />
@@ -126,27 +154,28 @@ const CalendarScreen = () => {
     }
 
     return (
-      <ScrollView 
-        showsVerticalScrollIndicator={false} 
-        style={styles.listContainer} 
-        contentContainerStyle={styles.listContentContainer}
-      >
-        {collectionsForDay.map((collection) => (
+      <>
+        {collections.map((collection) => (
           <TouchableOpacity
             key={collection.id}
-            style={[styles.collectionCard, 
+            style={[
+              styles.collectionCard,
               collection.status === 'completado' ? styles.completedCard : styles.assignedCard
             ]}
             onPress={() => handleCollectionPress(collection)}
           >
             <View style={styles.collectionHeader}>
               <Text style={styles.collectionTime}>{collection.time}</Text>
-              <View style={[styles.statusBadge, 
+              <View style={[
+                styles.statusBadge,
                 collection.status === 'completado' ? styles.completedBadge : styles.assignedBadge
               ]}>
-                <Text style={[styles.statusText,
-                  collection.status === 'completado' ? {color: '#388E3C'} : {color: '#1976D2'}
-                ]}>{collection.status.toUpperCase()}</Text>
+                <Text style={[
+                  styles.statusText,
+                  collection.status === 'completado' ? { color: '#388E3C' } : { color: '#1976D2' }
+                ]}>
+                  {collection.status.toUpperCase()}
+                </Text>
               </View>
             </View>
             <Text style={styles.collectionTitle}>{collection.title}</Text>
@@ -156,14 +185,18 @@ const CalendarScreen = () => {
             </View>
           </TouchableOpacity>
         ))}
-      </ScrollView>
+      </>
     );
   };
 
   return (
-    <View style={styles.container}>
+  <View style={styles.container}>
+    <ScrollView
+      style={{ flex: 1 }}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+    >
       <Text style={styles.headerTitle}>Mis Recolecciones</Text>
-      
+
       <Calendar
         style={styles.calendar}
         current={selectedDate}
@@ -198,51 +231,39 @@ const CalendarScreen = () => {
       </Text>
 
       {renderCollections()}
+    </ScrollView>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-              <MaterialIcons name="close" size={28} color="#9E9E9E" />
-            </TouchableOpacity>
-            
-            <ScrollView contentContainerStyle={styles.modalScrollContent}>
-              <Text style={styles.modalTitle}>{selectedCollection?.title}</Text>
-              
-              <View style={styles.detailRow}>
-                <MaterialIcons name="access-time" size={20} color="#0097A7" />
-                <Text style={styles.detailText}>{selectedCollection?.time}</Text>
-              </View>
-              
-              <View style={styles.detailRow}>
-                <MaterialIcons name="location-on" size={20} color="#0097A7" />
-                <Text style={styles.detailText}>{selectedCollection?.location}</Text>
-              </View>
-              
-              <Text style={styles.sectionHeader}>Detalles de la Carga</Text>
-              
-              <View style={styles.detailItem}><Text style={styles.detailLabel}>Peso:</Text><Text style={styles.detailValue}>{selectedCollection?.details.peso}</Text></View>
-              <View style={styles.detailItem}><Text style={styles.detailLabel}>Tipo de residuo:</Text><Text style={styles.detailValue}>{selectedCollection?.details.tipoResiduo}</Text></View>
-              <View style={styles.detailItem}><Text style={styles.detailLabel}>Vehículo:</Text><Text style={styles.detailValue}>{selectedCollection?.details.vehiculo}</Text></View>
-              <View style={styles.detailItem}><Text style={styles.detailLabel}>Notas:</Text><Text style={styles.detailValue}>{selectedCollection?.details.notas}</Text></View>
-              
-              {selectedCollection?.status === 'asignado' && (
-                <TouchableOpacity style={styles.startButton}>
-                  <MaterialIcons name="play-arrow" size={24} color="#fff" />
-                  <Text style={styles.startButtonText}>INICIAR RUTA</Text>
-                </TouchableOpacity>
-              )}
-            </ScrollView>
-          </View>
+    <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+            <MaterialIcons name="close" size={28} color="#9E9E9E" />
+          </TouchableOpacity>
+
+          <ScrollView contentContainerStyle={styles.modalScrollContent}>
+            <Text style={styles.modalTitle}>{selectedCollection?.title}</Text>
+
+            <View style={styles.detailRow}><MaterialIcons name="access-time" size={20} color="#0097A7" /><Text style={styles.detailText}>{selectedCollection?.time}</Text></View>
+            <View style={styles.detailRow}><MaterialIcons name="location-on" size={20} color="#0097A7" /><Text style={styles.detailText}>{selectedCollection?.location}</Text></View>
+
+            <Text style={styles.sectionHeader}>Detalles de la Carga</Text>
+            <View style={styles.detailItem}><Text style={styles.detailLabel}>Peso:</Text><Text style={styles.detailValue}>{selectedCollection?.details.peso}</Text></View>
+            <View style={styles.detailItem}><Text style={styles.detailLabel}>Tipo de residuo:</Text><Text style={styles.detailValue}>{selectedCollection?.details.tipoResiduo}</Text></View>
+            <View style={styles.detailItem}><Text style={styles.detailLabel}>Notas:</Text><Text style={styles.detailValue}>{selectedCollection?.details.notas}</Text></View>
+
+            {selectedCollection?.status === 'pendiente' && (
+              <TouchableOpacity style={styles.startButton} onPress={() => iniciarRuta(selectedCollection.id)}>
+                <MaterialIcons name="play-arrow" size={24} color="#fff" />
+                <Text style={styles.startButtonText}>INICIAR RUTA</Text>
+              </TouchableOpacity>
+            )}
+          </ScrollView>
         </View>
-      </Modal>
-    </View>
-  );
+      </View>
+    </Modal>
+  </View>
+);
+
 };
 
 const styles = StyleSheet.create({

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View, Text, StyleSheet, Alert, ActivityIndicator,
-  TouchableOpacity, ScrollView, SafeAreaView,
+  TouchableOpacity, ScrollView, SafeAreaView, RefreshControl,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -9,6 +9,8 @@ import { auth, db } from '../../config/Firebase/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 
 export default function HomeScreen({ navigation }) {
+  const IP_URL = process.env.EXPO_PUBLIC_IP_URL
+  
   // Estado para el nombre a mostrar
   const [displayName, setDisplayName] = useState('');
   const [isLoadingName, setIsLoadingName] = useState(true);
@@ -17,50 +19,59 @@ export default function HomeScreen({ navigation }) {
   const [assignedTruck, setAssignedTruck] = useState(null);
   const [loadingTruck, setLoadingTruck] = useState(true);
 
-  useEffect(() => {
-    // Función para obtener el nombre del usuario desde Firebase Firestore
-    const fetchUserName = async () => {
-      if (auth.currentUser) {
-        setIsLoadingName(true);
-        try {
-          const docRef = doc(db, "usersApproval", auth.currentUser.uid);
-          const docSnap = await getDoc(docRef);
+  // Estado para refresco pull-to-refresh
+  const [refreshing, setRefreshing] = useState(false);
 
-          if (docSnap.exists()) {
-            const userData = docSnap.data();
-            const nombre = userData.nombre || '';
-            const apellidoPaterno = userData.apellidoPaterno || '';
-            const fullName = [nombre, apellidoPaterno].filter(Boolean).join(' ');
-            setDisplayName(fullName || auth.currentUser.email);
-          } else {
-            setDisplayName(auth.currentUser.email);
-          }
-        } catch (error) {
-          console.error("Error al obtener el nombre del usuario para HomeScreen:", error);
+  const fetchUserName = async () => {
+    if (auth.currentUser) {
+      setIsLoadingName(true);
+      try {
+        const docRef = doc(db, "usersApproval", auth.currentUser.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          const nombre = userData.nombre || '';
+          const apellidoPaterno = userData.apellidoPaterno || '';
+          const fullName = [nombre, apellidoPaterno].filter(Boolean).join(' ');
+          setDisplayName(fullName || auth.currentUser.email);
+        } else {
           setDisplayName(auth.currentUser.email);
-        } finally {
-          setIsLoadingName(false);
         }
-      } else {
+      } catch (error) {
+        console.error("Error al obtener el nombre del usuario para HomeScreen:", error);
+        setDisplayName(auth.currentUser.email);
+      } finally {
         setIsLoadingName(false);
       }
-    };
+    } else {
+      setIsLoadingName(false);
+    }
+  };
 
-    // Función para obtener el camión asignado del backend
-    const fetchAssignedTruck = async () => {
-      try {
-        setLoadingTruck(true);
-        const uid = auth.currentUser.uid;
-        const response = await fetch(`http://192.168.0.2:5000/api/camionasignado/${uid}`);
-        const data = await response.json();
-        setAssignedTruck(data.camion);
-      } catch (error) {
-        Alert.alert('Error', error.message);
-      } finally {
-        setLoadingTruck(false);
-      }
-    };
+  const fetchAssignedTruck = async () => {
+    try {
+      setLoadingTruck(true);
+      const uid = auth.currentUser.uid;
+      const response = await fetch(`http://${IP_URL}:5000/api/camionasignado/${uid}`);
+      const data = await response.json();
+      setAssignedTruck(data.camion);
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setLoadingTruck(false);
+    }
+  };
 
+  // Función para refrescar datos
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await Promise.all([fetchUserName(), fetchAssignedTruck()]);
+    setRefreshing(false);
+  }, []);
+
+  // Carga inicial
+  useEffect(() => {
     fetchUserName();
     fetchAssignedTruck();
   }, []);
@@ -99,7 +110,17 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={['#0097A7']}
+            tintColor="#0097A7"
+          />
+        }
+      >
         <Text style={styles.welcomeTitle}>
           ¡Bienvenido, {displayName}!
         </Text>

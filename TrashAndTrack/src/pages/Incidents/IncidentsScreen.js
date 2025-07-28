@@ -9,6 +9,7 @@ import {
   TextInput,
   Image,
   Alert,
+  RefreshControl,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -35,6 +36,8 @@ const IncidentsScreen = () => {
   const [selectedIncident, setSelectedIncident] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const IP_URL = process.env.EXPO_PUBLIC_IP_URL
 
   const uid = auth.currentUser?.uid;
 
@@ -45,12 +48,11 @@ const IncidentsScreen = () => {
   const fetchIncidents = async () => {
     try {
       const res = await fetch(
-        `http://192.168.0.2:5000/api/incidentesporusuario/${uid}`
+        `http://${IP_URL}:5000/api/incidentesporusuario/${uid}`
       );
       const data = await res.json();
 
       if (data.status === 0 && Array.isArray(data.data)) {
-        // Convertir fecha del backend a objeto Date seguro
         const formatted = data.data.map((incidente) => ({
           id: incidente.id,
           userId: incidente.idUsuario,
@@ -71,7 +73,12 @@ const IncidentsScreen = () => {
     }
   };
 
-  // Convierte string fecha tipo "2025-07-10 00:00:00.000" o ISO a objeto Date
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchIncidents();
+    setRefreshing(false);
+  };
+
   const parseDateString = (dateString) => {
     if (!dateString) return new Date();
     return new Date(dateString);
@@ -132,7 +139,6 @@ const IncidentsScreen = () => {
 
     try {
       const imageUrl = await uploadToCloudinary();
-
       const nowUtc = new Date().toISOString();
 
       const form = new FormData();
@@ -143,7 +149,7 @@ const IncidentsScreen = () => {
       form.append("foto", imageUrl);
 
       const res = await fetch(
-        `http://192.168.0.2:5000/api/incidentesporusuario`,
+        `http://${IP_URL}:5000/api/incidentesporusuario`,
         {
           method: "POST",
           body: form,
@@ -173,163 +179,169 @@ const IncidentsScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headerTitle}>Gestión de Incidentes</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.actionButton, !showForm && styles.activeButton]}
-          onPress={() => setShowForm(false)}
-        >
-          <MaterialIcons
-            name="list"
-            size={20}
-            color={!showForm ? "#fff" : "#00796B"}
-          />
-          <Text
-            style={[
-              styles.actionButtonText,
-              !showForm && styles.activeButtonText,
-            ]}
-          >
-            Ver Incidentes
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.actionButton, showForm && styles.activeButton]}
-          onPress={() => setShowForm(true)}
-        >
-          <MaterialIcons
-            name="add-circle-outline"
-            size={20}
-            color={showForm ? "#fff" : "#00796B"}
-          />
-          <Text
-            style={[
-              styles.actionButtonText,
-              showForm && styles.activeButtonText,
-            ]}
-          >
-            Nuevo Incidente
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      {showForm ? (
-        <ScrollView contentContainerStyle={styles.formContainer}>
-          {/* Campos e imagen idénticos */}
-          <TextInput
-            placeholder="Nombre"
-            style={styles.input}
-            value={incidentName}
-            onChangeText={setIncidentName}
-          />
-          <TextInput
-            placeholder="Descripción"
-            style={[styles.input, styles.textArea]}
-            multiline
-            value={incidentDescription}
-            onChangeText={setIncidentDescription}
-          />
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <View style={styles.container}>
+        <Text style={styles.headerTitle}>Gestión de Incidentes</Text>
+        <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={styles.imagePickerButton}
-            onPress={takePhoto}
+            style={[styles.actionButton, !showForm && styles.activeButton]}
+            onPress={() => setShowForm(false)}
           >
-            <MaterialIcons name="camera-alt" size={24} color="#fff" />
-            <Text style={styles.imagePickerButtonText}>Tomar Foto</Text>
-          </TouchableOpacity>
-          {incidentImage && (
-            <Image
-              source={{ uri: incidentImage.uri }}
-              style={styles.imagePreview}
+            <MaterialIcons
+              name="list"
+              size={20}
+              color={!showForm ? "#fff" : "#00796B"}
             />
-          )}
-          <TouchableOpacity
-            style={styles.saveButton}
-            onPress={handleSaveIncident}
-          >
-            <MaterialIcons name="save" size={24} color="#fff" />
-            <Text style={styles.saveButtonText}>Guardar Incidente</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      ) : (
-        <ScrollView contentContainerStyle={styles.listContentContainer}>
-          {incidents.length === 0 ? (
-            <View style={styles.noIncidents}>
-              <MaterialIcons name="error-outline" size={60} color="#B0BEC5" />
-              <Text style={styles.noIncidentsText}>
-                Aún no has reportado ningún incidente.
-              </Text>
-              <Text style={styles.noIncidentsText}>
-                ¡Comienza reportando uno nuevo!
-              </Text>
-            </View>
-          ) : (
-            incidents.map((incident) => (
-              <TouchableOpacity
-                key={incident.id.toString()} // Asegura que sea un string
-                style={styles.incidentCard}
-                onPress={() => handleViewIncident(incident)}
-              >
-                <View style={styles.incidentCardHeader}>
-                  <Text style={styles.incidentCardTitle}>{incident.name}</Text>
-                  <Text style={styles.incidentCardDate}>
-                    {formatDateTime(incident.date)}
-                  </Text>
-                </View>
-                <Text style={styles.incidentCardDescription} numberOfLines={2}>
-                  {incident.description}
-                </Text>
-                {incident.imageUri && (
-                  <MaterialIcons
-                    name="image"
-                    size={20}
-                    color="#0097A7"
-                    style={styles.incidentCardImageIndicator}
-                  />
-                )}
-              </TouchableOpacity>
-            ))
-          )}
-        </ScrollView>
-      )}
-
-      <Modal visible={modalVisible} transparent animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
+            <Text
+              style={[
+                styles.actionButtonText,
+                !showForm && styles.activeButtonText,
+              ]}
             >
-              <MaterialIcons name="close" size={28} color="#9E9E9E" />
-            </TouchableOpacity>
-            {selectedIncident && (
-              <ScrollView contentContainerStyle={styles.modalScrollContent}>
-                <Text style={styles.modalTitle}>{selectedIncident.name}</Text>
-
-                <Text style={styles.detailText}>
-                  {formatDateTime(selectedIncident.date)}
-                </Text>
-
-                <Text style={styles.sectionHeader}>Descripción</Text>
-                <Text style={styles.modalDescription}>
-                  {selectedIncident.description}
-                </Text>
-
-                {selectedIncident.imageUri && (
-                  <>
-                    <Text style={styles.sectionHeader}>Evidencia</Text>
-                    <Image
-                      source={{ uri: selectedIncident.imageUri }}
-                      style={styles.modalImage}
-                    />
-                  </>
-                )}
-              </ScrollView>
-            )}
-          </View>
+              Ver Incidentes
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.actionButton, showForm && styles.activeButton]}
+            onPress={() => setShowForm(true)}
+          >
+            <MaterialIcons
+              name="add-circle-outline"
+              size={20}
+              color={showForm ? "#fff" : "#00796B"}
+            />
+            <Text
+              style={[
+                styles.actionButtonText,
+                showForm && styles.activeButtonText,
+              ]}
+            >
+              Nuevo Incidente
+            </Text>
+          </TouchableOpacity>
         </View>
-      </Modal>
-    </View>
+
+        {showForm ? (
+          <>
+            <TextInput
+              placeholder="Nombre"
+              style={styles.input}
+              value={incidentName}
+              onChangeText={setIncidentName}
+            />
+            <TextInput
+              placeholder="Descripción"
+              style={[styles.input, styles.textArea]}
+              multiline
+              value={incidentDescription}
+              onChangeText={setIncidentDescription}
+            />
+            <TouchableOpacity
+              style={styles.imagePickerButton}
+              onPress={takePhoto}
+            >
+              <MaterialIcons name="camera-alt" size={24} color="#fff" />
+              <Text style={styles.imagePickerButtonText}>Tomar Foto</Text>
+            </TouchableOpacity>
+            {incidentImage && (
+              <Image
+                source={{ uri: incidentImage.uri }}
+                style={styles.imagePreview}
+              />
+            )}
+            <TouchableOpacity
+              style={styles.saveButton}
+              onPress={handleSaveIncident}
+            >
+              <MaterialIcons name="save" size={24} color="#fff" />
+              <Text style={styles.saveButtonText}>Guardar Incidente</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <>
+            {incidents.length === 0 ? (
+              <View style={styles.noIncidents}>
+                <MaterialIcons name="error-outline" size={60} color="#B0BEC5" />
+                <Text style={styles.noIncidentsText}>
+                  Aún no has reportado ningún incidente.
+                </Text>
+                <Text style={styles.noIncidentsText}>
+                  ¡Comienza reportando uno nuevo!
+                </Text>
+              </View>
+            ) : (
+              incidents.map((incident) => (
+                <TouchableOpacity
+                  key={incident.id.toString()}
+                  style={styles.incidentCard}
+                  onPress={() => handleViewIncident(incident)}
+                >
+                  <View style={styles.incidentCardHeader}>
+                    <Text style={styles.incidentCardTitle}>{incident.name}</Text>
+                    <Text style={styles.incidentCardDate}>
+                      {formatDateTime(incident.date)}
+                    </Text>
+                  </View>
+                  <Text
+                    style={styles.incidentCardDescription}
+                    numberOfLines={2}
+                  >
+                    {incident.description}
+                  </Text>
+                  {incident.imageUri && (
+                    <MaterialIcons
+                      name="image"
+                      size={20}
+                      color="#0097A7"
+                      style={styles.incidentCardImageIndicator}
+                    />
+                  )}
+                </TouchableOpacity>
+              ))
+            )}
+          </>
+        )}
+
+        <Modal visible={modalVisible} transparent animationType="slide">
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <MaterialIcons name="close" size={28} color="#9E9E9E" />
+              </TouchableOpacity>
+              {selectedIncident && (
+                <ScrollView contentContainerStyle={styles.modalScrollContent}>
+                  <Text style={styles.modalTitle}>{selectedIncident.name}</Text>
+                  <Text style={styles.detailText}>
+                    {formatDateTime(selectedIncident.date)}
+                  </Text>
+                  <Text style={styles.sectionHeader}>Descripción</Text>
+                  <Text style={styles.modalDescription}>
+                    {selectedIncident.description}
+                  </Text>
+                  {selectedIncident.imageUri && (
+                    <>
+                      <Text style={styles.sectionHeader}>Evidencia</Text>
+                      <Image
+                        source={{ uri: selectedIncident.imageUri }}
+                        style={styles.modalImage}
+                      />
+                    </>
+                  )}
+                </ScrollView>
+              )}
+            </View>
+          </View>
+        </Modal>
+      </View>
+    </ScrollView>
   );
 };
 

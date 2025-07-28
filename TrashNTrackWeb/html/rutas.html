@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trash & Track - Gestión de Rutas Baja California</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/rutas.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+</head>
+<body>
+    <div class="container">
+        <div id="sidebar-placeholder"></div>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="page-title">
+                    <i class="fas fa-route" style="color: #22d3ee;"></i>
+                    <h1>Gestión de Rutas</h1>
+                </div>
+                <div class="header-actions">
+                    
+                    <button class="btn btn-primary" id="newContainerBtn">
+                        <i class="fas fa-plus"></i>
+                        Nueva Ruta
+                    </button>
+                </div>
+            </header>
+
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value stat-cyan" id="activeRoutes">-</div>
+                        <div class="stat-label">Rutas Activas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value stat-green" id="completedToday">-</div>
+                        <div class="stat-label">Completadas Hoy</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value stat-red" id="delayedRoutes">-</div>
+                        <div class="stat-label">Retrasadas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value stat-orange" id="scheduledRoutes">-</div>
+                        <div class="stat-label">Programadas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value stat-blue" id="avgTime">-</div>
+                        <div class="stat-label">Tiempo Promedio</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Map Section -->
+                <div class="map-section">
+                    <div class="map-container">
+                        <div class="map-header">
+                            <h2 class="map-title">Mapa de Rutas - Baja California</h2>
+                            <div class="filter-buttons">
+                                <button class="filter-btn active" data-filter="all">Todas</button>
+                                <button class="filter-btn" data-filter="active">Activas</button>
+                                <button class="filter-btn" data-filter="completed">Completadas</button>
+                                <button class="filter-btn" data-filter="delayed">Retrasadas</button>
+                                <button class="refresh-btn" onclick="refreshData()">🔄 Actualizar</button>
+                            </div>
+                        </div>
+                        <div class="map-canvas">
+                            <div id="map"></div>
+                            <div class="loading-overlay" id="loadingOverlay">
+                                <div class="loading-spinner"></div>
+                                <p>Cargando datos...</p>
+                            </div>
+                            
+                            <!-- Route Info Panel -->
+                            <div id="routeInfo" class="route-info">
+                                <h3 id="routeInfoTitle"></h3>
+                                <div id="routeInfoDetails" class="route-info-details"></div>
+                                <button class="clear-selection-btn" onclick="clearSelection()">Limpiar Selección</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Route List -->
+                <div class="route-list">
+                    <div class="route-list-container">
+                        <div class="route-list-header">
+                            <h2 class="route-list-title">Lista de Rutas</h2>
+                            
+                            <div class="search-box">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" class="search-input" placeholder="Buscar ruta, conductor..." onkeyup="filterRoutes(this.value)">
+                            </div>
+
+                            <div class="alerts-section" id="alertsSection">
+                                <!-- Alerts will be populated by API -->
+                            </div>
+                        </div>
+
+                        <div class="route-list-content" id="routeListContent">
+                            <!-- Route cards will be generated by API -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="../js/rutas.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/authGuard.js"></script>
+</body>
+</html>

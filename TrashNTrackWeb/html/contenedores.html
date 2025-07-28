@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contenedores - Dashboard de Residuos Tóxicos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="../css/dashboard.css" rel="stylesheet">
+    <link href="../css/sidebar.css" rel="stylesheet">
+    <link href="../css/contenedores.css" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="dashboard-container">
+    <div id="sidebar-placeholder"></div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="page-title">
+                    <i class="fas fa-box" style="color: #22d3ee;"></i>
+                    <h1>Gestión de Contenedores</h1>
+                </div>
+                <div class="header-actions">
+                    
+                    <button class="btn btn-primary" id="newContainerBtn">
+                        <i class="fas fa-plus"></i>
+                        Nuevo Bote
+                    </button>
+                </div>
+            </header>
+
+           <section class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number empty">0</div> <div class="stat-label">Botes Vacíos (0-25%)</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number medium">0</div> <div class="stat-label">Nivel Medio (26-75%)</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number full">0</div> <div class="stat-label">Botes Llenos (76-100%)</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number offline">0</div> <div class="stat-label">Sensores Offline</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number" id="averageFillLevel">0%</div> <div class="stat-label">Nivel Promedio</div>
+    </div>
+</section>
+
+            <!-- Main Layout -->
+            <section class="content-layout">
+                <!-- Containers Section -->
+                <div class="containers-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Contenedores Monitoreados</h3>
+                        <div class="search-box">
+                            <input type="text" placeholder="Buscar bote..." id="searchInput" oninput="handleContainerSearch()">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+
+                    <div class="containers-grid" id="containersGrid">
+                        <!-- Los contenedores se cargarán dinámicamente aquí -->
+                    </div>
+                </div>
+
+                 <div class="sidebar-panel">
+                    <div class="panel-card">
+                        <h3 class="panel-title">Alertas Críticas</h3>
+                        <div id="alertsList" class="alerts-list">
+                            <div class="alert-item no-alerts-message hidden">
+                                <i class="fas fa-info-circle alert-icon"></i>
+                                <div class="alert-text">No hay alertas críticas actualmente.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-card">
+                        <h3 class="panel-title">Prioridad de Recolección</h3>
+                        <div id="priorityList" class="priority-list">
+                            <div class="priority-item no-priority-message hidden">
+                                <i class="fas fa-check-circle priority-info"></i>
+                                <div class="priority-id">No hay contenedores con alta prioridad.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                        <div class="panel-card">
+                            <h3 class="panel-title">Estadísticas por Tipo</h3>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="text-align: center;">
+                                    <div id="statsChemicals" style="font-size: 18px; font-weight: 600; color: #ef4444;">0</div>
+                                    <div style="font-size: 11px; color: #64748b;">Químicos</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div id="statsBiological" style="font-size: 18px; font-weight: 600; color: #f59e0b;">0</div>
+                                    <div style="font-size: 11px; color: #64748b;">Biológicos</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div id="statsRadioactive" style="font-size: 18px; font-weight: 600; color: #8b5cf6;">0</div>
+                                <div style="font-size: 11px; color: #64748b;">Radiactivos</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div id="statsIndustrial" style="font-size: 18px; font-weight: 600; color: #10b981;">0</div>
+                                <div style="font-size: 11px; color: #64748b;">Industriales</div>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+
+    <!-- Modal para Ver Detalles del Contenedor -->
+    <div id="viewContainerModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeModal('viewContainerModal')">&times;</button>
+            <h2 class="modal-title">Detalles del Contenedor</h2>
+            <div id="viewContainerDetails">
+                <!-- Los detalles se poblarán aquí -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn-small btn-secondary" onclick="closeModal('viewContainerModal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Contenedor -->
+    <div id="editContainerModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeModal('editContainerModal')">&times;</button>
+            <h2 class="modal-title">Editar Contenedor</h2>
+            <form id="editContainerForm">
+                <input type="hidden" id="editContainerId">
+                <div class="modal-form-group">
+                    <label for="editDescripcion">Descripción:</label>
+                    <textarea id="editDescripcion" rows="3" required></textarea>
+                    <div id="editDescripcionError" class="error-message"></div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="editFechaRegistro">Fecha de Registro:</label>
+                    <input type="date" id="editFechaRegistro" required>
+                    <div id="editFechaRegistroError" class="error-message"></div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="editTipoResiduo">Tipo de Residuo:</label>
+                    <select id="editTipoResiduo" required>
+                        <option value="">Seleccione un tipo de residuo</option>
+                        <!-- Opciones se cargarán dinámicamente -->
+                    </select>
+                    <div id="editTipoResiduoError" class="error-message"></div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="editTipoContenedor">Tipo de Contenedor:</label>
+                    <select id="editTipoContenedor" required>
+                        <option value="">Seleccione un tipo de contenedor</option>
+                        <!-- Opciones se cargarán dinámicamente -->
+                    </select>
+                    <div id="editTipoContenedorError" class="error-message"></div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-small btn-secondary" onclick="closeModal('editContainerModal')">Cancelar</button>
+                    <button type="submit" class="btn-small btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script type="module" src="../js/contenedores.js"></script>
+    <script type="module" src="../js/editarContenedor.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/authGuard.js"></script>
+</body>
+</html>

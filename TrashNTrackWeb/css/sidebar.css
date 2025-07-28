@@ -1,0 +1,85 @@
+/* Sidebar Styles */
+.sidebar {
+    width: 280px;
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 20px 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.nav-group-label {
+  padding: 8px 24px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-footer {
+  margin-top: 20px;
+  padding: 16px 24px;
+  border-top: 1px solid #334155;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-info i {
+  font-size: 32px;
+  color: #64748b;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.logo {
+    padding: 0 20px 30px;
+    border-bottom: 1px solid #334155;
+    margin-bottom: 20px;
+}
+
+.logo h2 {
+    color: #22d3ee;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.nav-menu {
+    list-style: none;
+}
+
+.nav-item {
+    margin: 5px 0;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background-color: rgba(34, 211, 238, 0.1);
+    color: #22d3ee;
+    border-left-color: #22d3ee;
+}
+
+.nav-link i {
+    width: 20px;
+    margin-right: 12px;
+    font-size: 16px;
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camiones - Dashboard Logístico</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   
+    <link href="../css/dashboard.css" rel="stylesheet">
+    <link href="../css/sidebar.css" rel="stylesheet">
+    <link href="../css/camiones.css" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="dashboard-container">
+    <div id="sidebar-placeholder"></div>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Encabezado -->
+            <header class="header">
+                <div class="page-title">
+                    <i class="fas fa-truck" style="color: #22d3ee;"></i>
+                    <h1>Gestión de Camiones</h1>
+                </div>
+                <div class="header-actions">
+                    <!-- Botón para agregar un nuevo camión -->
+                    <button class="btn btn-primary" id="newTruckBtn">
+                        <i class="fas fa-plus"></i>
+                        Nuevo Camión
+                    </button>
+                </div>
+            </header>
+
+            <!-- Filtros -->
+            <section class="filters-section">
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label class="filter-label">Buscar Camión</label>
+                        <!-- Se añadió el evento 'oninput' para búsqueda en tiempo real -->
+                        <input type="text" class="filter-input" id="searchInput" placeholder="ID, placa, conductor..." oninput="handleSearch()">
+                    </div>
+                    <div class="filter-group">
+                        
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cuadrícula de Camiones -->
+            <section class="trucks-grid" id="trucksGrid">
+                <!-- Las tarjetas de camiones se cargarán dinámicamente aquí -->
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Ver Detalles del Camión -->
+    <div id="viewTruckModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeModal('viewTruckModal')">&times;</button>
+            <h2 class="modal-title">Detalles del Camión</h2>
+            <div id="viewTruckDetails">
+                <!-- Los detalles se poblarán aquí -->
+            </div>
+            <div class="modal-actions">
+                <!-- Se eliminó la clase 'btn-view' para evitar conflictos -->
+                <button class="btn-small btn-secondary" onclick="closeModal('viewTruckModal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Camión -->
+    <div id="editTruckModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeModal('editTruckModal')">&times;</button>
+            <h2 class="modal-title">Editar Camión</h2>
+            <form id="editTruckForm">
+                <input type="hidden" id="editTruckId">
+                <div class="modal-form-group">
+                    <label for="editPlaca">Placa:</label>
+                    <input type="text" id="editPlaca" required>
+                    <div id="editPlacaError" class="error-message"></div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="editMarca">Marca:</label>
+                    <input type="text" id="editMarca">
+                    <div id="editMarcaError" class="error-message"></div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="editModelo">Modelo:</label>
+                    <input type="text" id="editModelo">
+                    <div id="editModeloError" class="error-message"></div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="editAnio">Año:</label>
+                    <input type="number" id="editAnio">
+                    <div id="editAnioError" class="error-message"></div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="editCapacidadCarga">Capacidad de Carga:</label>
+                    <input type="number" step="0.01" id="editCapacidadCarga">
+                    <div id="editCapacidadCargaError" class="error-message"></div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-small btn-secondary" onclick="closeModal('editTruckModal')">Cancelar</button>
+                    <button type="submit" class="btn-small btn-edit">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+        <script type="module" src="../js/camiones.js"></script>
+        <script src="../js/sidebar.js"></script>
+        <script src="../js/authGuard.js"></script>
+</body>
+</html>

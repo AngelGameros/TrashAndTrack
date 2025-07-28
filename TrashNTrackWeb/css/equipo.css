@@ -1,0 +1,291 @@
+/* css/equipo.css */
+
+.user-grid-section {
+    padding: 20px;
+}
+
+.user-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    padding: 20px;
+}
+
+.team-card {
+    background-color: var(--card-bg-color); /* Usar variable de CSS para el color de fondo */
+    border-radius: 12px;
+    box-shadow: var(--shadow-small); /* Usar variable de CSS para la sombra */
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid var(--border-color); /* Borde suave */
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium); /* Sombra más pronunciada al pasar el ratón */
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    background-color: var(--primary-color-light); /* Color de fondo para el avatar */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    color: var(--primary-color); /* Color del icono */
+    font-size: 3em; /* Tamaño del icono */
+}
+
+.user-info h3 {
+    margin: 10px 0 5px;
+    color: var(--text-color-dark); /* Color del texto del nombre */
+    font-size: 0.95em;
+}
+
+.user-info .user-role {
+    color: var(--text-color-light); /* Color para el rol */
+    font-size: 0.85em;
+    margin-bottom: 10px;
+}
+
+.user-info .user-contact {
+    color: var(--text-color-medium); /* Color para la información de contacto */
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espacio entre icono y texto */
+}
+
+.user-contact i {
+    color: var(--accent-color); /* Color del icono de contacto */
+}
+
+.user-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px; /* Espacio entre botones */
+    justify-content: center;
+    flex-wrap: wrap; /* Para que los botones se envuelvan en pantallas pequeñas */
+}
+
+/* Estilos de botones específicos para las tarjetas de usuario */
+.btn-view, .btn-edit {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+}
+
+.btn-view {
+    background-color: var(--btn-secondary-bg); /* Color de fondo para "Ver" */
+    color: var(--btn-secondary-text); /* Color del texto para "Ver" */
+}
+
+.btn-view:hover {
+    background-color: var(--btn-secondary-hover);
+}
+
+.btn-edit {
+    background-color: var(--btn-edit-bg); /* Color de fondo para "Editar" */
+    color: var(--btn-edit-text); /* Color del texto para "Editar" */
+}
+
+.btn-edit:hover {
+    background-color: var(--btn-edit-hover);
+}
+
+/* Estilos para los modales (pueden ser genéricos en dashboard.css) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
+    padding-top: 60px; /* Adjust as needed */
+}
+
+.modal-content {
+    background-color: var(--modal-bg); /* Color de fondo del modal */
+    margin: auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-large);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+.close-button {
+    color: var(--text-color-light);
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-form-group {
+    margin-bottom: 15px;
+}
+
+.modal-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--text-color-dark);
+}
+
+.modal-form-group input[type="text"],
+.modal-form-group input[type="email"],
+.modal-form-group input[type="tel"],
+.modal-form-group select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1em;
+    background-color: var(--input-bg);
+    color: var(--text-color-dark);
+}
+
+.modal-form-group input.invalid,
+.modal-form-group select.invalid {
+    border-color: var(--error-color);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.btn-small {
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-secondary {
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    border: 1px solid var(--btn-secondary-border);
+}
+
+.btn-secondary:hover {
+    background-color: var(--btn-secondary-hover);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 0.85em;
+    margin-top: 5px;
+    display: none; /* Hidden by default */
+}
+
+/* Animación de apertura del modal */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+/* Considera agregar estas variables a tu `dashboard.css` o un archivo `variables.css` global */
+:root {
+    --primary-color: #22d3ee; /* Color cian */
+    --primary-color-dark: #0e7490;
+    --primary-color-light: #67e8f9;
+    --accent-color: #fde047; /* Amarillo */
+    --background-color: #f8fafc; /* Gris muy claro */
+    --card-bg-color: #ffffff; /* Blanco para tarjetas */
+    --text-color-dark: #1e293b; /* Gris oscuro */
+    --text-color-medium: #475569; /* Gris medio */
+    --text-color-light: #64748b; /* Gris claro */
+    --border-color: #e2e8f0; /* Gris para bordes */
+    --shadow-small: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-large: 0 10px 15px rgba(0, 0, 0, 0.15);
+    --modal-bg: #ffffff;
+    --input-bg: #f1f5f9;
+    --error-color: #ef4444; /* Rojo para errores */
+
+    --btn-secondary-bg: #e2e8f0;
+    --btn-secondary-text: #1e293b;
+    --btn-secondary-hover: #cbd5e1;
+    --btn-secondary-border: #cbd5e1;
+
+    --btn-edit-bg: #93c5fd; /* Azul suave para editar */
+    --btn-edit-text: #1e293b;
+    --btn-edit-hover: #60a5fa;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .user-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        padding: 10px;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .header-actions {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .btn.btn-primary {
+        width: 100%;
+        margin-top: 10px;
+    }
+}

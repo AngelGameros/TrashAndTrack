@@ -11,7 +11,6 @@
                 id = contenedor.IdContenedor,
                 descripcion = contenedor.Descripcion,
                 fechaRegistro = contenedor.FechaRegistro.ToString("yyyy-MM-dd"),
-                estado = contenedor.Estado,
                 idEmpresa = contenedor.IdEmpresa,
                 idTipoResiduo = contenedor.IdTipoResiduo,
                 idTipoContenedor = contenedor.IdTipoContenedor

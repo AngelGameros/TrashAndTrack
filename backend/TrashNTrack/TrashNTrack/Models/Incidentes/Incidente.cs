@@ -7,37 +7,40 @@ public class Incidente
 {
     #region SQL Statements
     private static string IncidenteGetAll = @"
-        SELECT id_incidente, nombre, fecha_incidente, photo_url, descripcion, id_usuario 
+        SELECT id_incidente, nombre, fecha_incidente, url_foto, descripcion, id_usuario, estado_incidente, fecha_resolucion, resuelto_por 
         FROM Incidentes";
 
     private static string IncidenteGetById = @"
-        SELECT id_incidente, nombre, fecha_incidente, photo_url, descripcion, id_usuario 
+        SELECT id_incidente, nombre, fecha_incidente, url_foto, descripcion, id_usuario, estado_incidente, fecha_resolucion, resuelto_por
         FROM Incidentes 
         WHERE id_incidente = @Id";
 
     private static string IncidenteGetByUsuario = @"
-        SELECT id_incidente, nombre, fecha_incidente, photo_url, descripcion, id_usuario 
+        SELECT id_incidente, nombre, fecha_incidente, url_foto, descripcion, id_usuario, estado_incidente, fecha_resolucion, resuelto_por        
         FROM Incidentes 
         WHERE id_usuario = @UsuarioId";
 
     private static string IncidenteGetByDateRange = @"
-        SELECT id_incidente, nombre, fecha_incidente, photo_url, descripcion, id_usuario 
+        SELECT id_incidente, nombre, fecha_incidente, url_foto, descripcion, id_usuario, estado_incidente, fecha_resolucion, resuelto_por
         FROM Incidentes 
         WHERE fecha_incidente BETWEEN @FechaInicio AND @FechaFin";
 
     private static string IncidenteCreate = @"
-        INSERT INTO Incidentes (nombre, fecha_incidente, photo_url, descripcion, id_usuario)
+        INSERT INTO Incidentes ( nombre, fecha_incidente, url_foto, descripcion, id_usuario, estado_incidente, fecha_resolucion, resuelto_por)
         OUTPUT INSERTED.id_incidente
-        VALUES (@Nombre, @FechaIncidente, @PhotoUrl, @Descripcion, @IdUsuario)";
+        VALUES (@Nombre, @FechaIncidente, @PhotoUrl, @Descripcion, @IdUsuario, @EstadoIncidente, @FechaResolucion, @ResueltoPor)";
     #endregion
 
     #region Properties
     public int IdIncidente { get; set; }
     public string Nombre { get; set; }
-    public DateTime FechaIncidente { get; set; }
-    public string PhotoUrl { get; set; }
+    public DateTime? FechaIncidente { get; set; } // <--- CAMBIO: Ahora es nullable
+    public string? PhotoUrl { get; set; } // <--- CAMBIO: Ahora es nullable
     public string Descripcion { get; set; }
     public int IdUsuario { get; set; }
+    public string? EstadoIncidente { get; set; } // <--- CAMBIO: Ahora es nullable
+    public DateTime? FechaResolucion { get; set; }
+    public int? ResueltoPor { get; set; }
     #endregion
 
     #region Constructors
@@ -45,13 +48,16 @@ public class Incidente
     {
         IdIncidente = 0;
         Nombre = string.Empty;
-        FechaIncidente = DateTime.Now;
-        PhotoUrl = string.Empty;
+        FechaIncidente = null; // <--- CAMBIO: Inicializar como null
+        PhotoUrl = null; // <--- CAMBIO: Inicializar como null
         Descripcion = string.Empty;
         IdUsuario = 0;
+        EstadoIncidente = null; // <--- CAMBIO: Inicializar como null
+        FechaResolucion = null;
+        ResueltoPor = null;
     }
 
-    public Incidente(int id, string nombre, DateTime fechaIncidente, string photoUrl, string descripcion, int idUsuario)
+    public Incidente(int id, string nombre, DateTime? fechaIncidente, string? photoUrl, string descripcion, int idUsuario, string? estadoIncidente, DateTime? fechaResolucion, int? resueltoPor)
     {
         IdIncidente = id;
         Nombre = nombre;
@@ -59,8 +65,12 @@ public class Incidente
         PhotoUrl = photoUrl;
         Descripcion = descripcion;
         IdUsuario = idUsuario;
+        EstadoIncidente = estadoIncidente;
+        FechaResolucion = fechaResolucion;
+        ResueltoPor = resueltoPor;
     }
     #endregion
+
 
     #region Methods
     public static List<Incidente> GetAll()
@@ -96,10 +106,17 @@ public class Incidente
     {
         SqlCommand command = new SqlCommand(IncidenteCreate);
         command.Parameters.AddWithValue("@Nombre", incidente.Nombre);
-        command.Parameters.AddWithValue("@FechaIncidente", incidente.FechaIncidente);
-        command.Parameters.AddWithValue("@PhotoUrl", incidente.PhotoUrl);
+
+        command.Parameters.AddWithValue("@FechaIncidente", (object)incidente.FechaIncidente ?? DBNull.Value);
+        command.Parameters.AddWithValue("@PhotoUrl", (object)incidente.PhotoUrl ?? DBNull.Value);
         command.Parameters.AddWithValue("@Descripcion", incidente.Descripcion);
         command.Parameters.AddWithValue("@IdUsuario", incidente.IdUsuario);
+
+        // <--- CAMBIO CLAVE AQUÍ: Si EstadoIncidente es null, usa un valor por defecto ("abierto")
+        command.Parameters.AddWithValue("@EstadoIncidente", (object)incidente.EstadoIncidente ?? "ABIERTO"); // <-- Valor por defecto
+
+        command.Parameters.AddWithValue("@FechaResolucion", (object)incidente.FechaResolucion ?? DBNull.Value);
+        command.Parameters.AddWithValue("@ResueltoPor", (object)incidente.ResueltoPor ?? DBNull.Value);
 
         return Convert.ToInt32(SqlServerConnection.ExecuteScalar(command));
     }

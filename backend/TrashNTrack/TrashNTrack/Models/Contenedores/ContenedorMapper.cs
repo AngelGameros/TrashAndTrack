@@ -11,7 +11,6 @@ public class ContenedorMapper
             IdContenedor = Convert.ToInt32(row["id_contenedor"]),
             Descripcion = row["descripcion"].ToString(),
             FechaRegistro = Convert.ToDateTime(row["fecha_registro"]),
-            Estado = row["estado"].ToString(),
             IdEmpresa = Convert.ToInt32(row["id_empresa"]),
             IdTipoResiduo = Convert.ToInt32(row["id_tipo_residuo"]),
             IdTipoContenedor = Convert.ToInt32(row["id_tipo_contenedor"])

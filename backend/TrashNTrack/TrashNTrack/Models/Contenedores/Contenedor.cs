@@ -7,26 +7,26 @@ public class Contenedor
 {
     #region SQL Statements
     private static string ContenedorGetAll = @"
-        SELECT id_contenedor, descripcion, fecha_registro, estado, id_empresa, id_tipo_residuo, id_tipo_contenedor 
+        SELECT id_contenedor, descripcion, fecha_registro, id_empresa, id_tipo_residuo, id_tipo_contenedor 
         FROM Contenedores";
 
     private static string ContenedorGetById = @"
-        SELECT id_contenedor, descripcion, fecha_registro, estado, id_empresa, id_tipo_residuo, id_tipo_contenedor 
+        SELECT id_contenedor, descripcion, fecha_registro, id_empresa, id_tipo_residuo, id_tipo_contenedor 
         FROM Contenedores 
         WHERE id_contenedor = @Id";
 
     private static string ContenedorGetByEmpresa = @"
-        SELECT id_contenedor, descripcion, fecha_registro, estado, id_empresa, id_tipo_residuo, id_tipo_contenedor 
+        SELECT id_contenedor, descripcion, fecha_registro, id_empresa, id_tipo_residuo, id_tipo_contenedor 
         FROM Contenedores 
         WHERE id_empresa = @EmpresaId";
 
     private static string ContenedorGetByTipoResiduo = @"
-        SELECT id_contenedor, descripcion, fecha_registro, estado, id_empresa, id_tipo_residuo, id_tipo_contenedor 
+        SELECT id_contenedor, descripcion, fecha_registro, id_empresa, id_tipo_residuo, id_tipo_contenedor 
         FROM Contenedores 
         WHERE id_tipo_residuo = @TipoResiduoId";
 
     private static string ContenedorGetByEstado = @"
-        SELECT id_contenedor, descripcion, fecha_registro, estado, id_empresa, id_tipo_residuo, id_tipo_contenedor 
+        SELECT id_contenedor, descripcion, fecha_registro, id_empresa, id_tipo_residuo, id_tipo_contenedor 
         FROM Contenedores 
         WHERE estado = @Estado";
     #endregion
@@ -35,7 +35,6 @@ public class Contenedor
     public int IdContenedor { get; set; }
     public string Descripcion { get; set; }
     public DateTime FechaRegistro { get; set; }
-    public string Estado { get; set; }
     public int IdEmpresa { get; set; }
     public int IdTipoResiduo { get; set; }
     public int IdTipoContenedor { get; set; }
@@ -47,19 +46,17 @@ public class Contenedor
         IdContenedor = 0;
         Descripcion = string.Empty;
         FechaRegistro = DateTime.MinValue;
-        Estado = "Activo"; // Valor por defecto
         IdEmpresa = 0;
         IdTipoResiduo = 0;
         IdTipoContenedor = 0;
     }
 
-    public Contenedor(int id, string descripcion, DateTime fechaRegistro, string estado,
+    public Contenedor(int id, string descripcion, DateTime fechaRegistro,
                      int idEmpresa, int idTipoResiduo, int idTipoContenedor)
     {
         IdContenedor = id;
         Descripcion = descripcion;
         FechaRegistro = fechaRegistro;
-        Estado = estado;
         IdEmpresa = idEmpresa;
         IdTipoResiduo = idTipoResiduo;
         IdTipoContenedor = idTipoContenedor;

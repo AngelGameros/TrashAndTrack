@@ -14,7 +14,6 @@ public class ContenedorListResponse
                 id = c.IdContenedor,
                 descripcion = c.Descripcion,
                 fechaRegistro = c.FechaRegistro.ToString("yyyy-MM-dd"),
-                estado = c.Estado,
                 idEmpresa = c.IdEmpresa,
                 idTipoResiduo = c.IdTipoResiduo,
                 idTipoContenedor = c.IdTipoContenedor

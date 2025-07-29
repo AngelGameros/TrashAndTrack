@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System; // Agrega esto para DateTime
+using System;
 
 public class IncidenteListResponse
 {
@@ -12,26 +12,45 @@ public class IncidenteListResponse
             message = "Lista de incidentes obtenida correctamente",
             data = incidentes.Select(i =>
             {
-                // Asegurarse de que la fecha se convierta a UTC antes de formatearla como ISO con 'Z'
-                DateTime fechaUtc = i.FechaIncidente;
-                if (i.FechaIncidente.Kind == DateTimeKind.Unspecified)
+                DateTime? fechaIncidenteUtc = null; // <--- CAMBIO: Ahora es nullable
+                if (i.FechaIncidente.HasValue)
                 {
-                    fechaUtc = DateTime.SpecifyKind(i.FechaIncidente, DateTimeKind.Utc);
+                    fechaIncidenteUtc = i.FechaIncidente.Value;
+                    if (fechaIncidenteUtc.Value.Kind == DateTimeKind.Unspecified)
+                    {
+                        fechaIncidenteUtc = DateTime.SpecifyKind(fechaIncidenteUtc.Value, DateTimeKind.Utc);
+                    }
+                    else if (fechaIncidenteUtc.Value.Kind == DateTimeKind.Local)
+                    {
+                        fechaIncidenteUtc = fechaIncidenteUtc.Value.ToUniversalTime();
+                    }
                 }
-                else if (i.FechaIncidente.Kind == DateTimeKind.Local)
+
+                DateTime? fechaResolucionUtc = null;
+                if (i.FechaResolucion.HasValue)
                 {
-                    fechaUtc = i.FechaIncidente.ToUniversalTime();
+                    fechaResolucionUtc = i.FechaResolucion.Value;
+                    if (fechaResolucionUtc.Value.Kind == DateTimeKind.Unspecified)
+                    {
+                        fechaResolucionUtc = DateTime.SpecifyKind(fechaResolucionUtc.Value, DateTimeKind.Utc);
+                    }
+                    else if (fechaResolucionUtc.Value.Kind == DateTimeKind.Local)
+                    {
+                        fechaResolucionUtc = fechaResolucionUtc.Value.ToUniversalTime();
+                    }
                 }
 
                 return new
                 {
                     id = i.IdIncidente,
                     nombre = i.Nombre,
-                    // Usar "o" (round-trip format) que incluye el 'Z' si DateTimeKind es Utc
-                    fechaIncidente = fechaUtc.ToString("o"), 
+                    fechaIncidente = fechaIncidenteUtc?.ToString("o"), // <--- CAMBIO: Ahora es nullable
                     photoUrl = i.PhotoUrl,
                     descripcion = i.Descripcion,
-                    idUsuario = i.IdUsuario
+                    idUsuario = i.IdUsuario,
+                    estadoIncidente = i.EstadoIncidente,
+                    fechaResolucion = fechaResolucionUtc?.ToString("o"),
+                    resueltoPor = i.ResueltoPor
                 };
             }).ToList()
         };

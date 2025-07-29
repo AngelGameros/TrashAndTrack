@@ -1,10 +1,10 @@
 ﻿{
-    "sqlServer": {
-        "Server": "DESKTOP-LOJ8TIC\\SQLEXPRESS",
-        "Database": "tnt_2",
-        "Trusted_Connection": "True",
-        "TrustServer_Certificate": "True"
-    },
+  "sqlServer": {
+    "Server": "LAPTOP-MIMAMM7U",
+    "Database": "tnt_2",
+    "Trusted_Connection": "True",
+    "TrustServer_Certificate": "True"
+  },
     "Paths": {
         "Domain": "http://localhost/callcenter/",
         "Photos": {
@@ -12,9 +12,9 @@
             "Agents": "photos/agents_photos"
         }
     },
-    "mongoDb": {
-        "ConnectionString": "mongodb+srv://gameros:A.gameros17@cluster0.6hw07q7.mongodb.net/",
-        "DatabaseName": "container_simulator_db",
-        "CollectionName": "containers"
-    }
+  "mongoDb": {
+    "ConnectionString": "mongodb://127.0.0.1:27017",
+    "DatabaseName": "container_simulator_db",
+    "CollectionName": "containers"
+  }
 }

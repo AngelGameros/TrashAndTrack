@@ -92,7 +92,7 @@ public class IncidentesController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult Create([FromBody] Incidente incidente)
+    public IActionResult Create([FromBody] Incidente incidente)
     {
         try
         {
@@ -104,6 +104,8 @@ public class IncidentesController : ControllerBase
                     type = "error"
                 });
 
+            // No se necesita validación para otros campos si son opcionales y la DB permite NULLs.
+            // Si no se envían en el JSON, llegarán como null al objeto 'incidente'.
             int id = Incidente.Create(incidente);
             return Ok(IncidenteResponse.GetCreateResponse(id));
         }

@@ -9,11 +9,15 @@ public class IncidenteMapper
         return new Incidente
         {
             IdIncidente = Convert.ToInt32(row["id_incidente"]),
-            Nombre = row["nombre_incidente"].ToString(),        // alias usado en la vista
-            FechaIncidente = Convert.ToDateTime(row["fecha_incidente"]),
-            PhotoUrl = row["url_foto"]?.ToString() ?? string.Empty,  // alias usado en la vista
+            Nombre = row["nombre"].ToString(),
+            // <--- CAMBIOS: Manejar posibles valores nulos para FechaIncidente, PhotoUrl y EstadoIncidente
+            FechaIncidente = row["fecha_incidente"] != DBNull.Value ? Convert.ToDateTime(row["fecha_incidente"]) : (DateTime?)null,
+            PhotoUrl = row["url_foto"] != DBNull.Value ? row["url_foto"]?.ToString() ?? string.Empty : (string ? )null, // Asignar null si DBNull
             Descripcion = row["descripcion"].ToString(),
-            IdUsuario = Convert.ToInt32(row["id_usuario"])
+            IdUsuario = Convert.ToInt32(row["id_usuario"]),
+            EstadoIncidente = row["estado_incidente"] != DBNull.Value ? row["estado_incidente"].ToString() : (string?)null, // Asignar null si DBNull
+            FechaResolucion = row["fecha_resolucion"] != DBNull.Value ? Convert.ToDateTime(row["fecha_resolucion"]) : (DateTime?)null,
+            ResueltoPor = row["resuelto_por"] != DBNull.Value ? Convert.ToInt32(row["resuelto_por"]) : (int?)null
         };
     }
 

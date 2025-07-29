@@ -7,21 +7,21 @@ public class Reporte
 {
     #region statements
     private static string ReporteGetAll = @"
-        SELECT id_reporte, nombre, fecha_reporte, photo_url, descripcion, id_usuario 
+        SELECT id_reporte, nombre, fecha_reporte , descripcion, id_usuario, estado, id_contenedor, collected_amount, container_status 
         FROM Reportes";
 
     private static string ReporteGetById = @"
-        SELECT id_reporte, nombre, fecha_reporte, photo_url, descripcion, id_usuario 
+        SELECT id_reporte, nombre, fecha_reporte , descripcion, id_usuario, estado, id_contenedor, collected_amount, container_status 
         FROM Reportes 
         WHERE id_reporte = @Id";
 
     private static string ReporteGetByUsuario = @"
-        SELECT id_reporte, nombre, fecha_reporte, photo_url, descripcion, id_usuario 
+        SELECT id_reporte, nombre, fecha_reporte , descripcion, id_usuario, estado, id_contenedor, collected_amount, container_status 
         FROM Reportes 
         WHERE id_usuario = @UsuarioId";
 
     private static string ReporteGetByDateRange = @"
-        SELECT id_reporte, nombre, fecha_reporte, photo_url, descripcion, id_usuario 
+        SELECT id_reporte, nombre, fecha_reporte , descripcion, id_usuario, estado, id_contenedor, collected_amount, container_status 
         FROM Reportes 
         WHERE fecha_reporte BETWEEN @FechaInicio AND @FechaFin";
     #endregion
@@ -30,9 +30,12 @@ public class Reporte
     public int IdReporte { get; set; }
     public string Nombre { get; set; }
     public DateTime FechaReporte { get; set; }
-    public string PhotoUrl { get; set; }
     public string Descripcion { get; set; }
     public int IdUsuario { get; set; }
+    public string Estado { get; set; }
+    public int Id_contenedor { get; set; }
+    public int Collected_amount { get; set; }
+    public string Container_status { get; set; }
     #endregion
 
     #region constructors
@@ -41,19 +44,23 @@ public class Reporte
         IdReporte = 0;
         Nombre = string.Empty;
         FechaReporte = DateTime.MinValue;
-        PhotoUrl = string.Empty;
         Descripcion = string.Empty;
         IdUsuario = 0;
+        Id_contenedor = 0;
+        Collected_amount = 0;
+        Container_status = string.Empty;
     }
 
-    public Reporte(int id, string nombre, DateTime fecha, string photoUrl, string descripcion, int idUsuario)
+    public Reporte(int id, string nombre, DateTime fecha, string descripcion, int idUsuario, int id_contenedor, int collected_amount, string container_status)
     {
         IdReporte = id;
         Nombre = nombre;
         FechaReporte = fecha;
-        PhotoUrl = photoUrl;
         Descripcion = descripcion;
         IdUsuario = idUsuario;
+        Id_contenedor = id_contenedor;
+        Collected_amount = collected_amount;
+        Container_status = container_status;
     }
     #endregion
 

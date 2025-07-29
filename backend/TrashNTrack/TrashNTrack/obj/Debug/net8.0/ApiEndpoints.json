@@ -880,5 +880,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TrashNTrack.Controllers.UsuariosController",
+    "Method": "UpdateUserDetails",
+    "RelativePath": "api/Usuarios/update-details",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "TrashNTrack.Controllers.UsuariosController\u002BUserUpdateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

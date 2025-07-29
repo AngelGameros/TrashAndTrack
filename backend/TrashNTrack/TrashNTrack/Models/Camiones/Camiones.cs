@@ -47,7 +47,7 @@ public class Camiones
         _idUsuario = 0;
     }
 
-    public Camiones(int idCamion, string placa, string marca, int anio, double capacidadCarga, string modelo, int idUsuario)
+    public Camiones(int idCamion, string placa, string marca, int anio, double capacidadCarga, string modelo, int idUsuario, string estado)
     {
         _idCamion = idCamion;
         _placa = placa;

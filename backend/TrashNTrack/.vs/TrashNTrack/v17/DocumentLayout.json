@@ -3,24 +3,24 @@
   "WorkspaceRootPath": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\incidentes\\incidente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\incidentes\\incidente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\camiones\\camionesmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\camiones\\camionesmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\incidentes\\incidentelistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\incidentes\\incidentelistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\reportes\\reporte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\reportes\\reporte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\incidentes\\incidenteresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\incidentes\\incidenteresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\reportes\\reportelistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\reportes\\reportelistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\incidentescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\incidentescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\reportes\\reportemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\reportes\\reportemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\incidentes\\incidentemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\incidentes\\incidentemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\reportes\\reporteresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\reportes\\reporteresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,64 +54,68 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "IncidenteListResponse.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\IncidenteListResponse.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Incidentes\\IncidenteListResponse.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\IncidenteListResponse.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\Incidentes\\IncidenteListResponse.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAcwDkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T01:53:13.424Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "IncidenteResponse.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\IncidenteResponse.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Incidentes\\IncidenteResponse.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\IncidenteResponse.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\Incidentes\\IncidenteResponse.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAgwEAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T01:52:59.518Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IncidentesController.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\IncidentesController.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\IncidentesController.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\IncidentesController.cs",
-              "RelativeToolTip": "TrashNTrack\\Controllers\\IncidentesController.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAIwGoAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T01:52:06.826Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Incidente.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\Incidente.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Incidentes\\Incidente.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\Incidente.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\Incidentes\\Incidente.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHAAAAAoAAAAAAAAAA==",
+              "Title": "CamionesMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAADwvw4AAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T01:49:41.972Z",
+              "WhenOpened": "2025-07-29T05:54:00.951Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "IncidenteMapper.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\IncidenteMapper.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Incidentes\\IncidenteMapper.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\IncidenteMapper.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\Incidentes\\IncidenteMapper.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAJAAAAAAAAAA==",
+              "Title": "ReporteResponse.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\ReporteResponse.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Reportes\\ReporteResponse.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\ReporteResponse.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Reportes\\ReporteResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T00:35:23.508Z"
+              "WhenOpened": "2025-07-29T05:51:47.873Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ReporteMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\ReporteMapper.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Reportes\\ReporteMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\ReporteMapper.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Reportes\\ReporteMapper.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T05:47:55.344Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ReporteListResponse.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\ReporteListResponse.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Reportes\\ReporteListResponse.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\ReporteListResponse.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Reportes\\ReporteListResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T05:46:31.176Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Reporte.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\Reporte.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Reportes\\Reporte.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\Reporte.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Reportes\\Reporte.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAYwDkAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T05:33:30.704Z",
+              "EditorCaption": ""
             }
           ]
         }

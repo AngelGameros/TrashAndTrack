@@ -1,0 +1,20 @@
+﻿{
+  "sqlServer": {
+    "Server": "LAPTOP-MIMAMM7U",
+    "Database": "tnt_2",
+    "Trusted_Connection": "True",
+    "TrustServer_Certificate": "True"
+  },
+    "Paths": {
+        "Domain": "http://localhost/callcenter/",
+        "Photos": {
+            "Users": "photos/users_photos",
+            "Agents": "photos/agents_photos"
+        }
+    },
+  "mongoDb": {
+    "ConnectionString": "mongodb://127.0.0.1:27017",
+    "DatabaseName": "container_simulator_db",
+    "CollectionName": "containers"
+  }
+}

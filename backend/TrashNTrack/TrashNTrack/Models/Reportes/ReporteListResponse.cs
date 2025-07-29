@@ -14,10 +14,13 @@ public class ReporteListResponse
                 id = r.IdReporte,
                 nombre = r.Nombre,
                 fechaReporte = r.FechaReporte.ToString("yyyy-MM-dd HH:mm:ss"),
-                photoUrl = r.PhotoUrl,
                 descripcion = r.Descripcion,
-                idUsuario = r.IdUsuario
-            }).ToList()
+                idUsuario = r.IdUsuario,
+                id_contenedor = r.Id_contenedor,
+                collected_amount = r.Collected_amount,
+                container_status = r.Container_status
+
+    }).ToList()
         };
     }
 }

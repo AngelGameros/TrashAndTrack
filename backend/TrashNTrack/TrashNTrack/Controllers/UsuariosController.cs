@@ -97,6 +97,53 @@ namespace TrashNTrack.Controllers
             }
         }
 
+
+        [HttpPut]
+        [Route("update-details")] // Ruta más descriptiva para la actualización de detalles
+        public ActionResult UpdateUserDetails([FromBody] UserUpdateRequest request)
+        {
+            try
+            {
+                if (request == null || string.IsNullOrEmpty(request.firebase_uid))
+                {
+                    return BadRequest(new { status = "error", message = "Datos de solicitud inválidos." });
+                }
+
+                bool updated = Usuario.UpdateUser(
+                    request.firebase_uid,
+                    request.nombre,
+                    request.primer_apellido,
+                    request.segundo_apellido,
+                    request.tipo_usuario
+                );
+
+                if (updated)
+                    return Ok(new { status = "success", message = "Detalles del usuario actualizados correctamente" });
+                else
+                    return BadRequest(new { status = "error", message = "No se pudieron actualizar los detalles del usuario o el usuario no fue encontrado." });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR EN CONTROLADOR al actualizar detalles de usuario: {ex.ToString()}");
+                return StatusCode(500, new
+                {
+                    status = "error",
+                    message = "Error interno del servidor al actualizar detalles del usuario.",
+                    detailedError = ex.Message,
+                    stackTrace = ex.StackTrace
+                });
+            }
+        }
+
+        public class UserUpdateRequest
+        {
+            public string firebase_uid { get; set; }
+            public string nombre { get; set; }
+            public string primer_apellido { get; set; }
+            public string segundo_apellido { get; set; }
+            public string tipo_usuario { get; set; }
+        }
+
         public class PhoneUpdateRequest
         {
             public string firebase_uid { get; set; }

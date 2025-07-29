@@ -11,9 +11,12 @@
                 id = reporte.IdReporte,
                 nombre = reporte.Nombre,
                 fechaReporte = reporte.FechaReporte.ToString("yyyy-MM-dd HH:mm:ss"),
-                photoUrl = reporte.PhotoUrl,
                 descripcion = reporte.Descripcion,
-                idUsuario = reporte.IdUsuario
+                idUsuario = reporte.IdUsuario,
+                id_contenedor = reporte.Id_contenedor,
+                collected_amount = reporte.Collected_amount,
+                container_status = reporte.Container_status,
+
             }
         };
     }

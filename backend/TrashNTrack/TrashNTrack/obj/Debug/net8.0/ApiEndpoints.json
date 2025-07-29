@@ -122,6 +122,22 @@
   },
   {
     "ContainingType": "CamionesController",
+    "Method": "Post",
+    "RelativePath": "api/Camiones",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "camion",
+        "Type": "Camiones",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CamionesController",
     "Method": "GetById",
     "RelativePath": "api/Camiones/{id}",
     "HttpMethod": "GET",
@@ -131,6 +147,27 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CamionesController",
+    "Method": "Put",
+    "RelativePath": "api/Camiones/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "camion",
+        "Type": "Camiones",
         "IsRequired": true
       }
     ],
@@ -876,6 +913,22 @@
       {
         "Name": "request",
         "Type": "TrashNTrack.Controllers.UsuariosController\u002BPhoneUpdateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TrashNTrack.Controllers.UsuariosController",
+    "Method": "UpdateUserDetails",
+    "RelativePath": "api/Usuarios/update-details",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "TrashNTrack.Controllers.UsuariosController\u002BUserUpdateRequest",
         "IsRequired": true
       }
     ],

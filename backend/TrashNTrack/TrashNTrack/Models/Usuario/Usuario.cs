@@ -167,5 +167,26 @@ public class Usuario
         int rowsAffected = SqlServerConnection.ExecuteCommand(command);
         return rowsAffected > 0;
     }
+
+    public static bool UpdateUser(string firebaseUid, string newNombre, string newPrimerApellido, string newSegundoApellido, string newTipoUsuario)
+    {
+        string updateQuery = @"
+        UPDATE usuarios
+        SET nombre = @Nombre,
+            primer_apellido = @PrimerApellido,
+            segundo_apellido = @SegundoApellido,
+            tipo_usuario = @TipoUsuario
+        WHERE firebase_uid = @FirebaseUid";
+
+        SqlCommand command = new SqlCommand(updateQuery);
+        command.Parameters.AddWithValue("@Nombre", newNombre ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("@PrimerApellido", newPrimerApellido ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("@SegundoApellido", newSegundoApellido ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("@TipoUsuario", newTipoUsuario ?? "recolector"); // Default a 'recolector' si es nulo
+        command.Parameters.AddWithValue("@FirebaseUid", firebaseUid);
+
+        int rowsAffected = SqlServerConnection.ExecuteCommand(command);
+        return rowsAffected > 0;
+    }
     #endregion
 }

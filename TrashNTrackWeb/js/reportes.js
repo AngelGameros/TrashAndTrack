@@ -1,210 +1,262 @@
+import { getReportes, getUserById } from "../DataConnection/Gets.js"
 
-        // Monthly Collection Chart
-        const monthlyCollectionCtx = document.getElementById('monthlyCollectionChart').getContext('2d');
-        new Chart(monthlyCollectionCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov'],
-                datasets: [{
-                    label: 'Químicos',
-                    data: [45, 52, 48, 61, 55, 67],
-                    backgroundColor: '#ef4444'
-                }, {
-                    label: 'Biológicos',
-                    data: [38, 42, 35, 48, 41, 52],
-                    backgroundColor: '#f59e0b'
-                }, {
-                    label: 'Radiactivos',
-                    data: [12, 15, 18, 14, 16, 19],
-                    backgroundColor: '#8b5cf6'
-                }, {
-                    label: 'Industriales',
-                    data: [65, 72, 68, 78, 71, 85],
-                    backgroundColor: '#10b981'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            boxWidth: 12,
-                            font: { size: 11 }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        stacked: true,
-                        ticks: { font: { size: 10 } }
-                    },
-                    y: {
-                        stacked: true,
-                        beginAtZero: true,
-                        ticks: {
-                            font: { size: 10 },
-                            callback: function(value) {
-                                return value + 't';
-                            }
-                        }
-                    }
-                }
-            }
-        });
+document.addEventListener("DOMContentLoaded", async () => {
+  const loadingState = document.getElementById("loadingState")
+  const emptyState = document.getElementById("emptyState")
+  const tableBody = document.getElementById("reportsTableBody")
 
-        // Zone Efficiency Chart
-        const zoneEfficiencyCtx = document.getElementById('zoneEfficiencyChart').getContext('2d');
-        new Chart(zoneEfficiencyCtx, {
-            type: 'radar',
-            data: {
-                labels: ['Zona Norte', 'Zona Centro', 'Zona Sur', 'Zona Este', 'Zona Oeste', 'Industrial'],
-                datasets: [{
-                    label: 'Eficiencia (%)',
-                    data: [92, 88, 95, 87, 91, 89],
-                    borderColor: '#22d3ee',
-                    backgroundColor: 'rgba(34, 211, 238, 0.2)',
-                    pointBackgroundColor: '#22d3ee',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: '#22d3ee'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            boxWidth: 12,
-                            font: { size: 11 }
-                        }
-                    }
-                },
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            font: { size: 10 },
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
+  // Crear el modal una sola vez
+  createReportModal()
 
-        // Alerts Trend Chart
-        const alertsTrendCtx = document.getElementById('alertsTrendChart').getContext('2d');
-        new Chart(alertsTrendCtx, {
-            type: 'line',
-            data: {
-                labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
-                datasets: [{
-                    label: 'Alertas Críticas',
-                    data: [15, 12, 18, 8],
-                    borderColor: '#ef4444',
-                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }, {
-                    label: 'Alertas de Advertencia',
-                    data: [28, 32, 25, 30],
-                    borderColor: '#f59e0b',
-                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            boxWidth: 12,
-                            font: { size: 11 }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: { font: { size: 10 } }
-                    },
-                    x: {
-                        ticks: { font: { size: 10 } }
-                    }
-                }
-            }
-        });
+  loadingState.style.display = "block"
 
-        // Waste Distribution Chart
-        const wasteDistributionCtx = document.getElementById('wasteDistributionChart').getContext('2d');
-        new Chart(wasteDistributionCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Químicos', 'Biológicos', 'Radiactivos', 'Industriales', 'Farmacéuticos'],
-                datasets: [{
-                    data: [67, 52, 19, 85, 28],
-                    backgroundColor: [
-                        '#ef4444',
-                        '#f59e0b',
-                        '#8b5cf6',
-                        '#10b981',
-                        '#06b6d4'
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 12,
-                            font: { size: 11 },
-                            padding: 8
-                        }
-                    }
-                }
-            }
-        });
+  try {
+    const response = await getReportes()
+    const reportes = response.data
 
-        // Filter functionality
-        document.querySelector('.filters-grid .btn-primary').addEventListener('click', function() {
-            console.log('Aplicar filtros de reporte');
-        });
+    loadingState.style.display = "none"
 
-        // Table action buttons
-        document.querySelectorAll('.btn-view').forEach(btn => {
-            btn.addEventListener('click', function() {
-                console.log('Ver reporte');
-            });
-        });
+    if (!Array.isArray(reportes) || reportes.length === 0) {
+      emptyState.style.display = "block"
+      return
+    }
 
-        document.querySelectorAll('.btn-download').forEach(btn => {
-            btn.addEventListener('click', function() {
-                if (!this.disabled) {
-                    console.log('Descargar reporte');
-                }
-            });
-        });
+    for (const reporte of reportes) {
+      const usuarioResponse = await getUserById(reporte.idUsuario)
+      const usuario = usuarioResponse.usuario
+      const nombreCompleto = usuario
+        ? `${usuario.nombre} ${usuario.primerApellido} ${usuario.segundoApellido}`
+        : "Desconocido"
 
-        // New report button
-        document.querySelector('.header-actions .btn-primary').addEventListener('click', function() {
-            console.log('Crear nuevo reporte');
-        });
+      const row = document.createElement("tr")
+      row.className = "report-row"
+      row.dataset.reportData = JSON.stringify({
+        ...reporte,
+        nombreCompleto,
+        usuario,
+      })
 
-        // Schedule report button
-        document.querySelector('.header-actions .btn-secondary').addEventListener('click', function() {
-            console.log('Programar reporte automático');
-        });
-    
+      row.innerHTML = `
+        <td class="truncated-cell" title="${reporte.id}">
+          <span class="id-badge">#${reporte.id}</span>
+        </td>
+        <td class="truncated-cell" title="${reporte.nombre}">${reporte.nombre}</td>
+        <td class="truncated-cell" title="${formatDate(reporte.fechaReporte)}">${formatDate(reporte.fechaReporte)}</td>
+        <td class="truncated-cell" title="${reporte.descripcion}">${reporte.descripcion}</td>
+        <td class="truncated-cell" title="${nombreCompleto}">${nombreCompleto}</td>
+        <td><span class="status-badge ${getStatusClass(reporte.estado)}">${reporte.estado || "-"}</span></td>
+        <td class="truncated-cell" title="${reporte.id_contenedor}">${reporte.id_contenedor}</td>
+        <td class="quantity-cell">${reporte.collected_amount ?? "-"}</td>
+        <td><span class="status-badge ${getStatusClass(reporte.container_status)}">${reporte.container_status}</span></td>
+      `
+
+      // Agregar event listener para abrir modal
+      row.addEventListener("click", () => openReportModal(reporte, nombreCompleto, usuario))
+
+      tableBody.appendChild(row)
+    }
+  } catch (error) {
+    console.error("Error al cargar los reportes:", error)
+    loadingState.style.display = "none"
+    emptyState.style.display = "block"
+    emptyState.querySelector("h3").textContent = "Error al cargar reportes"
+    emptyState.querySelector("p").textContent = "Intenta nuevamente más tarde."
+  }
+})
+
+// Crear el modal una sola vez
+function createReportModal() {
+  const modalHTML = `
+    <div id="reportModal" class="modal-overlay">
+      <div class="modal-container">
+        <div class="modal-header">
+          <div class="modal-header-content">
+            <div class="report-icon">
+              <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="header-text">
+              <h2 id="modalTitle">Detalles del Reporte</h2>
+              <p id="modalSubtitle">Información completa</p>
+            </div>
+          </div>
+          <button class="modal-close" onclick="closeReportModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="report-summary">
+            <div class="summary-item">
+              <div class="summary-icon">
+                <i class="fas fa-hashtag"></i>
+              </div>
+              <div class="summary-content">
+                <span class="summary-label">ID del Reporte</span>
+                <span class="summary-value" id="modalReportId">#000</span>
+              </div>
+            </div>
+            
+            <div class="summary-item">
+              <div class="summary-icon">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <div class="summary-content">
+                <span class="summary-label">Fecha de Creación</span>
+                <span class="summary-value" id="modalDate">--</span>
+              </div>
+            </div>
+            
+            <div class="summary-item">
+              <div class="summary-icon">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="summary-content">
+                <span class="summary-label">Creado por</span>
+                <span class="summary-value" id="modalUser">--</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="report-details">
+            <div class="detail-section">
+              <h3><i class="fas fa-info-circle"></i> Información General</h3>
+              <div class="detail-grid">
+                <div class="detail-card">
+                  <label>Nombre del Reporte</label>
+                  <div class="detail-value" id="modalName">--</div>
+                </div>
+                <div class="detail-card">
+                  <label>Estado Actual</label>
+                  <div class="detail-value" id="modalStatus">--</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-section">
+              <h3><i class="fas fa-align-left"></i> Descripción</h3>
+              <div class="description-card">
+                <p id="modalDescription">--</p>
+              </div>
+            </div>
+
+            <div class="detail-section">
+              <h3><i class="fas fa-box"></i> Información del Contenedor</h3>
+              <div class="detail-grid">
+                <div class="detail-card">
+                  <label>ID del Contenedor</label>
+                  <div class="detail-value" id="modalContainerId">--</div>
+                </div>
+                <div class="detail-card">
+                  <label>Estado del Contenedor</label>
+                  <div class="detail-value" id="modalContainerStatus">--</div>
+                </div>
+                <div class="detail-card">
+                  <label>Cantidad Recolectada</label>
+                  <div class="detail-value quantity-highlight" id="modalQuantity">--</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <div class="footer-actions">
+            <button class="btn-secondary" onclick="closeReportModal()">
+              <i class="fas fa-arrow-left"></i> Cerrar
+            </button>
+            <button class="btn-primary" onclick="printReport()">
+              <i class="fas fa-print"></i> Imprimir
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
+
+  document.body.insertAdjacentHTML("beforeend", modalHTML)
+}
+
+// Abrir modal con datos del reporte
+function openReportModal(reporte, nombreCompleto, usuario) {
+  const modal = document.getElementById("reportModal")
+
+  // Llenar datos
+  document.getElementById("modalTitle").textContent = `Reporte: ${reporte.nombre}`
+  document.getElementById("modalSubtitle").textContent = `Creado el ${formatDate(reporte.fechaReporte)}`
+  document.getElementById("modalReportId").textContent = `#${reporte.id}`
+  document.getElementById("modalDate").textContent = formatDate(reporte.fechaReporte)
+  document.getElementById("modalUser").textContent = nombreCompleto
+  document.getElementById("modalName").textContent = reporte.nombre
+  document.getElementById("modalDescription").textContent = reporte.descripcion
+  document.getElementById("modalContainerId").textContent = reporte.id_contenedor
+  document.getElementById("modalQuantity").textContent = reporte.collected_amount ?? "No especificada"
+
+  // Status badges
+  const statusElement = document.getElementById("modalStatus")
+  statusElement.innerHTML = `<span class="status-badge ${getStatusClass(reporte.estado)}">${reporte.estado || "Sin estado"}</span>`
+
+  const containerStatusElement = document.getElementById("modalContainerStatus")
+  containerStatusElement.innerHTML = `<span class="status-badge ${getStatusClass(reporte.container_status)}">${reporte.container_status}</span>`
+
+  // Mostrar modal con animación
+  modal.classList.add("active")
+  document.body.style.overflow = "hidden"
+}
+
+// Cerrar modal
+function closeReportModal() {
+  const modal = document.getElementById("reportModal")
+  modal.classList.remove("active")
+  document.body.style.overflow = "auto"
+}
+
+// Función para imprimir reporte
+function printReport() {
+  window.print()
+}
+
+// Cerrar modal al hacer clic fuera
+document.addEventListener("click", (e) => {
+  const modal = document.getElementById("reportModal")
+  if (e.target === modal) {
+    closeReportModal()
+  }
+})
+
+// Cerrar modal con ESC
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeReportModal()
+  }
+})
+
+// Funciones auxiliares
+function formatDate(dateString) {
+  if (!dateString) return "--"
+  const date = new Date(dateString)
+  return date.toLocaleDateString("es-ES", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  })
+}
+
+function getStatusClass(status) {
+  if (!status) return ""
+  const statusLower = status.toLowerCase()
+  if (statusLower.includes("activo") || statusLower.includes("completado") || statusLower.includes("lleno")) {
+    return "active"
+  } else if (statusLower.includes("pendiente") || statusLower.includes("proceso")) {
+    return "pending"
+  } else if (statusLower.includes("inactivo") || statusLower.includes("error")) {
+    return "inactive"
+  } else {
+    return "processing"
+  }
+}
+
+// Hacer funciones globales
+window.closeReportModal = closeReportModal
+window.printReport = printReport

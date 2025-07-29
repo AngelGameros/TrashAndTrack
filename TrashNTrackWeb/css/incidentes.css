@@ -151,10 +151,13 @@ select {
 }
 
 #lista-incidentes img {
-  margin-top: 12px;
-  max-width: 100%;
+  max-width: 120px;
+  height: auto;
   border-radius: 8px;
+  object-fit: cover;
+  display: block;
 }
+
 
 /* Formulario */
 .form-card {

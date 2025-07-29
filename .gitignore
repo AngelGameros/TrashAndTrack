@@ -45,6 +45,7 @@ TrashAndTrack/*.tsbuildinfo
 # ===============================================
 # Archivos específicos de Visual Studio/IDE
 # ===============================================
+*.vsidx
 *.suo
 *.vx
 *.bin

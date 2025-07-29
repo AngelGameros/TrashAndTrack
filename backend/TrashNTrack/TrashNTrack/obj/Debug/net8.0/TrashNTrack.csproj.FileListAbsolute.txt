@@ -371,7 +371,6 @@ C:\Users\Gameros\Desktop\TNT\backend\TrashNTrack\TrashNTrack\obj\Debug\net8.0\re
 C:\xampp\htdocs\TrashNTrackFinal\TrashAndTrack\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\appsettings.Development.json
 C:\xampp\htdocs\TrashNTrackFinal\TrashAndTrack\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\appsettings.json
 C:\xampp\htdocs\TrashNTrackFinal\TrashAndTrack\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Config\Config.json
-C:\xampp\htdocs\TrashNTrackFinal\TrashAndTrack\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\Config\serviceAccountKey.json
 C:\xampp\htdocs\TrashNTrackFinal\TrashAndTrack\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\TrashNTrack.staticwebassets.runtime.json
 C:\xampp\htdocs\TrashNTrackFinal\TrashAndTrack\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\TrashNTrack.staticwebassets.endpoints.json
 C:\xampp\htdocs\TrashNTrackFinal\TrashAndTrack\backend\TrashNTrack\TrashNTrack\bin\Debug\net8.0\TrashNTrack.exe

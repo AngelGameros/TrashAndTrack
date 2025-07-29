@@ -62,8 +62,7 @@
               "RelativeToolTip": "TrashNTrack\\Models\\Incidentes\\IncidenteListResponse.cs",
               "ViewState": "AgIAACEAAAAAAAAAAAAcwDkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T01:53:13.424Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-29T01:53:13.424Z"
             },
             {
               "$type": "Document",
@@ -75,8 +74,7 @@
               "RelativeToolTip": "TrashNTrack\\Models\\Incidentes\\IncidenteResponse.cs",
               "ViewState": "AgIAACIAAAAAAAAAAAAgwEAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T01:52:59.518Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-29T01:52:59.518Z"
             },
             {
               "$type": "Document",
@@ -88,8 +86,7 @@
               "RelativeToolTip": "TrashNTrack\\Controllers\\IncidentesController.cs",
               "ViewState": "AgIAAFwAAAAAAAAAAAAIwGoAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T01:52:06.826Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-29T01:52:06.826Z"
             },
             {
               "$type": "Document",
@@ -99,7 +96,7 @@
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Incidentes\\Incidente.cs",
               "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\Incidente.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Incidentes\\Incidente.cs",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAkwHAAAABLAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHAAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-29T01:49:41.972Z",
               "EditorCaption": ""
@@ -114,8 +111,7 @@
               "RelativeToolTip": "TrashNTrack\\Models\\Incidentes\\IncidenteMapper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T00:35:23.508Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-29T00:35:23.508Z"
             }
           ]
         }

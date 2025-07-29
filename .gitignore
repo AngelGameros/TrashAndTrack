@@ -41,3 +41,26 @@ TrashAndTrack/*.tsbuildinfo
 
 # backend
 **/serviceAccountKey.json.json
+
+# ===============================================
+# Archivos específicos de Visual Studio/IDE
+# ===============================================
+*.suo
+*.vx
+*.bin
+.htdcache*
+*.user
+*.cache
+*.metagen
+DocumentLayout.json
+*.sourcelink.json
+*.AssemblyInfoInputs.cache
+
+# ===============================================
+# Archivos de compilación .NET (binarios)
+# ===============================================
+*.dll
+*.exe
+*.pdb
+apphost.exe
+*.AssemblyInfo.cs

@@ -4,7 +4,6 @@ import {
   TouchableOpacity, ScrollView, SafeAreaView, RefreshControl,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-
 import { auth, db } from '../../config/Firebase/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 
@@ -128,6 +127,7 @@ export default function HomeScreen({ navigation }) {
 
         <View style={styles.truckCard}>
           <MaterialIcons name="local-shipping" size={80} color="#00796B" style={styles.truckIcon} />
+
           <Text style={styles.truckName}>{assignedTruck.marca} {assignedTruck.modelo}</Text>
           <Text style={styles.truckId}>ID: {assignedTruck.idCamion}</Text>
 
@@ -150,8 +150,8 @@ export default function HomeScreen({ navigation }) {
             <MaterialIcons name="map" size={24} color="#fff" />
             <Text style={styles.actionButtonText}>VER RUTAS ASIGNADAS</Text>
           </TouchableOpacity>
-
           <TouchableOpacity style={[styles.actionButton, styles.reportButton]} onPress={() => navigation.navigate('Incidentes')}>
+
             <MaterialIcons name="report-problem" size={24} color="#fff" />
             <Text style={styles.actionButtonText}>REPORTAR INCIDENCIA</Text>
           </TouchableOpacity>

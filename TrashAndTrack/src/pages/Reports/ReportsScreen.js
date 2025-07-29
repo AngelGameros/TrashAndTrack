@@ -198,7 +198,6 @@ export default function ReportsScreen({ route }) {
       setIsSubmitting(false);
     }
   };
-
   const renderReportItem = ({ item }) => (
     <View style={styles.reportItem}>
       <View style={styles.reportHeader}>

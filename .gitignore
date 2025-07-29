@@ -61,7 +61,7 @@ apphost.exe
 *.AssemblyInfo.cs
 *.AssemblyInfoInputs.cache
 *.sourcelink.json
-*.sou
+*.suo
 *.vsidx
 
 # Archivos temporales con GUIDs

@@ -1,100 +1,79 @@
-/* Report Filters */
-.report-filters {
-    background: white;
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    margin: 0;
     padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
-}
-
-
-/* Charts Section (Reports specific) */
-.charts-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.charts-section .chart-card {
-    height: 400px;
-}
-
-/* Reports Table */
-.reports-table {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
-
-.table-header {
-    padding: 20px;
-    border-bottom: 1px solid #e2e8f0;
-    display: flex;
-    justify-content: space-between; /* Corrected typo */
-    align-items: center;
-}
-
-.table-title {
-    font-size: 18px;
-    font-weight: 600;
     color: #1e293b;
 }
 
-.table-container {
-    overflow-x: auto;
+main {
+    max-width: 800px;
+    margin: auto;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
+.filtros {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-th {
-    background: #f8fafc;
-    font-weight: 600;
-    color: #374151;
-    font-size: 14px;
+.filtros input,
+.filtros select {
+    padding: 8px;
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    flex: 1;
 }
 
-td {
-    font-size: 14px;
-    color: #64748b;
+ul {
+    list-style: none;
+    padding: 0;
 }
 
-.status-badge {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
+li.reporte-item {
+    background: white;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
 }
 
-.status-completed { background: #d1fae5; color: #065f46; }
-.status-pending { background: #fef3c7; color: #92400e; }
-.status-overdue { background: #fee2e2; color: #991b1b; }
-
-.action-btn {
-    padding: 4px 8px;
-    border: none;
-    border-radius: 4px;
-    font-size: 12px;
+li.reporte-item:hover {
+    transform: scale(1.01);
     cursor: pointer;
-    margin-right: 5px;
 }
 
-.btn-view {
-    background: #dbeafe;
-    color: #1e40af;
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
-.btn-download {
-    background: #d1fae5;
-    color: #065f46;
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    cursor: pointer;
 }

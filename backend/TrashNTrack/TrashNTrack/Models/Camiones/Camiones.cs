@@ -7,12 +7,24 @@ public class Camiones
 {
     #region statements
     private static string CamionGetAll = @"
-    SELECT id_camion, placa, marca, anio, capacidad_carga, modelo, id_usuario
-    FROM CAMIONES ORDER BY id_camion";
+    SELECT id_camion, placa, marca, anio, capacidad_carga, modelo, id_usuario, estado
+    FROM CAMIONES ORDER BY id_camion"; // Added 'estado'
 
     private static string CamionGetOne = @"
-    SELECT id_camion, placa, marca, anio, capacidad_carga, modelo, id_usuario
-    FROM CAMIONES WHERE id_camion = @ID";
+    SELECT id_camion, placa, marca, anio, capacidad_carga, modelo, id_usuario, estado
+    FROM CAMIONES WHERE id_camion = @ID"; // Added 'estado'
+
+    private static string CamionInsert = @"
+    INSERT INTO CAMIONES (placa, marca, anio, capacidad_carga, modelo, id_usuario, estado)
+    VALUES (@placa, @marca, @anio, @capacidadCarga, @modelo, @idUsuario, @estado);
+    SELECT SCOPE_IDENTITY();"; // SQL for inserting a new truck and returning its ID
+
+    private static string CamionUpdate = @"
+    UPDATE CAMIONES
+    SET placa = @placa, marca = @marca, anio = @anio, capacidad_carga = @capacidadCarga,
+        modelo = @modelo, id_usuario = @idUsuario, estado = @estado
+    WHERE id_camion = @idCamion;"; // SQL for updating an existing truck
+
     #endregion
 
     #region attributes
@@ -23,6 +35,7 @@ public class Camiones
     private double _capacidadCarga;
     private string _modelo;
     private int _idUsuario;
+    private string _estado; // Added _estado attribute
     #endregion
 
     #region properties
@@ -33,6 +46,7 @@ public class Camiones
     public double CapacidadCarga { get => _capacidadCarga; set => _capacidadCarga = value; }
     public string Modelo { get => _modelo; set => _modelo = value; }
     public int IdUsuario { get => _idUsuario; set => _idUsuario = value; }
+    public string Estado { get => _estado; set => _estado = value; } // Added Estado property
     #endregion
 
     #region constructors
@@ -45,6 +59,7 @@ public class Camiones
         _capacidadCarga = 0;
         _modelo = "";
         _idUsuario = 0;
+        _estado = "activo"; // Default state
     }
 
     public Camiones(int idCamion, string placa, string marca, int anio, double capacidadCarga, string modelo, int idUsuario, string estado)
@@ -56,6 +71,7 @@ public class Camiones
         _capacidadCarga = capacidadCarga;
         _modelo = modelo;
         _idUsuario = idUsuario;
+        _estado = estado; // Initialize estado
     }
     #endregion
 
@@ -74,7 +90,38 @@ public class Camiones
         if (table.Rows.Count > 0)
             return CamionesMapper.ToObject(table.Rows[0]);
         else
-            throw new UsuarioNotFoundException(id);
+            throw new UsuarioNotFoundException(id); // Assuming UsuarioNotFoundException is a custom exception
+    }
+
+    public int Insert()
+    {
+        SqlCommand command = new SqlCommand(CamionInsert);
+        command.Parameters.AddWithValue("@placa", _placa);
+        command.Parameters.AddWithValue("@marca", _marca);
+        command.Parameters.AddWithValue("@anio", _anio);
+        command.Parameters.AddWithValue("@capacidadCarga", _capacidadCarga);
+        command.Parameters.AddWithValue("@modelo", _modelo);
+        command.Parameters.AddWithValue("@idUsuario", _idUsuario);
+        command.Parameters.AddWithValue("@estado", _estado);
+
+        // ExecuteScalar is used to retrieve the single value result from the query (SCOPE_IDENTITY)
+        _idCamion = Convert.ToInt32(SqlServerConnection.ExecuteScalar(command));
+        return _idCamion;
+    }
+
+    public void Update()
+    {
+        SqlCommand command = new SqlCommand(CamionUpdate);
+        command.Parameters.AddWithValue("@idCamion", _idCamion);
+        command.Parameters.AddWithValue("@placa", _placa);
+        command.Parameters.AddWithValue("@marca", _marca);
+        command.Parameters.AddWithValue("@anio", _anio);
+        command.Parameters.AddWithValue("@capacidadCarga", _capacidadCarga);
+        command.Parameters.AddWithValue("@modelo", _modelo);
+        command.Parameters.AddWithValue("@idUsuario", _idUsuario);
+        command.Parameters.AddWithValue("@estado", _estado);
+
+        SqlServerConnection.ExecuteQuery(command);
     }
     #endregion
 }

@@ -1,46 +1,88 @@
-body {
-  font-family: sans-serif;
-  margin: 0;
-  background-color: #f1f5f9;
+/* Contenedor de empresas */
+#empresasContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+  padding: 30px 20px;
+  font-family: "Segoe UI", sans-serif;
 }
 
-.main-content {
-  margin-left: 280px;
+/* Tarjeta individual de empresa */
+.empresa-card {
+  background-color: #ffffff;
+  border-radius: 20px;
   padding: 24px;
+  box-shadow: 0 10px 25px rgba(0, 123, 255, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-left: 5px solid #22d3ee;
+  cursor: pointer;
 }
 
-h1 {
-  font-size: 24px;
-  color: #1e293b;
-  margin-bottom: 16px;
+.empresa-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px rgba(0, 123, 255, 0.25);
 }
 
-#btnRefrescar {
-  padding: 8px 16px;
-  background-color: #2563eb;
+/* Título (nombre de la empresa) */
+.empresa-card h3 {
+  font-size: 1.4rem;
+  color: #004080;
+  margin-bottom: 6px;
+}
+
+/* Descripción general o info adicional */
+.empresa-card p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Etiqueta destacada, como tipo, categoría, estado, etc. */
+.empresa-card .tag {
+  display: inline-block;
+  background-color: #007acc;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 122, 204, 0.3);
+  align-self: flex-start;
+}
+
+/* Estilo de los filtros */
+.filtros {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filtros input,
+.filtros button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  transition: border 0.2s;
+}
+
+.filtros input:focus {
+  border-color: #007acc;
+  outline: none;
+}
+
+.filtros button {
+  background-color: #007acc;
   color: white;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
-  margin-bottom: 20px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-th, td {
-  padding: 12px;
-  border-bottom: 1px solid #e2e8f0;
-  text-align: left;
-}
-
-th {
-  background-color: #e2e8f0;
-  font-weight: bold;
+.filtros button:hover {
+  background-color: #005fa3;
 }

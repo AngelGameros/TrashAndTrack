@@ -361,10 +361,6 @@ body {
 }
 
 /* Tooltip para celdas truncadas */
-.truncated-cell {
-  position: relative;
-  cursor: help;
-}
 
 .truncated-cell:hover::after {
   content: attr(title);
@@ -766,4 +762,27 @@ body {
 
 .modal-body::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+@media print {
+  body * {
+    visibility: hidden; /* oculta todo */
+  }
+  #reportModal, #reportModal * {
+    visibility: visible; /* solo modal visible */
+  }
+  #reportModal {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+  }
+  .modal-container {
+    box-shadow: none !important;
+    background: white !important;
+  }
+}
+@media print {
+  .modal-content {
+    max-height: none !important;
+    overflow: visible !important;
+  }
 }

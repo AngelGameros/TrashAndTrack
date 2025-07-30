@@ -37,15 +37,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       })
 
       row.innerHTML = `
-        <td class="truncated-cell" title="${reporte.id}">
+        <td class="truncated-cell">
           <span class="id-badge">#${reporte.id}</span>
         </td>
-        <td class="truncated-cell" title="${reporte.nombre}">${reporte.nombre}</td>
-        <td class="truncated-cell" title="${formatDate(reporte.fechaReporte)}">${formatDate(reporte.fechaReporte)}</td>
-        <td class="truncated-cell" title="${reporte.descripcion}">${reporte.descripcion}</td>
-        <td class="truncated-cell" title="${nombreCompleto}">${nombreCompleto}</td>
+        <td class="truncated-cell">${reporte.nombre}</td>
+        <td class="truncated-cell">${formatDate(reporte.fechaReporte)}</td>
+        <td class="truncated-cell">${reporte.descripcion}</td>
+        <td class="truncated-cell">${nombreCompleto}</td>
         <td><span class="status-badge ${getStatusClass(reporte.estado)}">${reporte.estado || "-"}</span></td>
-        <td class="truncated-cell" title="${reporte.id_contenedor}">${reporte.id_contenedor}</td>
+        <td class="truncated-cell">${reporte.id_contenedor}</td>
         <td class="quantity-cell">${reporte.collected_amount ?? "-"}</td>
         <td><span class="status-badge ${getStatusClass(reporte.container_status)}">${reporte.container_status}</span></td>
       `
@@ -212,8 +212,22 @@ function closeReportModal() {
 
 // Función para imprimir reporte
 function printReport() {
-  window.print()
+  const modalContent = document.querySelector(".modal-container")
+  if (!modalContent) return
+
+  html2pdf()
+    .set({
+      margin: 1,
+      filename: `Reporte_${document.getElementById("modalReportId").textContent}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    })
+    .from(modalContent)
+    .save()
 }
+
+
 
 // Cerrar modal al hacer clic fuera
 document.addEventListener("click", (e) => {

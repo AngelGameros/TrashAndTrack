@@ -1,0 +1,46 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  background-color: #f1f5f9;
+}
+
+.main-content {
+  margin-left: 280px;
+  padding: 24px;
+}
+
+h1 {
+  font-size: 24px;
+  color: #1e293b;
+  margin-bottom: 16px;
+}
+
+#btnRefrescar {
+  padding: 8px 16px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+th {
+  background-color: #e2e8f0;
+  font-weight: bold;
+}

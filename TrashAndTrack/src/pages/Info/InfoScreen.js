@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client"
+
+import { useState } from "react"
 import {
   View,
   Text,
@@ -11,28 +13,26 @@ import {
   Linking,
   Alert,
   RefreshControl,
-} from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
+  StatusBar,
+} from "react-native"
+import { MaterialIcons } from "@expo/vector-icons"
+import { LinearGradient } from "expo-linear-gradient"
 
-if (
-  Platform.OS === "android" &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true)
 }
 
 const infoSections = [
   {
     id: "marcoLegal",
     title: "1. Marco Legal y Responsabilidades",
-    icon: "document-text-outline",
+    icon: "gavel",
     content:
       "Como recolector de residuos peligrosos industriales, es clave conocer el marco legal que regula tus operaciones y responsabilidades.",
     subItems: [
       {
         id: "lgpgir",
-        title:
-          "Ley General para la Prevención y Gestión Integral de los Residuos (LGPGIR)",
+        title: "Ley General para la Prevención y Gestión Integral de los Residuos (LGPGIR)",
         content:
           "La ley fundamental en México para residuos peligrosos. Establece las bases para prevenir, valorizar y gestionar residuos peligrosos industriales, detallando obligaciones de generadores, transportistas y destinatarios.",
         link: "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGPGIR.pdf",
@@ -62,9 +62,8 @@ const infoSections = [
   {
     id: "identificacion",
     title: "2. Identificación de Residuos (CRETIB)",
-    icon: "search-outline",
-    content:
-      "Debes identificar correctamente los residuos peligrosos industriales para su manejo seguro.",
+    icon: "search",
+    content: "Debes identificar correctamente los residuos peligrosos industriales para su manejo seguro.",
     subItems: [
       {
         id: "cretib",
@@ -83,9 +82,8 @@ const infoSections = [
   {
     id: "epp",
     title: "3. Equipo de Protección Personal (EPP)",
-    icon: "shield-checkmark-outline",
-    content:
-      "Tu seguridad es primero. Usa siempre el EPP adecuado cuando manejes residuos peligrosos industriales.",
+    icon: "security",
+    content: "Tu seguridad es primero. Usa siempre el EPP adecuado cuando manejes residuos peligrosos industriales.",
     subItems: [
       {
         id: "eppIndispensable",
@@ -104,9 +102,8 @@ const infoSections = [
   {
     id: "recoleccion",
     title: "4. Procedimientos de Recolección y Segregación",
-    icon: "cube-outline",
-    content:
-      "Aplica procedimientos correctos al recolectar residuos peligrosos industriales para evitar riesgos.",
+    icon: "inventory",
+    content: "Aplica procedimientos correctos al recolectar residuos peligrosos industriales para evitar riesgos.",
     subItems: [
       {
         id: "procedimiento",
@@ -125,9 +122,8 @@ const infoSections = [
   {
     id: "transporte",
     title: "5. Transporte Seguro y Documentación",
-    icon: "bus-outline",
-    content:
-      "Asegura el transporte correcto de residuos peligrosos industriales con la documentación requerida.",
+    icon: "local-shipping",
+    content: "Asegura el transporte correcto de residuos peligrosos industriales con la documentación requerida.",
     subItems: [
       {
         id: "carga",
@@ -146,9 +142,8 @@ const infoSections = [
   {
     id: "emergencias",
     title: "6. Manejo de Derrames y Emergencias",
-    icon: "alert-circle-outline",
-    content:
-      "Debes estar preparado para responder ante incidentes durante el manejo o transporte.",
+    icon: "warning",
+    content: "Debes estar preparado para responder ante incidentes durante el manejo o transporte.",
     subItems: [
       {
         id: "derrames",
@@ -170,90 +165,73 @@ const infoSections = [
       },
     ],
   },
-];
+]
 
 const AccordionItem = ({ title, content, icon, subItems, link }) => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(false)
 
   const toggleExpand = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setExpanded(!expanded);
-  };
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    setExpanded(!expanded)
+  }
 
   const handleLinkPress = (url) => {
-    Linking.openURL(url).catch((err) =>
-      Alert.alert("Error", "No se pudo abrir el enlace: " + url)
-    );
-  };
+    Linking.openURL(url).catch((err) => Alert.alert("Error", "No se pudo abrir el enlace: " + url))
+  }
 
   return (
     <View style={styles.accordionContainer}>
       <TouchableOpacity onPress={toggleExpand} style={styles.accordionHeader}>
         <View style={styles.headerContent}>
-          {icon && (
-            <Ionicons
-              name={icon}
-              size={24}
-              color="#4682B4"
-              style={styles.headerIcon}
-            />
-          )}
+          {icon && <MaterialIcons name={icon} size={24} color="#4A90E2" style={styles.headerIcon} />}
           <Text style={styles.accordionTitle}>{title}</Text>
         </View>
-        <Ionicons
-          name={expanded ? "chevron-up-outline" : "chevron-down-outline"}
-          size={20}
-          color="#4682B4"
-        />
+        <MaterialIcons name={expanded ? "expand-less" : "expand-more"} size={24} color="#4A90E2" />
       </TouchableOpacity>
       {expanded && (
         <View style={styles.accordionContent}>
           {content && <Text style={styles.accordionText}>{content}</Text>}
           {link && (
-            <TouchableOpacity
-              onPress={() => handleLinkPress(link)}
-              style={styles.linkButton}
-            >
+            <TouchableOpacity onPress={() => handleLinkPress(link)} style={styles.linkButton}>
+              <MaterialIcons name="open-in-new" size={16} color="#FFFFFF" />
               <Text style={styles.linkButtonText}>Ver Documento Oficial</Text>
             </TouchableOpacity>
           )}
           {subItems &&
             subItems.map((subItem) => (
-              <AccordionItem
-                key={subItem.id}
-                title={subItem.title}
-                content={subItem.content}
-                link={subItem.link}
-              />
+              <AccordionItem key={subItem.id} title={subItem.title} content={subItem.content} link={subItem.link} />
             ))}
         </View>
       )}
     </View>
-  );
-};
+  )
+}
 
 export default function InfoScreen() {
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(false)
 
   const onRefresh = () => {
-    setRefreshing(true);
-    // Aquí puedes poner la lógica que necesites para refrescar datos
-    setTimeout(() => setRefreshing(false), 1500); // Simulación refresco
-  };
+    setRefreshing(true)
+    setTimeout(() => setRefreshing(false), 1500)
+  }
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
+
+      {/* Header */}
+      <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.header}>
+        <MaterialIcons name="info" size={32} color="#FFFFFF" />
+        <Text style={styles.headerTitle}>Centro de Información</Text>
+        <Text style={styles.headerSubtitle}>Guía esencial para recolectores de residuos peligrosos</Text>
+      </LinearGradient>
+
       <ScrollView
         style={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
+        contentContainerStyle={styles.scrollContent}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>Módulo de Información</Text>
-        <Text style={styles.subtitle}>
-          Guía esencial para recolectores de residuos peligrosos industriales.
-        </Text>
-
         {infoSections.map((section) => (
           <AccordionItem
             key={section.id}
@@ -266,50 +244,55 @@ export default function InfoScreen() {
         <View style={{ height: 50 }} />
       </ScrollView>
     </View>
-  );
+  )
 }
 
-// Estilos mejorados
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F0F4F8", // Fondo gris-azulado suave
-    paddingTop: 50,
-    paddingHorizontal: 16,
+    backgroundColor: "#F8FAFC",
   },
-  title: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: "#333", // Texto oscuro elegante
-    textAlign: "center",
+  header: {
+    paddingTop: 50,
+    paddingBottom: 30,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+  headerTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    marginTop: 12,
     marginBottom: 4,
   },
-  subtitle: {
-    fontSize: 15,
-    color: "#666", // Gris medio
+  headerSubtitle: {
+    fontSize: 16,
+    color: "rgba(255, 255, 255, 0.8)",
     textAlign: "center",
-    marginBottom: 20,
   },
   scrollView: {
     flex: 1,
   },
+  scrollContent: {
+    padding: 16,
+  },
   accordionContainer: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    marginVertical: 6,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 16,
+    marginBottom: 12,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2, // Sombra Android
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5,
+    overflow: "hidden",
   },
   accordionHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee", // Separador sutil
+    padding: 16,
+    backgroundColor: "#FFFFFF",
   },
   headerContent: {
     flexDirection: "row",
@@ -317,34 +300,44 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerIcon: {
-    marginRight: 8,
+    marginRight: 12,
   },
   accordionTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#333",
+    color: "#1F2937",
     flexShrink: 1,
   },
   accordionContent: {
-    padding: 12,
+    padding: 16,
+    paddingTop: 0,
+    backgroundColor: "#F8FAFC",
   },
   accordionText: {
     fontSize: 14,
-    color: "#555",
-    lineHeight: 20,
-    marginBottom: 8,
+    color: "#374151",
+    lineHeight: 22,
+    marginBottom: 12,
   },
   linkButton: {
-    backgroundColor: "#4F8EF7", // Azul moderno
-    paddingVertical: 6,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#4A90E2",
+    paddingVertical: 8,
     paddingHorizontal: 12,
-    borderRadius: 5,
+    borderRadius: 8,
     alignSelf: "flex-start",
-    marginTop: 6,
+    marginTop: 8,
+    shadowColor: "#4A90E2",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
   linkButtonText: {
-    color: "#fff",
+    color: "#FFFFFF",
     fontSize: 13,
-    fontWeight: "500",
+    fontWeight: "600",
+    marginLeft: 6,
   },
-});
+})

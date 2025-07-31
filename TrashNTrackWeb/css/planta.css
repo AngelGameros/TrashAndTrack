@@ -1,152 +1,181 @@
+/* Asegura que el contenido quede a la derecha del sidebar */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f6f8;
+}
 
-/* Main content */
+/* Contenedor del contenido principal */
 .main-content {
-    flex-grow: 1;
-    padding: 1.5rem;
-}
-.main-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-.main-header h1 {
-    font-size: 1.8rem;
-}
-.btn {
-    background-color: #0ea5e9;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.95rem;
-}
-.btn:hover {
-    background-color: #0284c7;
+  flex: 1;
+  padding: 30px 40px;
+  box-sizing: border-box;
 }
 
-/* Stats grid */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-.stat-card {
-    background-color: white;
-    border-radius: 10px;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    text-align: center;
-}
-.stat-card i {
-    font-size: 1.8rem;
-    color: #0ea5e9;
-    margin-bottom: 0.5rem;
+/* Encabezado */
+header {
+  margin-bottom: 25px;
 }
 
-/* Mapa */
-.map-section {
-    margin-bottom: 2rem;
-}
-.map-container {
-    height: 400px;
-    width: 100%;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+header h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 5px;
 }
 
-/* Tarjetas por ciudad */
-.plantas-por-ciudad .ciudades-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-}
-.ciudad-card {
-    background-color: white;
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+header p {
+  color: #666;
+  font-size: 0.95rem;
 }
 
-/* Charts */
-.charts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-.chart-card {
-    background-color: white;
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+/* Filtros */
+.filtros {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
 }
 
-/* Modal */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.4);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+.filtros input {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  flex: 1 1 200px;
 }
+
+.filtros button {
+  background-color: #198754;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filtros button:hover {
+  background-color: #146c43;
+}
+
+/* Contenedor de tarjetas de plantas */
+.plantas-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Estilo de cada tarjeta */
+.planta-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.planta-card:hover {
+  transform: translateY(-5px);
+}
+
+.planta-card h3 {
+  font-size: 1.2rem;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.planta-card p {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 4px 0;
+}
+
+/* Botón "Ver detalles" */
+.planta-card button {
+  align-self: flex-start;
+  margin-top: 15px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #0d6efd;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.planta-card button:hover {
+  background-color: #0a58ca;
+}
+
+/* Modal adaptado */
+.planta-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.4);
+  align-items: center;
+  justify-content: center;
+}
+
+.planta-modal.active {
+  display: flex;
+}
+
 .modal-content {
-    background-color: white;
-    border-radius: 10px;
-    padding: 1.5rem;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background-color: white;
+  padding: 25px 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
 }
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
 }
-.modal-header h3 {
-    margin: 0;
+
+.modal-content p {
+  margin: 10px 0;
+  color: #555;
 }
-.modal-header .close {
-    font-size: 1.5rem;
-    cursor: pointer;
+
+/* Botón de cerrar */
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.2rem;
+  color: #888;
+  cursor: pointer;
+  font-weight: bold;
 }
-.form-group {
-    margin-bottom: 1rem;
+
+.close-button:hover {
+  color: #dc3545;
 }
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-.form-group input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-}
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-.btn-secondary {
-    background-color: #e5e7eb;
-    color: #111827;
-}
-.btn-secondary:hover {
-    background-color: #d1d5db;
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

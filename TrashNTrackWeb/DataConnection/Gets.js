@@ -159,21 +159,21 @@ export async function getEmpresasByNombre() {
 // GETS PARA CONTENEDORES
 // =======================================
 export async function getContenedores() {
-    return fetchData("Contenedores");
+    return fetchData("Containers");
 }
 
 export async function getContenedoresById(id) {
-    return fetchData(`Contenedores/${id}`);
+    return fetchData(`Containers/${id}`);
 }
 
 export async function getContenedoresByEmpresa(idEmpresa){
-    return fetchData(`Contenedores/`+idEmpresa);
+    return fetchData(`Containers/`+idEmpresa);
 }
 export async function getContenedoresByTipoResiduo(tipoResiduoId){
-    return fetchData(`Contenedores/por-tipo-residuo/`+tipoResiduoId);
+    return fetchData(`Containers/por-tipo-residuo/`+tipoResiduoId);
 }
 export async function getContenedoresByEstado(estado){
-    return fetchData(`Contenedores/por-estado/`+estado);
+    return fetchData(`Containers/por-estado/`+estado);
 }
 
 // =======================================

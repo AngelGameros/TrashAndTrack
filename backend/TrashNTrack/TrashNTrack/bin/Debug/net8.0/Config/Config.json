@@ -1,6 +1,6 @@
 ﻿{
     "sqlServer": {
-        "Server": "DESKTOP-LOJ8TIC\\SQLEXPRESS",
+        "Server": "KERRY",
         "Database": "tnt_2",
         "Trusted_Connection": "True",
         "TrustServer_Certificate": "True"

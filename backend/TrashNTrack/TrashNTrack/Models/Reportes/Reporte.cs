@@ -7,21 +7,21 @@ public class Reporte
 {
     #region statements
     private static string ReporteGetAll = @"
-        SELECT id_reporte, nombre, fecha_reporte, photo_url, descripcion, id_usuario 
+        SELECT id_reporte, nombre, fecha_reporte, url_foto, descripcion, id_usuario 
         FROM Reportes";
 
     private static string ReporteGetById = @"
-        SELECT id_reporte, nombre, fecha_reporte, photo_url, descripcion, id_usuario 
+        SELECT id_reporte, nombre, fecha_reporte, url_foto, descripcion, id_usuario 
         FROM Reportes 
         WHERE id_reporte = @Id";
 
     private static string ReporteGetByUsuario = @"
-        SELECT id_reporte, nombre, fecha_reporte, photo_url, descripcion, id_usuario 
+        SELECT id_reporte, nombre, fecha_reporte, url_foto, descripcion, id_usuario 
         FROM Reportes 
         WHERE id_usuario = @UsuarioId";
 
     private static string ReporteGetByDateRange = @"
-        SELECT id_reporte, nombre, fecha_reporte, photo_url, descripcion, id_usuario 
+        SELECT id_reporte, nombre, fecha_reporte, url_foto, descripcion, id_usuario 
         FROM Reportes 
         WHERE fecha_reporte BETWEEN @FechaInicio AND @FechaFin";
     #endregion

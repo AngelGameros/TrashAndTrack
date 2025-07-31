@@ -1,189 +1,205 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\",
+  "WorkspaceRootPath": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\itinerarios\\itinerario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerarios\\itinerario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\controllers\\itinerarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\itinerarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\itinerarios\\itinerariomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerarios\\itinerariomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\dataaccess\\sqlserverconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\dataaccess\\sqlserverconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\controllers\\rutascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\rutascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\rutas\\ruta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutas\\ruta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\rutas\\rutalistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutas\\rutalistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\rutas\\rutaresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutas\\rutaresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\rutas\\rutamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutas\\rutamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\rutavista\\rutadetalladamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutavista\\rutadetalladamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\rutavista\\rutadetalladaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutavista\\rutadetalladaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\rutavista\\rutadetalladaresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutavista\\rutadetalladaresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\itinerariovista\\itinerariosimplificado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerariovista\\itinerariosimplificado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\usuario\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\usuario\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\usuario\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\itinerariovista\\itinerariosimplificadoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerariovista\\itinerariosimplificadoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\itinerariovista\\itinerariosimplificadoresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerariovista\\itinerariosimplificadoresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\itinerariovista\\itinerariosimplificadomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerariovista\\itinerariosimplificadomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\plantas\\planta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\plantas\\planta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\itinerarios\\itinerariolistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerarios\\itinerariolistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\itinerarios\\itinerarioresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerarios\\itinerarioresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\simulator\\containerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\simulator\\containerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\dataaccess\\mqttbackgroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\dataaccess\\mqttbackgroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\dataaccess\\mongodbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\dataaccess\\mongodbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\controllers\\containerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\containerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\usuario\\usuariomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\usuario\\usuariomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\usuario\\usuarioresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\usuario\\usuarioresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\usuario\\usuarioresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\exceptions\\usernotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\exceptions\\usernotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\incidentes\\incidentemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\incidentes\\incidentemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\config\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\config\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\config\\configmongodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\config\\configmongodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\config\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\config\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\empresas\\empresa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\empresas\\empresa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\sensores\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\sensores\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\reportes\\reporte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\reportes\\reporte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\reportes\\reporte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\incidentes\\incidente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\incidentes\\incidente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\incidentes\\incidente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\contenedores\\contenedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\reportes\\reportemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\reportes\\reportemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\incidentescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\incidentescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\config\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\config\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\camiones\\camionesmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\camiones\\camionesmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\itinerarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\itinerarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\itinerarios\\itinerario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerarios\\itinerario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\itinerarios\\itinerariomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerarios\\itinerariomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\dataaccess\\sqlserverconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\dataaccess\\sqlserverconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\rutascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\rutascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\rutas\\ruta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutas\\ruta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\rutas\\rutalistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutas\\rutalistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\rutas\\rutaresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutas\\rutaresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\rutas\\rutamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutas\\rutamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\rutavista\\rutadetalladamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutavista\\rutadetalladamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\rutavista\\rutadetalladaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutavista\\rutadetalladaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\rutavista\\rutadetalladaresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutavista\\rutadetalladaresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\itinerariovista\\itinerariosimplificado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerariovista\\itinerariosimplificado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\itinerariovista\\itinerariosimplificadoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerariovista\\itinerariosimplificadoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\itinerariovista\\itinerariosimplificadoresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerariovista\\itinerariosimplificadoresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\itinerariovista\\itinerariosimplificadomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerariovista\\itinerariosimplificadomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\plantas\\planta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\plantas\\planta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\itinerarios\\itinerariolistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerarios\\itinerariolistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\itinerarios\\itinerarioresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\itinerarios\\itinerarioresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\simulator\\containerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\simulator\\containerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\dataaccess\\mqttbackgroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\dataaccess\\mqttbackgroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\dataaccess\\mongodbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\dataaccess\\mongodbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\containerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\containerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\usuario\\usuariomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\usuario\\usuariomapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\exceptions\\usernotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\exceptions\\usernotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\config\\configmongodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\config\\configmongodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\config\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\config\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\empresas\\empresa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\empresas\\empresa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\sensores\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\sensores\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\contenedores\\contenedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\contenedores\\contenedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\camiones\\camiones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\camiones\\camiones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\camiones\\camiones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\camionasignado\\camionasignado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\camionasignado\\camionasignado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\camionasignado\\camionasignado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\models\\alertas\\alerta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\alertas\\alerta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\alertas\\alerta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\controllers\\camionasignadocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\camionasignadocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\camionasignadocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\users\\gameros\\desktop\\tnt\\backend\\trashntrack\\trashntrack\\controllers\\incidentesporusuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\incidentesporusuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\incidentesporusuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -194,39 +210,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 32,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{605322a2-17ae-43f4-b60f-766556e46c87}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IncidenteMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\IncidenteMapper.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Incidentes\\IncidenteMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\IncidenteMapper.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Incidentes\\IncidenteMapper.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T05:05:11.974Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
+              "Title": "ReporteMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\ReporteMapper.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Reportes\\ReporteMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\ReporteMapper.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Reportes\\ReporteMapper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T05:03:34.667Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IncidentesController.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\IncidentesController.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\IncidentesController.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\IncidentesController.cs",
+              "RelativeToolTip": "TrashNTrack\\Controllers\\IncidentesController.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAowA8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T05:02:39.959Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CamionesMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T04:14:39.702Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "Ruta.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\Ruta.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\Ruta.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Rutas\\Ruta.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\Ruta.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\Ruta.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Rutas\\Ruta.cs",
               "ViewState": "AgIAAFIAAAAAAAAAAADwv1oAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -234,11 +274,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 16,
               "Title": "RutaListResponse.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaListResponse.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaListResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Rutas\\RutaListResponse.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaListResponse.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaListResponse.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Rutas\\RutaListResponse.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAADwvxcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -246,11 +286,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 13,
               "Title": "SqlServerConnection.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\SqlServerConnection.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\SqlServerConnection.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\DataAccess\\SqlServerConnection.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\SqlServerConnection.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\SqlServerConnection.cs",
               "RelativeToolTip": "TrashNTrack\\DataAccess\\SqlServerConnection.cs",
               "ViewState": "AgIAAFAAAAAAAAAAAAASwFoAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -258,24 +298,23 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 11,
               "Title": "Itinerario.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\Itinerario.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\Itinerario.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Itinerarios\\Itinerario.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\Itinerario.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\Itinerario.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Itinerarios\\Itinerario.cs",
               "ViewState": "AgIAAF4AAAAAAAAAAAAAAGYAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-10T01:43:53.881Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-10T01:43:53.881Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 12,
               "Title": "ItinerarioMapper.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Itinerarios\\ItinerarioMapper.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioMapper.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Itinerarios\\ItinerarioMapper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -283,23 +322,23 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 10,
               "Title": "ItinerariosController.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ItinerariosController.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ItinerariosController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\ItinerariosController.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ItinerariosController.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ItinerariosController.cs",
               "RelativeToolTip": "TrashNTrack\\Controllers\\ItinerariosController.cs",
-              "ViewState": "AgIAAGIAAAAAAAAAAAAcwHUAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAgwHUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-26T01:12:02.267Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 21,
               "Title": "RutaDetalladaResponse.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaResponse.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaResponse.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaResponse.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaResponse.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -307,11 +346,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 20,
               "Title": "RutaDetalladaViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAA1wAsAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -319,11 +358,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 14,
               "Title": "RutasController.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\RutasController.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\RutasController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\RutasController.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\RutasController.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\RutasController.cs",
               "RelativeToolTip": "TrashNTrack\\Controllers\\RutasController.cs",
               "ViewState": "AgIAAIQAAAAAAAAAAADwv5EAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -331,11 +370,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 18,
               "Title": "RutaMapper.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Rutas\\RutaMapper.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaMapper.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Rutas\\RutaMapper.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAADwvx0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -343,11 +382,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 17,
               "Title": "RutaResponse.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaResponse.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Rutas\\RutaResponse.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaResponse.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaResponse.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Rutas\\RutaResponse.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAADwvyAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -355,11 +394,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 19,
               "Title": "RutaDetalladaMapper.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAADwvxUAAACMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -367,11 +406,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 22,
               "Title": "ItinerarioSimplificado.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificado.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificado.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificado.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificado.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificado.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificado.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -379,11 +418,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 24,
               "Title": "ItinerarioSimplificadoResponse.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoResponse.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoResponse.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoResponse.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoResponse.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoResponse.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAADwvxwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -391,23 +430,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Usuario.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\Usuario.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Usuario\\Usuario.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\Usuario.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\Usuario\\Usuario.cs",
-              "ViewState": "AgIAAJsAAAAAAAAAAADwv6gAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-10T01:44:29.52Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 25,
               "Title": "ItinerarioSimplificadoMapper.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoMapper.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoMapper.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoMapper.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAADwvyIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -415,11 +442,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 23,
               "Title": "ItinerarioSimplificadoService.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoService.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoService.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoService.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoService.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoService.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvxMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -427,11 +454,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 27,
               "Title": "ItinerarioListResponse.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioListResponse.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioListResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Itinerarios\\ItinerarioListResponse.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioListResponse.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioListResponse.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Itinerarios\\ItinerarioListResponse.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAswBcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -439,11 +466,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 28,
               "Title": "ItinerarioResponse.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioResponse.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Itinerarios\\ItinerarioResponse.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioResponse.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioResponse.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Itinerarios\\ItinerarioResponse.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAkwCcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -451,11 +478,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 26,
               "Title": "Planta.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Plantas\\Planta.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Plantas\\Planta.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Plantas\\Planta.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Plantas\\Planta.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Plantas\\Planta.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Plantas\\Planta.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -463,11 +490,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 29,
               "Title": "ContainerData.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Simulator\\ContainerData.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Simulator\\ContainerData.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Simulator\\ContainerData.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Simulator\\ContainerData.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Simulator\\ContainerData.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Simulator\\ContainerData.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAGEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -475,11 +502,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 30,
               "Title": "MqttBackgroundService.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\MqttBackgroundService.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\MqttBackgroundService.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\DataAccess\\MqttBackgroundService.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\MqttBackgroundService.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\MqttBackgroundService.cs",
               "RelativeToolTip": "TrashNTrack\\DataAccess\\MqttBackgroundService.cs",
               "ViewState": "AgIAAFgAAAAAAAAAAAAMwGEAAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -487,11 +514,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 31,
               "Title": "MongoDbConnection.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\MongoDbConnection.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\MongoDbConnection.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\DataAccess\\MongoDbConnection.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\MongoDbConnection.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\MongoDbConnection.cs",
               "RelativeToolTip": "TrashNTrack\\DataAccess\\MongoDbConnection.cs",
               "ViewState": "AgIAALcAAAAAAAAAAAAgwMkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -499,11 +526,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 33,
               "Title": "appsettings.Development.json",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\appsettings.Development.json",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\appsettings.Development.json",
               "RelativeDocumentMoniker": "TrashNTrack\\appsettings.Development.json",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\appsettings.Development.json",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\appsettings.Development.json",
               "RelativeToolTip": "TrashNTrack\\appsettings.Development.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -511,11 +538,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 34,
               "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\appsettings.json",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\appsettings.json",
               "RelativeDocumentMoniker": "TrashNTrack\\appsettings.json",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\appsettings.json",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\appsettings.json",
               "RelativeToolTip": "TrashNTrack\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -523,11 +550,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 32,
               "Title": "Startup.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Startup.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Startup.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Startup.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Startup.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Startup.cs",
               "RelativeToolTip": "TrashNTrack\\Startup.cs",
               "ViewState": "AgIAAC8AAAAAAAAAAAAcwEEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -535,11 +562,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 35,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Program.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Program.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Program.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Program.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Program.cs",
               "RelativeToolTip": "TrashNTrack\\Program.cs",
               "ViewState": "AgIAABIAAAAAAAAAAADwvxsAAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -547,11 +574,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 36,
               "Title": "ContainersController.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ContainersController.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ContainersController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\ContainersController.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ContainersController.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ContainersController.cs",
               "RelativeToolTip": "TrashNTrack\\Controllers\\ContainersController.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAADgvw8AAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -559,35 +586,49 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 2,
               "Title": "UsuarioResponse.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\UsuarioResponse.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\UsuarioResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Usuario\\UsuarioResponse.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\UsuarioResponse.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\UsuarioResponse.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Usuario\\UsuarioResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-24T01:16:10.097Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "UsuariosController.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\UsuariosController.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\UsuariosController.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\UsuariosController.cs",
-              "RelativeToolTip": "TrashNTrack\\Controllers\\UsuariosController.cs",
-              "ViewState": "AgIAAFQAAAAAAAAAAADwv2cAAAAJAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\Usuario.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Usuario\\Usuario.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\Usuario.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Usuario\\Usuario.cs",
+              "ViewState": "AgIAAKwAAAAAAAAAAAAuwLYAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-23T20:46:10.923Z"
+              "WhenOpened": "2025-07-10T01:44:29.52Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 1,
+              "Title": "UsuariosController.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\UsuariosController.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\UsuariosController.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\UsuariosController.cs",
+              "RelativeToolTip": "TrashNTrack\\Controllers\\UsuariosController.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAowJQAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T20:46:10.923Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
               "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Properties\\launchSettings.json",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "TrashNTrack\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Properties\\launchSettings.json",
               "RelativeToolTip": "TrashNTrack\\Properties\\launchSettings.json",
               "ViewState": "AgIAAAsAAAAAAAAAAAAQwBcAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -595,11 +636,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 38,
               "Title": "UsuarioMapper.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\UsuarioMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\UsuarioMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Usuario\\UsuarioMapper.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\UsuarioMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\UsuarioMapper.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Usuario\\UsuarioMapper.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAAcAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -607,11 +648,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 39,
               "Title": "UserNotFoundException.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Exceptions\\UserNotFoundException.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Exceptions\\UserNotFoundException.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Exceptions\\UserNotFoundException.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Exceptions\\UserNotFoundException.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Exceptions\\UserNotFoundException.cs",
               "RelativeToolTip": "TrashNTrack\\Exceptions\\UserNotFoundException.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -619,23 +660,23 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 8,
               "Title": "Config.json",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.json",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.json",
               "RelativeDocumentMoniker": "TrashNTrack\\Config\\Config.json",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.json",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.json",
               "RelativeToolTip": "TrashNTrack\\Config\\Config.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-07-09T08:38:16.896Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 40,
               "Title": "ConfigMongoDb.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Config\\ConfigMongoDb.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\ConfigMongoDb.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Config\\ConfigMongoDb.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Config\\ConfigMongoDb.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\ConfigMongoDb.cs",
               "RelativeToolTip": "TrashNTrack\\Config\\ConfigMongoDb.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -643,11 +684,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 41,
               "Title": "Config.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Config\\Config.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.cs",
               "RelativeToolTip": "TrashNTrack\\Config\\Config.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -655,23 +696,23 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 5,
               "Title": "Incidente.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\Incidente.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\Incidente.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Incidentes\\Incidente.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\Incidente.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\Incidente.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Incidentes\\Incidente.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAywAkAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-10T01:43:44.623Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 42,
               "Title": "Empresa.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\Empresa.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\Empresa.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Empresas\\Empresa.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\Empresa.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\Empresa.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Empresas\\Empresa.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -679,11 +720,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 44,
               "Title": "Contenedor.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Contenedores\\Contenedor.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Contenedores\\Contenedor.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Contenedores\\Contenedor.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Contenedores\\Contenedor.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Contenedores\\Contenedor.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Contenedores\\Contenedor.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -691,23 +732,23 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 4,
               "Title": "Reporte.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\Reporte.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\Reporte.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Reportes\\Reporte.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\Reporte.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\Reporte.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Reportes\\Reporte.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-10T01:44:08.151Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 43,
               "Title": "Sensor.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Sensores\\Sensor.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Sensores\\Sensor.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Sensores\\Sensor.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Sensores\\Sensor.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Sensores\\Sensor.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Sensores\\Sensor.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -715,11 +756,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 45,
               "Title": "Camiones.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\Camiones.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\Camiones.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Camiones\\Camiones.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\Camiones.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\Camiones.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Camiones\\Camiones.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -727,11 +768,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 46,
               "Title": "CamionAsignado.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\CamionAsignado\\CamionAsignado.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\CamionAsignado\\CamionAsignado.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\CamionAsignado\\CamionAsignado.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\CamionAsignado\\CamionAsignado.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\CamionAsignado\\CamionAsignado.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\CamionAsignado\\CamionAsignado.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -739,11 +780,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 47,
               "Title": "Alerta.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Alertas\\Alerta.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Alertas\\Alerta.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Alertas\\Alerta.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Models\\Alertas\\Alerta.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Alertas\\Alerta.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Alertas\\Alerta.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -751,11 +792,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 49,
               "Title": "IncidentesPorUsuarioController.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\IncidentesPorUsuarioController.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\IncidentesPorUsuarioController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\IncidentesPorUsuarioController.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\IncidentesPorUsuarioController.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\IncidentesPorUsuarioController.cs",
               "RelativeToolTip": "TrashNTrack\\Controllers\\IncidentesPorUsuarioController.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAIBJwAsAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -763,11 +804,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 48,
               "Title": "CamionAsignadoController.cs",
-              "DocumentMoniker": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\CamionAsignadoController.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\CamionAsignadoController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\CamionAsignadoController.cs",
-              "ToolTip": "C:\\Users\\Gameros\\Desktop\\TNT\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\CamionAsignadoController.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\CamionAsignadoController.cs",
               "RelativeToolTip": "TrashNTrack\\Controllers\\CamionAsignadoController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

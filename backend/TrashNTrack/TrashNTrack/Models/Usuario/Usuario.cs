@@ -167,5 +167,28 @@ public class Usuario
         int rowsAffected = SqlServerConnection.ExecuteCommand(command);
         return rowsAffected > 0;
     }
+
+    public bool Update()
+    {
+        string updateQuery = @"
+    UPDATE usuarios
+    SET nombre = @nombre,
+        primer_apellido = @primer_apellido,
+        segundo_apellido = @segundo_apellido,
+        numero_telefono = @numero_telefono
+    WHERE id_usuario = @ID";
+
+        SqlCommand command = new SqlCommand(updateQuery);
+
+        command.Parameters.AddWithValue("@ID", _id_usuario); 
+        command.Parameters.AddWithValue("@nombre", Nombre ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("@primer_apellido", PrimerApellido ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("@segundo_apellido", SegundoApellido ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("@numero_telefono", NumeroTelefono ?? (object)DBNull.Value);
+
+        int rowsAffected = SqlServerConnection.ExecuteCommand(command);
+        return rowsAffected > 0;
+    }
+
     #endregion
 }

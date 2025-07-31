@@ -10,7 +10,7 @@ public class CamionesMapper
         string placa = row["placa"].ToString();
         string marca = row["marca"].ToString();
         int anio = row["anio"] != DBNull.Value ? (int)row["anio"] : 0;
-        double capacidadCarga = row["capacidad_carga"] != DBNull.Value ? (double)row["capacidad_carga"] : 0;
+        double capacidadCarga = row["capacidad_carga"] != DBNull.Value ? Convert.ToDouble(row["capacidad_carga"]) : 0;
         string modelo = row["modelo"].ToString();
         int idUsuario = row["id_usuario"] != DBNull.Value ? (int)row["id_usuario"] : 0;
 

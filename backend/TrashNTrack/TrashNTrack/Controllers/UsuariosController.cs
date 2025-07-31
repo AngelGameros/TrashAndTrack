@@ -76,26 +76,7 @@ namespace TrashNTrack.Controllers
             }
         }
 
-        // Actualizar número de teléfono
-        [HttpPut]
-        [Route("phone")]
-        public ActionResult UpdatePhone([FromBody] PhoneUpdateRequest request)
-        {
-            try
-            {
-                // Necesitarás implementar este método en tu clase Usuario
-                bool updated = Usuario.UpdatePhone(request.firebase_uid, request.numero_telefono);
-
-                if (updated)
-                    return Ok(new { status = "success", message = "Número actualizado correctamente" });
-                else
-                    return BadRequest(new { status = "error", message = "No se pudo actualizar el número" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { status = "error", message = ex.Message });
-            }
-        }
+        
 
         public class PhoneUpdateRequest
         {
@@ -129,6 +110,53 @@ namespace TrashNTrack.Controllers
                 return StatusCode(500, new { status = "error", message = ex.Message });
             }
         }
+
+        [HttpPut("{id}")] 
+        public ActionResult Put(int id, [FromBody] Usuario updatedUserData) 
+        {
+
+            if (updatedUserData == null || id <= 0)
+            {
+
+                return BadRequest(new { status = "error", message = "Datos del usuario inválidos o ID no válido." });
+            }
+
+            try
+            {
+                Usuario existingUser = Usuario.Get(id);
+
+                existingUser.Nombre = updatedUserData.Nombre;
+                existingUser.PrimerApellido = updatedUserData.PrimerApellido;
+                existingUser.SegundoApellido = updatedUserData.SegundoApellido;
+                existingUser.NumeroTelefono = updatedUserData.NumeroTelefono;
+
+                bool updated = existingUser.Update();
+
+                if (updated)
+                {
+                    return Ok(new { status = "success", message = "Usuario actualizado correctamente." });
+                }
+                else
+                {
+                    // Si el usuario existe pero no se realizaron cambios (ej. los datos enviados son idénticos a los actuales)
+                    return StatusCode(200, new { status = "info", message = "Usuario encontrado, pero no se realizaron cambios." });
+                }
+            }
+            catch (UsuarioNotFoundException)
+            {
+                // Captura la excepción si el método Usuario.Get(id) no encuentra el usuario
+                return NotFound(new { status = "error", message = $"Usuario con ID {id} no encontrado." });
+            }
+            catch (Exception ex)
+            {
+                // Manejo de cualquier otra excepción inesperada
+                Console.WriteLine($"ERROR EN CONTROLADOR PUT: {ex.ToString()}"); // Para depuración en consola del servidor
+                return StatusCode(500, new { status = "error", message = "Error interno del servidor al actualizar el usuario: " + ex.Message });
+            }
+        }
+    
+
+
 
     }
 }

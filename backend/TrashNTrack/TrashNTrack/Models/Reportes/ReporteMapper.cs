@@ -11,7 +11,7 @@ public class ReporteMapper
             IdReporte = Convert.ToInt32(row["id_reporte"]),
             Nombre = row["nombre"].ToString(),
             FechaReporte = Convert.ToDateTime(row["fecha_reporte"]),
-            PhotoUrl = row["photo_url"]?.ToString() ?? string.Empty,
+            PhotoUrl = row["url_foto"]?.ToString() ?? string.Empty,
             Descripcion = row["descripcion"].ToString(),
             IdUsuario = Convert.ToInt32(row["id_usuario"])
         };

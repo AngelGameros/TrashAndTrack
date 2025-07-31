@@ -5,13 +5,14 @@
   box-sizing: border-box;
 }
 
-/* Fuente moderna */
+/* Fuente moderna 
 body {
   font-family: 'Segoe UI', 'Roboto', sans-serif;
   background-color: #f0f4f8;
   color: #1f2937;
   line-height: 1.6;
 }
+*/
 
 /* Encabezado principal */
 .section-header {

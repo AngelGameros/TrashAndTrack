@@ -7,26 +7,26 @@ public class Incidente
 {
     #region SQL Statements
     private static string IncidenteGetAll = @"
-        SELECT id_incidente, nombre, fecha_incidente, photo_url, descripcion, id_usuario 
+        SELECT id_incidente, nombre, fecha_incidente, url_foto, descripcion, id_usuario 
         FROM Incidentes";
 
     private static string IncidenteGetById = @"
-        SELECT id_incidente, nombre, fecha_incidente, photo_url, descripcion, id_usuario 
+        SELECT id_incidente, nombre, fecha_incidente, url_foto, descripcion, id_usuario 
         FROM Incidentes 
         WHERE id_incidente = @Id";
 
     private static string IncidenteGetByUsuario = @"
-        SELECT id_incidente, nombre, fecha_incidente, photo_url, descripcion, id_usuario 
+        SELECT id_incidente, nombre, fecha_incidente, url_foto, descripcion, id_usuario 
         FROM Incidentes 
         WHERE id_usuario = @UsuarioId";
 
     private static string IncidenteGetByDateRange = @"
-        SELECT id_incidente, nombre, fecha_incidente, photo_url, descripcion, id_usuario 
+        SELECT id_incidente, nombre, fecha_incidente, url_foto, descripcion, id_usuario 
         FROM Incidentes 
         WHERE fecha_incidente BETWEEN @FechaInicio AND @FechaFin";
 
     private static string IncidenteCreate = @"
-        INSERT INTO Incidentes (nombre, fecha_incidente, photo_url, descripcion, id_usuario)
+        INSERT INTO Incidentes (nombre, fecha_incidente, url_foto, descripcion, id_usuario)
         OUTPUT INSERTED.id_incidente
         VALUES (@Nombre, @FechaIncidente, @PhotoUrl, @Descripcion, @IdUsuario)";
     #endregion

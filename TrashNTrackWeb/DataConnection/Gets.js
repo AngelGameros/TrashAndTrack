@@ -149,11 +149,11 @@ export async function getEmpresasById(id) {
 export async function getEmpresasByUbicacion(ubicacionId){
     return fetchData(`Empresas/por-usuario`+ubicacionId);
 }
-/*
+
 export async function getEmpresasByNombre() {
     return fetchData("Empresas/buscar");
 }
-*/
+
 
 // =======================================
 // GETS PARA CONTENEDORES

@@ -1,259 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reportes - Dashboard de Residuos Tóxicos</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="../css/dashboard.css" rel="stylesheet">
-    <link href="../css/reportes.css" rel="stylesheet">
-    <link href="../css/sidebar.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reportes - Dashboard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="../css/dashboard.css" rel="stylesheet" />
+  <link href="../css/reportes.css" rel="stylesheet" />
+  <link href="../css/sidebar.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
-    <div class="dashboard-container">
-        <div id="sidebar-placeholder"></div>
-        
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="header">
-                <div class="page-title">
-                    <i class="fas fa-chart-bar" style="color: #22d3ee;"></i>
-                    <h1>Reportes y Análisis</h1>
-                </div>
-                <div class="header-actions">
-                    <button class="btn btn-secondary">
-                        <i class="fas fa-calendar"></i>
-                        Programar Reporte
-                    </button>
-                    <button class="btn btn-primary">
-                        <i class="fas fa-plus"></i>
-                        Nuevo Reporte
-                    </button>
-                </div>
-            </header>
+  <div class="dashboard-container">
+    <div id="sidebar-placeholder"></div>
 
-            <!-- Report Filters -->
-            <section class="report-filters">
-                <div class="filters-grid">
-                    <div class="filter-group">
-                        <label class="filter-label">Período</label>
-                        <select class="filter-input">
-                            <option>Último mes</option>
-                            <option>Últimos 3 meses</option>
-                            <option>Último año</option>
-                            <option>Personalizado</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Tipo de Residuo</label>
-                        <select class="filter-input">
-                            <option>Todos los tipos</option>
-                            <option>Químicos</option>
-                            <option>Biológicos</option>
-                            <option>Radiactivos</option>
-                            <option>Industriales</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Zona</label>
-                        <select class="filter-input">
-                            <option>Todas las zonas</option>
-                            <option>Zona Norte</option>
-                            <option>Zona Centro</option>
-                            <option>Zona Sur</option>
-                            <option>Zona Industrial</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Estado</label>
-                        <select class="filter-input">
-                            <option>Todos los estados</option>
-                            <option>Completado</option>
-                            <option>Pendiente</option>
-                            <option>Vencido</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <button class="btn btn-primary" style="margin-top: 0;">
-                            <i class="fas fa-search"></i>
-                            Filtrar
-                        </button>
-                    </div>
-                </div>
-            </section>
+    <main class="main-content">
+      <header class="admin-header">
+        <h1 class="admin-title">
+          <i class="fas fa-shield-alt"></i> Reportes del Sistema
+        </h1>
+      </header>
 
-            <!-- Stats Cards -->
-            <section class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number collected">1,245</div>
-                    <div class="stat-label">Toneladas recolectadas</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number pending">42</div>
-                    <div class="stat-label">Recolecciones pendientes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number critical">8</div>
-                    <div class="stat-label">Alertas críticas</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number efficiency">94.5%</div>
-                    <div class="stat-label">Eficiencia operativa</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" style="color: #6b7280;">18</div>
-                    <div class="stat-label">Camiones activos</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" style="color: #8b5cf6;">342</div>
-                    <div class="stat-label">Contenedores monitoreados</div>
-                </div>
-            </section>
+      <section class="reports-section">
+        <div class="table-container">
+          <!-- Estado de carga -->
+          <div class="loading-state" id="loadingState" style="display: none;">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Cargando reportes...</p>
+          </div>
 
-            <!-- Charts Section -->
-            <section class="charts-section">
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3 class="chart-title">Recolección Mensual por Tipo</h3>
-                        <span class="chart-period">Últimos 6 meses</span>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="monthlyCollectionChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3 class="chart-title">Eficiencia por Zona</h3>
-                        <span class="chart-period">Este mes</span>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="zoneEfficiencyChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3 class="chart-title">Tendencia de Alertas</h3>
-                        <span class="chart-period">Últimas 4 semanas</span>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="alertsTrendChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3 class="chart-title">Distribución de Residuos</h3>
-                        <span class="chart-period">Este mes</span>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="wasteDistributionChart"></canvas>
-                    </div>
-                </div>
-            </section>
+          <!-- Estado vacío -->
+          <div class="empty-state" id="emptyState" style="display: none;">
+            <i class="fas fa-inbox"></i>
+            <h3>No se encontraron reportes</h3>
+            <p>No hay reportes disponibles.</p>
+          </div>
 
-            <!-- Reports Table -->
-            <section class="reports-table">
-                <div class="table-header">
-                    <h3 class="table-title">Reportes Generados</h3>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Reporte</th>
-                                <th>Tipo</th>
-                                <th>Período</th>
-                                <th>Generado</th>
-                                <th>Estado</th>
-                                <th>Tamaño</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Recolección Mensual - Noviembre 2024</td>
-                                <td>Operacional</td>
-                                <td>Nov 1-30, 2024</td>
-                                <td>01/12/2024</td>
-                                <td><span class="status-badge status-completed">Completado</span></td>
-                                <td>2.4 MB</td>
-                                <td>
-                                    <button class="action-btn btn-view">Ver</button>
-                                    <button class="action-btn btn-download">Descargar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Análisis de Eficiencia - Q4 2024</td>
-                                <td>Analítico</td>
-                                <td>Oct-Dic 2024</td>
-                                <td>28/11/2024</td>
-                                <td><span class="status-badge status-pending">Procesando</span></td>
-                                <td>-</td>
-                                <td>
-                                    <button class="action-btn btn-view">Ver</button>
-                                    <button class="action-btn btn-download" disabled>Descargar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Cumplimiento Normativo - Octubre</td>
-                                <td>Regulatorio</td>
-                                <td>Oct 1-31, 2024</td>
-                                <td>05/11/2024</td>
-                                <td><span class="status-badge status-completed">Completado</span></td>
-                                <td>1.8 MB</td>
-                                <td>
-                                    <button class="action-btn btn-view">Ver</button>
-                                    <button class="action-btn btn-download">Descargar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Inventario de Contenedores</td>
-                                <td>Inventario</td>
-                                <td>Tiempo real</td>
-                                <td>25/11/2024</td>
-                                <td><span class="status-badge status-completed">Completado</span></td>
-                                <td>956 KB</td>
-                                <td>
-                                    <button class="action-btn btn-view">Ver</button>
-                                    <button class="action-btn btn-download">Descargar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Reporte de Incidentes - Noviembre</td>
-                                <td>Seguridad</td>
-                                <td>Nov 1-30, 2024</td>
-                                <td>20/11/2024</td>
-                                <td><span class="status-badge status-overdue">Vencido</span></td>
-                                <td>-</td>
-                                <td>
-                                    <button class="action-btn btn-view">Ver</button>
-                                    <button class="action-btn btn-download" disabled>Descargar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Consumo de Combustible - Noviembre</td>
-                                <td>Operacional</td>
-                                <td>Nov 1-30, 2024</td>
-                                <td>18/11/2024</td>
-                                <td><span class="status-badge status-completed">Completado</span></td>
-                                <td>1.2 MB</td>
-                                <td>
-                                    <button class="action-btn btn-view">Ver</button>
-                                    <button class="action-btn btn-download">Descargar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        </main>
-    </div>
+          <!-- Tabla de reportes -->
+<table class="reports-table" id="reportsTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Fecha</th>
+      <th>Descripción</th>
+      <th>Usuario</th>
+      <th>Estado</th>
+      <th>ID Contenedor</th>
+      <th>Cantidad</th>
+      <th>Estado Contenedor</th>
+      <th></th> <!-- Columna para el ícono de expansión -->
+    </tr>
+  </thead>
+  <tbody id="reportsTableBody">
+    <!-- Filas se insertan vía JS -->
+  </tbody>
+</table>
 
-    <script src="../js/reportes.js"></script>
-    <script src="../js/sidebar.js"></script>
-    <script src="../js/authGuard.js"></script>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/sidebar.js"></script>
+  <script src="../js/authGuard.js"></script>
+  <script type="module" src="../js/reportes.js"></script>
 </body>
 </html>

@@ -100,4 +100,8 @@ public class SqlServerConnection
         }
     }
 
+    internal static void ExecuteNonQuery(SqlCommand command)
+    {
+        throw new NotImplementedException();
+    }
 }

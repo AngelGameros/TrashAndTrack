@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -150,6 +151,49 @@ public IActionResult GetContenedoresPorEmpresa(int idEmpresa)
                 message = ex.Message,
                 type = "error"
             });
+        }
+    }
+
+
+    [HttpPost]
+    [RequestSizeLimit(10_000_000)]
+    public Task<IActionResult> RegistrarContendor(
+   [FromForm] string descripcion,
+   [FromForm] string fecha_registro,
+   [FromForm] int id_empresa,
+   [FromForm] int id_tipo_residuo, // Esto ahora será un string ISO UTC
+   [FromForm] int id_tipo_contenedor)
+    {
+        try
+        {
+            // Insertar en BD
+            SqlCommand insertCmd = new SqlCommand(@"
+            insert into contenedores (descripcion,fecha_registro,id_empresa,id_tipo_residuo,id_tipo_contenedor)
+            VALUES 
+                (@descripcion, @fecha_registro, @id_empresa, @id_tipo_residuo, @id_tipo_contenedor)");
+
+            insertCmd.Parameters.AddWithValue("@descripcion", descripcion ?? "");
+            insertCmd.Parameters.AddWithValue("@fecha_registro", fecha_registro); // Se guardará como UTC en la base de datos
+            insertCmd.Parameters.AddWithValue("@id_empresa", id_empresa);
+            insertCmd.Parameters.AddWithValue("@id_tipo_residuo", id_tipo_residuo );
+            insertCmd.Parameters.AddWithValue("@id_tipo_contenedor", id_tipo_contenedor);
+
+            SqlServerConnection.ExecuteCommand(insertCmd);
+
+            return Task.FromResult<IActionResult>(Ok(new
+            {
+                status = 0,
+                message = "Contenedor registrado correctamente",
+            }));
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult<IActionResult>(StatusCode(500, new
+            {
+                status = -1,
+                message = "Error interno del servidor",
+                errorDetails = ex.Message
+            }));
         }
     }
 }

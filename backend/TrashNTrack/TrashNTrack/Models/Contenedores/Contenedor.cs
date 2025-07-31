@@ -34,7 +34,7 @@ public class Contenedor
     #region Properties
     public int IdContenedor { get; set; }
     public string Descripcion { get; set; }
-    public DateTime FechaRegistro { get; set; }
+    public string FechaRegistro { get; set; }
     public int IdEmpresa { get; set; }
     public int IdTipoResiduo { get; set; }
     public int IdTipoContenedor { get; set; }
@@ -45,13 +45,13 @@ public class Contenedor
     {
         IdContenedor = 0;
         Descripcion = string.Empty;
-        FechaRegistro = DateTime.MinValue;
+        FechaRegistro = string.Empty;
         IdEmpresa = 0;
         IdTipoResiduo = 0;
         IdTipoContenedor = 0;
     }
 
-    public Contenedor(int id, string descripcion, DateTime fechaRegistro,
+    public Contenedor(int id, string descripcion, string fechaRegistro,
                      int idEmpresa, int idTipoResiduo, int idTipoContenedor)
     {
         IdContenedor = id;

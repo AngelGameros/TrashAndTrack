@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Newtonsoft.Json;
+using Newtonsoft.Json; // This might not be strictly needed if using System.Text.Json (default in newer .NET Core)
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -140,7 +140,40 @@ public class RutasController : ControllerBase
             return StatusCode(500, new { status = 1, message = "No se pudo actualizar el progreso y estado de la ruta o la ruta no fue encontrada." });
         }
     }
+
+    // New: POST method to create a new Ruta
+    [HttpPost]
+    public ActionResult Post([FromBody] Ruta newRuta)
+    {
+        try
+        {
+            if (newRuta == null)
+            {
+                return BadRequest(new
+                {
+                    status = 1,
+                    message = "Los datos de la ruta son nulos.",
+                    type = "error"
+                });
+            }
+
+            // The IdRuta will be set by the database upon insertion
+            newRuta.Insert(); // Calling the new Insert method in Ruta class
+
+            return CreatedAtAction(nameof(GetById), new { id = newRuta.IdRuta }, RutaResponse.GetResponse(newRuta));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                status = 999,
+                message = "Ocurrió un error al agregar la ruta: " + ex.Message,
+                type = "error"
+            });
+        }
+    }
 }
+
 public class UpdateRutaProgressStatusRequest
 {
     public int IdRuta { get; set; }

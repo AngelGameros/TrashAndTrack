@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using System.Text.Json.Serialization; // Agrega esta línea
 
 public class Empresa
 {
@@ -24,12 +25,22 @@ public class Empresa
         SELECT id_empresa, nombre, fecha_registro, rfc, id_ubicacion 
         FROM Empresas 
         WHERE nombre LIKE @SearchTerm";
+
+    private static string EmpresaInsert = @"
+        insert into EMPRESAS (nombre,fecha_registro,rfc,id_ubicacion)
+        VALUES (@Nombre, @FechaRegistro, @RFC, @IdUbicacion);"; // Returns the ID of the newly inserted row
+
+    private static string EmpresaUpdate = @"
+        UPDATE Empresas
+        SET nombre = @Nombre, fecha_registro = @FechaRegistro, rfc = @RFC, id_ubicacion = @IdUbicacion
+        WHERE id_empresa = @IdEmpresa;";
     #endregion
 
     #region Properties
     public int IdEmpresa { get; set; }
     public string Nombre { get; set; }
-    public DateTime FechaRegistro { get; set; }
+
+    public string FechaRegistro { get; set; }
     public string RFC { get; set; }
     public int IdUbicacion { get; set; }
     #endregion
@@ -39,12 +50,12 @@ public class Empresa
     {
         IdEmpresa = 0;
         Nombre = string.Empty;
-        FechaRegistro = DateTime.MinValue;
+        FechaRegistro = string.Empty;
         RFC = string.Empty;
         IdUbicacion = 0;
     }
 
-    public Empresa(int id, string nombre, DateTime fechaRegistro, string rfc, int idUbicacion)
+    public Empresa(int id, string nombre, string fechaRegistro, string rfc, int idUbicacion)
     {
         IdEmpresa = id;
         Nombre = nombre;
@@ -81,6 +92,30 @@ public class Empresa
         SqlCommand command = new SqlCommand(EmpresaSearchByName);
         command.Parameters.AddWithValue("@SearchTerm", $"%{searchTerm}%");
         return EmpresaMapper.ToList(SqlServerConnection.ExecuteQuery(command));
+    }
+
+    public int Insert()
+    {
+        SqlCommand command = new SqlCommand(EmpresaInsert);
+        command.Parameters.AddWithValue("@Nombre", Nombre);
+        command.Parameters.AddWithValue("@FechaRegistro", FechaRegistro);
+        command.Parameters.AddWithValue("@RFC", RFC);
+        command.Parameters.AddWithValue("@IdUbicacion", IdUbicacion);
+
+        IdEmpresa = Convert.ToInt32(SqlServerConnection.ExecuteScalar(command));
+        return IdEmpresa;
+    }
+
+    public void Update()
+    {
+        SqlCommand command = new SqlCommand(EmpresaUpdate);
+        command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+        command.Parameters.AddWithValue("@Nombre", Nombre);
+        command.Parameters.AddWithValue("@FechaRegistro", FechaRegistro);
+        command.Parameters.AddWithValue("@RFC", RFC);
+        command.Parameters.AddWithValue("@IdUbicacion", IdUbicacion);
+
+        SqlServerConnection.ExecuteQuery(command);
     }
     #endregion
 }

@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\camionescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\camionescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\plantas\\planta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\plantas\\planta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\camiones\\camionesmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\camiones\\camionesmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\camiones\\camiones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\camiones\\camiones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\plantascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\plantascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -47,40 +43,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CamionesController.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\CamionesController.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\CamionesController.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\CamionesController.cs",
-              "RelativeToolTip": "TrashNTrack\\Controllers\\CamionesController.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAkwFUAAAABAAAAAAAAAA==",
+              "Title": "Planta.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Plantas\\Planta.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Plantas\\Planta.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Plantas\\Planta.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Plantas\\Planta.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T06:23:18.425Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Camiones.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\Camiones.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Camiones\\Camiones.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\Camiones.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\Camiones\\Camiones.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAA8wHoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T06:21:47.644Z",
+              "WhenOpened": "2025-07-30T23:43:48.184Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "CamionesMapper.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAABAAAAAAAAAA==",
+              "Title": "PlantasController.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\PlantasController.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\PlantasController.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\PlantasController.cs",
+              "RelativeToolTip": "TrashNTrack\\Controllers\\PlantasController.cs",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAAAIkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T05:54:00.951Z",
+              "WhenOpened": "2025-07-30T23:42:04.658Z",
               "EditorCaption": ""
             }
           ]

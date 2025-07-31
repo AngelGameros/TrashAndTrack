@@ -10,7 +10,7 @@ public class EmpresaMapper
         {
             IdEmpresa = Convert.ToInt32(row["id_empresa"]),
             Nombre = row["nombre"].ToString(),
-            FechaRegistro = Convert.ToDateTime(row["fecha_registro"]),
+            FechaRegistro = row["fecha_registro"].ToString(),
             RFC = row["rfc"].ToString(),
             IdUbicacion = Convert.ToInt32(row["id_ubicacion"])
         };

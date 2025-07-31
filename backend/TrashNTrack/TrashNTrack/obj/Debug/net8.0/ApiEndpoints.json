@@ -221,6 +221,42 @@
   },
   {
     "ContainingType": "ContenedoresController",
+    "Method": "RegistrarContendor",
+    "RelativePath": "api/Contenedores",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "descripcion",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fecha_registro",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "id_empresa",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "id_tipo_residuo",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "id_tipo_contenedor",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContenedoresController",
     "Method": "GetById",
     "RelativePath": "api/Contenedores/{id}",
     "HttpMethod": "GET",
@@ -295,6 +331,22 @@
   },
   {
     "ContainingType": "EmpresasController",
+    "Method": "Post",
+    "RelativePath": "api/Empresas",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newEmpresa",
+        "Type": "Empresa",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EmpresasController",
     "Method": "GetById",
     "RelativePath": "api/Empresas/{id}",
     "HttpMethod": "GET",
@@ -304,6 +356,27 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EmpresasController",
+    "Method": "Put",
+    "RelativePath": "api/Empresas/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedEmpresa",
+        "Type": "Empresa",
         "IsRequired": true
       }
     ],
@@ -579,6 +652,22 @@
   },
   {
     "ContainingType": "PlantasController",
+    "Method": "Post",
+    "RelativePath": "api/Plantas",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newPlanta",
+        "Type": "Planta",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantasController",
     "Method": "GetById",
     "RelativePath": "api/Plantas/{id}",
     "HttpMethod": "GET",
@@ -588,6 +677,27 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantasController",
+    "Method": "Put",
+    "RelativePath": "api/Plantas/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedPlanta",
+        "Type": "Planta",
         "IsRequired": true
       }
     ],
@@ -746,6 +856,22 @@
   },
   {
     "ContainingType": "RutasController",
+    "Method": "Post",
+    "RelativePath": "api/Rutas",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newRuta",
+        "Type": "Ruta",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasController",
     "Method": "GetById",
     "RelativePath": "api/Rutas/{id}",
     "HttpMethod": "GET",
@@ -839,6 +965,69 @@
       {
         "Name": "contenedorId",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UbicacionesController",
+    "Method": "GetAll",
+    "RelativePath": "api/Ubicaciones",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UbicacionesController",
+    "Method": "Post",
+    "RelativePath": "api/Ubicaciones",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ubicacion",
+        "Type": "Ubicacion",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UbicacionesController",
+    "Method": "GetById",
+    "RelativePath": "api/Ubicaciones/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UbicacionesController",
+    "Method": "Put",
+    "RelativePath": "api/Ubicaciones/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "ubicacion",
+        "Type": "Ubicacion",
         "IsRequired": true
       }
     ],

@@ -27,8 +27,8 @@ public class Empresa
         WHERE nombre LIKE @SearchTerm";
 
     private static string EmpresaInsert = @"
-        insert into EMPRESAS (nombre,fecha_registro,rfc,id_ubicacion)
-        VALUES (@Nombre, @FechaRegistro, @RFC, @IdUbicacion);"; // Returns the ID of the newly inserted row
+        insert into EMPRESAS (nombre,rfc,id_ubicacion)
+        VALUES (@Nombre, @RFC, @IdUbicacion);"; 
 
     private static string EmpresaUpdate = @"
         UPDATE Empresas
@@ -98,7 +98,6 @@ public class Empresa
     {
         SqlCommand command = new SqlCommand(EmpresaInsert);
         command.Parameters.AddWithValue("@Nombre", Nombre);
-        command.Parameters.AddWithValue("@FechaRegistro", FechaRegistro);
         command.Parameters.AddWithValue("@RFC", RFC);
         command.Parameters.AddWithValue("@IdUbicacion", IdUbicacion);
 

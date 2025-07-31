@@ -888,6 +888,22 @@
   },
   {
     "ContainingType": "RutasController",
+    "Method": "AsignarRuta",
+    "RelativePath": "api/Rutas/asignar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "AsignarRutaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasController",
     "Method": "GetRutasDetalladas",
     "RelativePath": "api/Rutas/detalladas",
     "HttpMethod": "GET",
@@ -907,6 +923,22 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasController",
+    "Method": "LiberarRuta",
+    "RelativePath": "api/Rutas/liberar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LiberarRutaRequest",
         "IsRequired": true
       }
     ],

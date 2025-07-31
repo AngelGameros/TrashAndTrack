@@ -190,7 +190,7 @@ export async function getCamionesById(id) {
 // =======================================
 // GETS PARA ALERTAS
 // =======================================
-export async function getAletas() {
+export async function getAlertas() {
     return fetchData("Alertas");
 }
 
@@ -207,4 +207,14 @@ export async function getAlertasByTipo(tipoAlerta){
 }
 export async function getAletasByFecha() {
     return fetchData("Alertas/por-fecha");
+}
+// =======================================
+// GETS PARA UBICACIONES
+// =======================================
+export async function getUbicaciones() {
+    return fetchData("Ubicaciones");
+}
+
+export async function getUbicacionesById(id) {
+    return fetchData(`Ubicaciones/`+id);
 }

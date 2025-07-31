@@ -172,6 +172,85 @@ public class RutasController : ControllerBase
             });
         }
     }
+
+    [HttpPost("asignar")] // Un endpoint POST con una ruta específica como "asignar"
+    public ActionResult AsignarRuta([FromBody] AsignarRutaRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(new
+            {
+                status = 1,
+                message = "Datos de entrada inválidos.",
+                type = "error",
+                errors = ModelState // Opcional: para mostrar errores de validación del modelo
+            });
+        }
+
+        try
+        {
+            Ruta.AsignarRutaARecolector(
+                request.IdRuta,
+                request.IdRecolector,
+                request.IdAprobador,
+                request.FechaProgramada
+            );
+
+            return Ok(new
+            {
+                status = 0,
+                message = "Ruta asignada correctamente al recolector.",
+                type = "success"
+            });
+        }
+        catch (Exception ex)
+        {
+            // Captura la excepción general o SqlException si quieres un manejo más granular
+            return StatusCode(500, new
+            {
+                status = 999,
+                message = "Error al asignar la ruta: " + ex.Message,
+                type = "error"
+            });
+        }
+    }
+
+    // Nuevo: Endpoint para liberar una ruta asignada
+    [HttpPut("liberar")] // Un endpoint PUT con una ruta específica como "liberar"
+    public ActionResult LiberarRuta([FromBody] LiberarRutaRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(new
+            {
+                status = 1,
+                message = "Datos de entrada inválidos.",
+                type = "error",
+                errors = ModelState
+            });
+        }
+
+        try
+        {
+            Ruta.LiberarRutaAsignada(request.IdRuta);
+
+            return Ok(new
+            {
+                status = 0,
+                message = "Ruta liberada y itinerario cancelado correctamente.",
+                type = "success"
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                status = 999,
+                message = "Error al liberar la ruta: " + ex.Message,
+                type = "error"
+            });
+        }
+    }
 }
 
 public class UpdateRutaProgressStatusRequest

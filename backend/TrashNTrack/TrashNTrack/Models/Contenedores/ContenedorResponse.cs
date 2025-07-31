@@ -10,7 +10,7 @@
             {
                 id = contenedor.IdContenedor,
                 descripcion = contenedor.Descripcion,
-                fechaRegistro = contenedor.FechaRegistro.ToString("yyyy-MM-dd"),
+                fechaRegistro = contenedor.FechaRegistro,
                 idEmpresa = contenedor.IdEmpresa,
                 idTipoResiduo = contenedor.IdTipoResiduo,
                 idTipoContenedor = contenedor.IdTipoContenedor

@@ -10,7 +10,7 @@
             {
                 id = empresa.IdEmpresa,
                 nombre = empresa.Nombre,
-                fechaRegistro = empresa.FechaRegistro.ToString("yyyy-MM-dd"),
+                fechaRegistro = empresa.FechaRegistro,
                 rfc = empresa.RFC,
                 idUbicacion = empresa.IdUbicacion
             }

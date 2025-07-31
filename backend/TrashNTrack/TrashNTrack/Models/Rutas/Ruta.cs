@@ -24,6 +24,12 @@ public class Ruta
         UPDATE RUTAS
         SET progreso_ruta = @ProgresoRuta, estado = @Estado
         WHERE id_ruta = @IdRuta";
+
+    // New: SQL statement for inserting a new Ruta
+    private static string RutaInsert = @"
+        INSERT INTO RUTAS (nombre_ruta, fecha_creacion, descripcion, estado, id_usuario_asignado, progreso_ruta)
+        VALUES (@NombreRuta, @FechaCreacion, @Descripcion, @Estado, @IdUsuarioAsignado, @ProgresoRuta);
+        SELECT SCOPE_IDENTITY();"; // Returns the ID of the newly inserted row
     #endregion
 
     #region properties
@@ -90,6 +96,30 @@ public class Ruta
         command.Parameters.AddWithValue("@Estado", estado);
         int rowsAffected = SqlServerConnection.ExecuteCommand(command);
         return rowsAffected > 0;
+    }
+
+    // New: Insert method
+    public int Insert()
+    {
+        SqlCommand command = new SqlCommand(RutaInsert);
+        command.Parameters.AddWithValue("@NombreRuta", NombreRuta);
+        command.Parameters.AddWithValue("@FechaCreacion", FechaCreacion);
+        command.Parameters.AddWithValue("@Descripcion", Descripcion);
+        command.Parameters.AddWithValue("@Estado", Estado);
+        // Handle nullable parameter for id_usuario_asignado
+        if (IdUsuarioAsignado.HasValue)
+        {
+            command.Parameters.AddWithValue("@IdUsuarioAsignado", IdUsuarioAsignado.Value);
+        }
+        else
+        {
+            command.Parameters.AddWithValue("@IdUsuarioAsignado", DBNull.Value);
+        }
+        command.Parameters.AddWithValue("@ProgresoRuta", ProgresoRuta);
+
+        // ExecuteScalar is used because SCOPE_IDENTITY() returns a single value (the new ID)
+        IdRuta = Convert.ToInt32(SqlServerConnection.ExecuteScalar(command));
+        return IdRuta;
     }
     #endregion
 }

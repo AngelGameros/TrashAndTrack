@@ -13,7 +13,7 @@ public class EmpresaListResponse
             {
                 id = e.IdEmpresa,
                 nombre = e.Nombre,
-                fechaRegistro = e.FechaRegistro.ToString("yyyy-MM-dd"),
+                fechaRegistro = e.FechaRegistro,
                 rfc = e.RFC,
                 idUbicacion = e.IdUbicacion
             }).ToList()

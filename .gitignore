@@ -41,3 +41,6 @@ TrashAndTrack/*.tsbuildinfo
 
 # backend
 **/serviceAccountKey.json.json
+
+
+.vs/

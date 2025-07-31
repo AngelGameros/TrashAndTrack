@@ -143,7 +143,6 @@ async function renderUsers(filteredUsers = null) {
                 <p class="user-contact"><i class="fas fa-phone"></i> ${phone}</p>
             </div>
             <div class="user-actions action-buttons">
-                <button class="btn-small btn-view" data-id="${user.idUsuario}">Ver Detalles</button>
                 <button class="btn-small btn-edit" data-id="${user.idUsuario}">Editar</button>
             </div>
         `;
@@ -155,12 +154,6 @@ async function renderUsers(filteredUsers = null) {
 
 // Attach event listeners to "Ver Detalles" and "Editar" buttons
 function attachButtonListeners() {
-    document.querySelectorAll('.btn-view').forEach(button => {
-        button.onclick = (event) => {
-            const userId = event.target.dataset.id;
-            showViewUserModal(userId);
-        };
-    });
 
     document.querySelectorAll('.btn-edit').forEach(button => {
         button.onclick = (event) => {

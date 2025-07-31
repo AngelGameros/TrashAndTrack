@@ -3,12 +3,48 @@
   "WorkspaceRootPath": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\usuario\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\usuario\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\containerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\containerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\dataaccess\\mongodbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\dataaccess\\mongodbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\contenedorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\contenedorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\incidentescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\incidentescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\contenedores\\contenedorlistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\contenedores\\contenedorlistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\contenedores\\contenedormapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\contenedores\\contenedormapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\contenedores\\contenedorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\contenedores\\contenedorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\config\\configmongodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\config\\configmongodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\camiones\\camionesmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\camiones\\camionesmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\usuario\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\usuario\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\usuario\\usuarioresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,16 +67,8 @@
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\reportes\\reportemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\incidentescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\incidentescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\config\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\config\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\camiones\\camionesmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\camiones\\camionesmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\itinerarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -127,10 +155,6 @@
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\dataaccess\\mqttbackgroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\dataaccess\\mongodbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\dataaccess\\mongodbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -147,10 +171,6 @@
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\containerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\containerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -161,10 +181,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\exceptions\\usernotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\exceptions\\usernotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\config\\configmongodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\config\\configmongodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashandtrack\\backend\\trashntrack\\trashntrack\\config\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -210,11 +226,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 32,
+          "SelectedChildIndex": 34,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
+              "Title": "ContenedoresController.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ContenedoresController.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\ContenedoresController.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ContenedoresController.cs",
+              "RelativeToolTip": "TrashNTrack\\Controllers\\ContenedoresController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-31T00:49:58.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ContenedorListResponse.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Contenedores\\ContenedorListResponse.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Contenedores\\ContenedorListResponse.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Contenedores\\ContenedorListResponse.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Contenedores\\ContenedorListResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-31T00:42:49.993Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ContenedorMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Contenedores\\ContenedorMapper.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Contenedores\\ContenedorMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Contenedores\\ContenedorMapper.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Contenedores\\ContenedorMapper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-31T00:42:20.517Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ContenedorResponse.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Contenedores\\ContenedorResponse.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Contenedores\\ContenedorResponse.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Contenedores\\ContenedorResponse.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\Contenedores\\ContenedorResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-31T00:42:07.421Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "IncidenteMapper.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\IncidenteMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Incidentes\\IncidenteMapper.cs",
@@ -226,7 +294,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 15,
               "Title": "ReporteMapper.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\ReporteMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Reportes\\ReporteMapper.cs",
@@ -238,15 +306,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
               "Title": "IncidentesController.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\IncidentesController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\IncidentesController.cs",
               "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\IncidentesController.cs",
               "RelativeToolTip": "TrashNTrack\\Controllers\\IncidentesController.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAowA8AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T05:02:39.959Z"
+              "WhenOpened": "2025-07-29T05:02:39.959Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -258,11 +327,12 @@
               "RelativeToolTip": "TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T04:14:39.702Z"
+              "WhenOpened": "2025-07-29T04:14:39.702Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 22,
               "Title": "Ruta.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\Ruta.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Rutas\\Ruta.cs",
@@ -274,7 +344,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 23,
               "Title": "RutaListResponse.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaListResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Rutas\\RutaListResponse.cs",
@@ -286,7 +356,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 20,
               "Title": "SqlServerConnection.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\SqlServerConnection.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\DataAccess\\SqlServerConnection.cs",
@@ -298,7 +368,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 18,
               "Title": "Itinerario.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\Itinerario.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Itinerarios\\Itinerario.cs",
@@ -310,7 +380,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 19,
               "Title": "ItinerarioMapper.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Itinerarios\\ItinerarioMapper.cs",
@@ -322,7 +392,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 17,
               "Title": "ItinerariosController.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ItinerariosController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\ItinerariosController.cs",
@@ -334,7 +404,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 28,
               "Title": "RutaDetalladaResponse.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaResponse.cs",
@@ -346,7 +416,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 27,
               "Title": "RutaDetalladaViewModel.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
@@ -358,7 +428,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 21,
               "Title": "RutasController.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\RutasController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\RutasController.cs",
@@ -370,7 +440,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 25,
               "Title": "RutaMapper.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Rutas\\RutaMapper.cs",
@@ -382,7 +452,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 24,
               "Title": "RutaResponse.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Rutas\\RutaResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Rutas\\RutaResponse.cs",
@@ -394,7 +464,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 26,
               "Title": "RutaDetalladaMapper.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
@@ -406,7 +476,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 29,
               "Title": "ItinerarioSimplificado.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificado.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificado.cs",
@@ -418,7 +488,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 31,
               "Title": "ItinerarioSimplificadoResponse.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoResponse.cs",
@@ -430,7 +500,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 32,
               "Title": "ItinerarioSimplificadoMapper.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoMapper.cs",
@@ -442,7 +512,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 30,
               "Title": "ItinerarioSimplificadoService.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoService.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\ItinerarioVista\\ItinerarioSimplificadoService.cs",
@@ -454,7 +524,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 34,
               "Title": "ItinerarioListResponse.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioListResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Itinerarios\\ItinerarioListResponse.cs",
@@ -466,7 +536,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 35,
               "Title": "ItinerarioResponse.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Itinerarios\\ItinerarioResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Itinerarios\\ItinerarioResponse.cs",
@@ -478,7 +548,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 33,
               "Title": "Planta.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Plantas\\Planta.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Plantas\\Planta.cs",
@@ -490,7 +560,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 36,
               "Title": "ContainerData.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Simulator\\ContainerData.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Simulator\\ContainerData.cs",
@@ -502,7 +572,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 37,
               "Title": "MqttBackgroundService.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\MqttBackgroundService.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\DataAccess\\MqttBackgroundService.cs",
@@ -514,19 +584,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 1,
               "Title": "MongoDbConnection.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\MongoDbConnection.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\DataAccess\\MongoDbConnection.cs",
               "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\DataAccess\\MongoDbConnection.cs",
               "RelativeToolTip": "TrashNTrack\\DataAccess\\MongoDbConnection.cs",
-              "ViewState": "AgIAALcAAAAAAAAAAAAgwMkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB8AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T20:53:14.273Z"
+              "WhenOpened": "2025-07-18T20:53:14.273Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 39,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\appsettings.Development.json",
               "RelativeDocumentMoniker": "TrashNTrack\\appsettings.Development.json",
@@ -538,7 +609,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 40,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\appsettings.json",
               "RelativeDocumentMoniker": "TrashNTrack\\appsettings.json",
@@ -550,7 +621,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 38,
               "Title": "Startup.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Startup.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Startup.cs",
@@ -562,7 +633,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 41,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Program.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Program.cs",
@@ -574,19 +645,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 0,
               "Title": "ContainersController.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ContainersController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\ContainersController.cs",
               "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\ContainersController.cs",
               "RelativeToolTip": "TrashNTrack\\Controllers\\ContainersController.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAADgvw8AAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T21:19:54.501Z"
+              "WhenOpened": "2025-07-18T21:19:54.501Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 11,
               "Title": "UsuarioResponse.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\UsuarioResponse.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Usuario\\UsuarioResponse.cs",
@@ -598,33 +670,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 10,
               "Title": "Usuario.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\Usuario.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Usuario\\Usuario.cs",
               "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\Usuario.cs",
               "RelativeToolTip": "TrashNTrack\\Models\\Usuario\\Usuario.cs",
-              "ViewState": "AgIAAKwAAAAAAAAAAAAuwLYAAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAAJ4AAAAAAAAAAAAmwLYAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-10T01:44:29.52Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-10T01:44:29.52Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "UsuariosController.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\UsuariosController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\UsuariosController.cs",
               "ToolTip": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\UsuariosController.cs",
               "RelativeToolTip": "TrashNTrack\\Controllers\\UsuariosController.cs",
-              "ViewState": "AgIAAEoAAAAAAAAAAAAowJQAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-23T20:46:10.923Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 42,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "TrashNTrack\\Properties\\launchSettings.json",
@@ -636,7 +707,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 43,
               "Title": "UsuarioMapper.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Usuario\\UsuarioMapper.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Usuario\\UsuarioMapper.cs",
@@ -648,7 +719,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 44,
               "Title": "UserNotFoundException.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Exceptions\\UserNotFoundException.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Exceptions\\UserNotFoundException.cs",
@@ -660,7 +731,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 16,
               "Title": "Config.json",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.json",
               "RelativeDocumentMoniker": "TrashNTrack\\Config\\Config.json",
@@ -672,7 +743,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 8,
               "Title": "ConfigMongoDb.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\ConfigMongoDb.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Config\\ConfigMongoDb.cs",
@@ -680,11 +751,12 @@
               "RelativeToolTip": "TrashNTrack\\Config\\ConfigMongoDb.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T20:52:35.004Z"
+              "WhenOpened": "2025-07-18T20:52:35.004Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 45,
               "Title": "Config.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Config\\Config.cs",
@@ -696,7 +768,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 14,
               "Title": "Incidente.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Incidentes\\Incidente.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Incidentes\\Incidente.cs",
@@ -708,7 +780,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 46,
               "Title": "Empresa.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\Empresa.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Empresas\\Empresa.cs",
@@ -720,7 +792,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 48,
               "Title": "Contenedor.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Contenedores\\Contenedor.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Contenedores\\Contenedor.cs",
@@ -732,7 +804,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 13,
               "Title": "Reporte.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Reportes\\Reporte.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Reportes\\Reporte.cs",
@@ -744,7 +816,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 47,
               "Title": "Sensor.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Sensores\\Sensor.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Sensores\\Sensor.cs",
@@ -756,7 +828,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 49,
               "Title": "Camiones.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Camiones\\Camiones.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Camiones\\Camiones.cs",
@@ -768,7 +840,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 50,
               "Title": "CamionAsignado.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\CamionAsignado\\CamionAsignado.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\CamionAsignado\\CamionAsignado.cs",
@@ -780,7 +852,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 51,
               "Title": "Alerta.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Alertas\\Alerta.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Models\\Alertas\\Alerta.cs",
@@ -792,7 +864,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 53,
               "Title": "IncidentesPorUsuarioController.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\IncidentesPorUsuarioController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\IncidentesPorUsuarioController.cs",
@@ -804,7 +876,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 52,
               "Title": "CamionAsignadoController.cs",
               "DocumentMoniker": "C:\\xampp\\htdocs\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\CamionAsignadoController.cs",
               "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\CamionAsignadoController.cs",

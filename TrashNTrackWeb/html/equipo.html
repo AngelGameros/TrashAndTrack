@@ -22,7 +22,7 @@
                 <div class="header-actions">
                     <button class="btn btn-primary" id="newUserBtn">
                     <i class="fas fa-plus"></i>
-                    Nuevo Usuario
+                    Aprobar Usuarios
                 </button>
                 </div>
             </header>
@@ -43,20 +43,6 @@
 
             
         </main>
-    </div>
-
-    <div id="viewUserModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal('viewUserModal')">&times;</span>
-            <h2>Detalles del Usuario <span id="viewUserNameFull"></span></h2>
-            <div class="modal-info-grid">
-                <div><strong>ID:</strong> <span id="viewUserId"></span></div>
-                <div><strong>Nombre:</strong> <span id="viewUserName"></span></div>
-                <div><strong>Correo:</strong> <span id="viewUserEmail"></span></div>
-                <div><strong>Teléfono:</strong> <span id="viewUserPhone"></span></div>
-                <div><strong>Tipo de Usuario:</strong> <span id="viewUserType"></span></div>
-            </div>
-        </div>
     </div>
 
     <div id="editUserModal" class="modal" style="display: none;">
@@ -93,60 +79,7 @@
         </div>
     </div>
 
-    <div id="addUserModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal('addUserModal')">&times;</span>
-            <h2>Añadir Nuevo Usuario</h2>
-            <form id="addUserForm">
-                <div class="modal-form-group">
-                    <label for="newNombre">Nombre:</label>
-                    <input type="text" id="newNombre" required>
-                    <div id="newNombreError" class="error-message"></div>
-                </div>
-                <div class="modal-form-group">
-                    <label for="newPrimerApell">Primer Apellido:</label>
-                    <input type="text" id="newPrimerApell" required>
-                    <div id="newPrimerApellError" class="error-message"></div>
-                </div>
-                <div class="modal-form-group">
-                    <label for="newsegundoApellido">Segundo Apellido:</label>
-                    <input type="text" id="newsegundoApellido">
-                    <div id="newsegundoApellidoError" class="error-message"></div>
-                </div>
-                <div class="modal-form-group">
-                    <label for="newCorreo">Correo:</label>
-                    <input type="email" id="newCorreo" required>
-                    <div id="newCorreoError" class="error-message"></div>
-                </div>
-                <div class="modal-form-group">
-                    <label for="newNumeroTelefono">Número de Teléfono:</label>
-                    <input type="tel" id="newNumeroTelefono" required pattern="[0-9]{10}">
-                    <div id="newNumeroTelefonoError" class="error-message"></div>
-                </div>
-                <div class="modal-form-group">
-                    <label for="newFirebaseUid">Firebase UID:</label>
-                    <input type="text" id="newFirebaseUid" required>
-                    <div id="newFirebaseUidError" class="error-message"></div>
-                </div>
-                <div class="modal-form-group">
-                    <label for="newTipoUsuario">Tipo de Usuario:</label>
-                    <select id="newTipoUsuario" required>
-                        <option value="">Seleccione el tipo</option>
-                        <option value="Administrador">Administrador</option>
-                        <option value="Operador">Operador</option>
-                        <option value="Conductor">Conductor</option>
-                    </select>
-                    <div id="newTipoUsuarioError" class="error-message"></div>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn-small btn-secondary" onclick="closeModal('addUserModal')">Cancelar</button>
-                    <button type="submit" class="btn-small btn-primary">Añadir Usuario</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
+    
     <script type="module" src="../js/equipo.js"></script>
     <script src="../js/sidebar.js"></script>
     <script src="../js/authGuard.js"></script>

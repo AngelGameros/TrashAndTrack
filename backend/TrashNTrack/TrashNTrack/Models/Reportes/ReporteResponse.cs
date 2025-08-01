@@ -13,6 +13,7 @@
                 fechaReporte = reporte.FechaReporte.ToString("yyyy-MM-dd HH:mm:ss"),
                 descripcion = reporte.Descripcion,
                 idUsuario = reporte.IdUsuario,
+                estado = reporte.Estado,
                 id_contenedor = reporte.Id_contenedor,
                 collected_amount = reporte.Collected_amount,
                 container_status = reporte.Container_status,

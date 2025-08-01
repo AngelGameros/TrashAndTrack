@@ -108,3 +108,23 @@ export async function putEmpresas(id, infoUbicacion) {
     */
 
 }
+
+// =======================================
+// PUT para USUARIOS
+// =======================================
+export async function putEmpresas(id, infoUsuario) {
+    if (!id) {
+        throw new Error("se debe especificar el id de la ruta.");
+    }
+    if (!infoUsuario) {
+        throw new Error("Updated route data cannot be empty.");
+    }
+    return fetchPut("Usuarios", id, infoUsuario);
+/*
+{
+  "nombre": "Nuevo Nombre",
+  "primer_apellido": "Nuevo Primer Apellido",
+  "segundo_apellido": "Nuevo Segundo Apellido"
+}
+*/
+}

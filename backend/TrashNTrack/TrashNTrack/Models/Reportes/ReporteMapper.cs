@@ -13,6 +13,7 @@ public class ReporteMapper
             FechaReporte = Convert.ToDateTime(row["fecha_reporte"]),
             Descripcion = row["descripcion"].ToString(),
             IdUsuario = Convert.ToInt32(row["id_usuario"]),
+            Estado = row["estado"].ToString(),
             Id_contenedor = Convert.ToInt32(row["id_contenedor"]),
             Collected_amount = Convert.ToInt32(row["collected_amount"]),
             Container_status = row["container_status"].ToString()

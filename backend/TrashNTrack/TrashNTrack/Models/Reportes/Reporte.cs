@@ -46,18 +46,20 @@ public class Reporte
         FechaReporte = DateTime.MinValue;
         Descripcion = string.Empty;
         IdUsuario = 0;
+        Estado = string.Empty;
         Id_contenedor = 0;
         Collected_amount = 0;
         Container_status = string.Empty;
     }
 
-    public Reporte(int id, string nombre, DateTime fecha, string descripcion, int idUsuario, int id_contenedor, int collected_amount, string container_status)
+    public Reporte(int id, string nombre, DateTime fecha, string descripcion, int idUsuario,string estado, int id_contenedor, int collected_amount, string container_status)
     {
         IdReporte = id;
         Nombre = nombre;
         FechaReporte = fecha;
         Descripcion = descripcion;
         IdUsuario = idUsuario;
+        Estado = estado;
         Id_contenedor = id_contenedor;
         Collected_amount = collected_amount;
         Container_status = container_status;

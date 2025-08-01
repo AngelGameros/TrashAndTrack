@@ -16,6 +16,7 @@ public class ReporteListResponse
                 fechaReporte = r.FechaReporte.ToString("yyyy-MM-dd HH:mm:ss"),
                 descripcion = r.Descripcion,
                 idUsuario = r.IdUsuario,
+                estado = r.Estado,
                 id_contenedor = r.Id_contenedor,
                 collected_amount = r.Collected_amount,
                 container_status = r.Container_status

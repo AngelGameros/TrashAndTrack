@@ -14,7 +14,7 @@
     },
   "mongoDb": {
     "ConnectionString": "mongodb://127.0.0.1:27017",
-    "DatabaseName": "container_simulator_db",
-    "CollectionName": "containers"
+    "DatabaseName": "TrashNTrack",
+    "CollectionName": "devices"
   }
 }

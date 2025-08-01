@@ -1,9 +1,11 @@
-import { getEmpresas, getEmpresasByUbicacion } from "../DataConnection/Gets.js";
+import { getEmpresas, getUbicaciones } from "../DataConnection/Gets.js";
 
-const btnFiltrar = document.getElementById("btnFiltrar");
 const inputNombre = document.getElementById("inputNombre");
-const inputUbicacion = document.getElementById("inputUbicacion");
+const selectUbicacion = document.getElementById("selectUbicacion");
 const empresasContainer = document.getElementById("empresasContainer");
+
+let listaEmpresas = [];
+let listaUbicaciones = [];
 
 // Modal
 const modal = document.createElement("div");
@@ -23,80 +25,82 @@ closeModal.addEventListener("click", () => {
   modal.style.display = "none";
 });
 
-async function cargarTodasEmpresas() {
-  empresasContainer.textContent = "Cargando empresas...";
+// ========== Cargar Datos Iniciales ==========
+document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await getEmpresas();
-    if (response.status === 0 && Array.isArray(response.data)) {
-      mostrarEmpresas(response.data);
-    } else {
-      empresasContainer.textContent = "No se pudieron cargar las empresas.";
-    }
-  } catch (error) {
-    empresasContainer.textContent = "Error al obtener las empresas.";
-    console.error(error);
-  }
-}
+    const ubicacionesResponse = await getUbicaciones();
+    const empresasResponse = await getEmpresas();
 
-async function cargarEmpresaPorNombre(nombre) {
-  empresasContainer.textContent = "Buscando empresa por nombre...";
-  try {
-    const response = await getEmpresas(); // Traemos todas las empresas
-    if (response.status === 0 && Array.isArray(response.data)) {
-      // Filtrar por nombre (insensible a mayúsculas)
-      const empresasFiltradas = response.data.filter(emp =>
-        emp.nombre.toLowerCase().includes(nombre.toLowerCase())
+    if (
+      Array.isArray(ubicacionesResponse.ubicaciones) &&
+      empresasResponse.status === 0 &&
+      Array.isArray(empresasResponse.data)
+    ) {
+      listaEmpresas = empresasResponse.data;
+
+      // IDs únicos de ubicaciones usadas por las empresas
+      const ubicacionesEmpresasIds = [
+        ...new Set(listaEmpresas.map((e) => e.idUbicacion)),
+      ];
+
+      // Filtrar las ubicaciones para solo las que usan las empresas
+      listaUbicaciones = ubicacionesResponse.ubicaciones.filter((u) =>
+        ubicacionesEmpresasIds.includes(u.idUbicacion)
       );
 
-      if (empresasFiltradas.length > 0) {
-        mostrarEmpresas(empresasFiltradas);
-      } else {
-        empresasContainer.textContent = "No se encontró ninguna empresa con ese nombre.";
-      }
+      llenarSelectUbicaciones();
+      filtrarEmpresas(); // Mostrar todo inicialmente
     } else {
-      empresasContainer.textContent = "No se pudieron cargar las empresas.";
+      empresasContainer.textContent =
+        "No se pudieron cargar las empresas o ubicaciones.";
     }
-  } catch (error) {
-    empresasContainer.textContent = "Error al buscar empresa por nombre.";
-    console.error(error);
-  }
-}
-
-async function cargarEmpresasPorUbicacion(ubicacionId) {
-  empresasContainer.textContent = "Buscando empresas por ubicación...";
-  try {
-    const response = await getEmpresasByUbicacion(ubicacionId);
-    if (response.status === 0 && Array.isArray(response.data)) {
-      mostrarEmpresas(response.data);
-    } else {
-      empresasContainer.textContent = "No se encontraron empresas para esa ubicación.";
-    }
-  } catch (error) {
-    empresasContainer.textContent = "Error al buscar empresas por ubicación.";
-    console.error(error);
-  }
-}
-
-btnFiltrar.addEventListener("click", () => {
-  const nombre = inputNombre.value.trim();
-  const ubicacion = inputUbicacion.value.trim();
-
-  if (nombre) {
-    cargarEmpresaPorNombre(nombre);
-  } else if (ubicacion) {
-    cargarEmpresasPorUbicacion(ubicacion);
-  } else {
-    cargarTodasEmpresas();
+  } catch (err) {
+    empresasContainer.textContent = "Error al cargar datos.";
+    console.error(err);
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  cargarTodasEmpresas();
-});
+// ========== Filtros automáticos ==========
+if (inputNombre) {
+  inputNombre.addEventListener("input", filtrarEmpresas);
+}
 
+if (selectUbicacion) {
+  selectUbicacion.addEventListener("change", filtrarEmpresas);
+}
+
+// ========== Llenar Select ==========
+function llenarSelectUbicaciones() {
+  selectUbicacion.innerHTML = `<option value="">Todas las ubicaciones</option>`;
+  listaUbicaciones.forEach((ubicacion) => {
+    const option = document.createElement("option");
+    option.value = ubicacion.idUbicacion;
+    option.textContent = ubicacion.direccion;
+    selectUbicacion.appendChild(option);
+  });
+}
+
+// ========== Filtrar Empresas ==========
+function filtrarEmpresas() {
+  const nombreFiltro = inputNombre.value.trim().toLowerCase();
+  const ubicacionFiltro = selectUbicacion.value;
+
+  const empresasFiltradas = listaEmpresas.filter((empresa) => {
+    const coincideNombre = empresa.nombre.toLowerCase().includes(nombreFiltro);
+    const coincideUbicacion =
+      ubicacionFiltro === "" || empresa.idUbicacion === parseInt(ubicacionFiltro);
+
+    return coincideNombre && coincideUbicacion;
+  });
+
+  mostrarEmpresas(empresasFiltradas);
+}
+
+// ========== Mostrar Empresas ==========
 function mostrarEmpresas(empresas) {
   if (empresas.length === 0) {
-    empresasContainer.innerHTML = "<p>No hay empresas registradas.</p>";
+    empresasContainer.innerHTML =
+      "<p>No hay empresas que coincidan con los filtros.</p>";
     return;
   }
 
@@ -105,14 +109,21 @@ function mostrarEmpresas(empresas) {
     const div = document.createElement("div");
     div.classList.add("empresa-card");
 
+    const direccion = obtenerDireccion(empresa.idUbicacion);
+
     div.innerHTML = `
       <h3>${empresa.nombre}</h3>
       <p><strong>RFC:</strong> ${empresa.rfc}</p>
       <p><strong>Fecha Registro:</strong> ${empresa.fechaRegistro}</p>
-      <p><strong>Ubicación:</strong> ${empresa.idUbicacion}</p>
+      <p><strong>Ubicación:</strong> ${direccion}</p>
     `;
 
     empresasContainer.appendChild(div);
   });
+}
 
+// ========== Obtener Dirección desde ID ==========
+function obtenerDireccion(idUbicacion) {
+  const ubicacion = listaUbicaciones.find((u) => u.idUbicacion === idUbicacion);
+  return ubicacion ? ubicacion.direccion : `Ubicación ID ${idUbicacion}`;
 }

@@ -24,8 +24,11 @@
 
       <section class="filtros">
         <input type="text" id="inputNombrePlanta" placeholder="Buscar planta por nombre" autocomplete="off" />
-        <input type="text" id="inputUbicacionPlanta" placeholder="Filtrar por ubicación (ID)" autocomplete="off" />
-        <button id="btnFiltrarPlantas">Filtrar</button>
+        <select id="selectUbicacionPlanta">
+          <option value="">Todas las ubicaciones</option>
+          <!-- Opciones llenadas dinámicamente desde JS -->
+        </select>
+        <!-- Quitamos el botón Filtrar para filtro instantáneo -->
       </section>
 
       <main>

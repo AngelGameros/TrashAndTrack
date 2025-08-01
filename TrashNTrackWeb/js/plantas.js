@@ -1,11 +1,12 @@
-import { getPlantas, getPlantasById, getPlantasByUbicacion } from "../DataConnection/Gets.js";
+import { getPlantas, getUbicaciones } from "../DataConnection/Gets.js";
 
-const btnFiltrar = document.getElementById("btnFiltrarPlantas");
 const inputNombre = document.getElementById("inputNombrePlanta");
-const inputUbicacion = document.getElementById("inputUbicacionPlanta");
+const selectUbicacion = document.getElementById("selectUbicacionPlanta");
 const plantasContainer = document.getElementById("plantasContainer");
 
-// Crear modal dinámicamente (igual que con empresas)
+let listaPlantas = [];
+let listaUbicaciones = [];
+
 const modal = document.createElement("div");
 modal.id = "plantaModal";
 modal.className = "planta-modal";
@@ -23,128 +24,108 @@ closeModal.addEventListener("click", () => {
   modal.style.display = "none";
 });
 
-async function cargarTodasPlantas() {
-  plantasContainer.textContent = "Cargando plantas...";
+// ========== Cargar Datos Iniciales ==========
+document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await getPlantas();
-    if (response.status === 0 && Array.isArray(response.data)) {
-      mostrarPlantas(response.data);
+    const ubicacionesResponse = await getUbicaciones();
+    if (Array.isArray(ubicacionesResponse.ubicaciones)) {
+      listaUbicaciones = ubicacionesResponse.ubicaciones;
+    }
+
+    const plantasResponse = await getPlantas();
+    if (plantasResponse.status === 0 && Array.isArray(plantasResponse.data)) {
+      listaPlantas = plantasResponse.data;
+      llenarSelectUbicaciones(); // llenamos el select con ubicaciones que tienen plantas
+      filtrarPlantas(); // Mostrar todo inicialmente
     } else {
       plantasContainer.textContent = "No se pudieron cargar las plantas.";
     }
-  } catch (error) {
-    plantasContainer.textContent = "Error al obtener las plantas.";
-    console.error(error);
-  }
-}
-
-async function cargarPlantaPorId(id) {
-  plantasContainer.textContent = "Buscando planta por ID...";
-  try {
-    const response = await getPlantasById(id);
-    if (response.status === 0 && response.data) {
-      const plantas = Array.isArray(response.data) ? response.data : [response.data];
-      mostrarPlantas(plantas);
-    } else {
-      plantasContainer.textContent = "No se encontró la planta con ese ID.";
-    }
-  } catch (error) {
-    plantasContainer.textContent = "Error al buscar planta por ID.";
-    console.error(error);
-  }
-}
-
-async function cargarPlantasPorUbicacion(ubicacionId) {
-  plantasContainer.textContent = "Buscando plantas por ubicación...";
-  try {
-    const response = await getPlantasByUbicacion(ubicacionId);
-    if (response.status === 0 && Array.isArray(response.data)) {
-      mostrarPlantas(response.data);
-    } else {
-      plantasContainer.textContent = "No se encontraron plantas para esa ubicación.";
-    }
-  } catch (error) {
-    plantasContainer.textContent = "Error al buscar plantas por ubicación.";
-    console.error(error);
-  }
-}
-
-btnFiltrar.addEventListener("click", () => {
-  const nombre = inputNombre.value.trim();
-  const ubicacion = inputUbicacion.value.trim();
-
-  if (nombre) {
-    // Como no tienes getPlantasByNombre, aquí podemos cargar todas plantas y filtrar en cliente:
-    filtrarPlantasPorNombre(nombre);
-  } else if (ubicacion) {
-    cargarPlantasPorUbicacion(ubicacion);
-  } else {
-    cargarTodasPlantas();
+  } catch (err) {
+    plantasContainer.textContent = "Error al cargar datos.";
+    console.error(err);
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  cargarTodasPlantas();
-});
+// ========== Eventos de filtro instantáneo ==========
+inputNombre.addEventListener("input", filtrarPlantas);
+selectUbicacion.addEventListener("change", filtrarPlantas);
 
-// Función para mostrar plantas en el contenedor
+// ========== Llenar select con ubicaciones que tengan plantas ==========
+function llenarSelectUbicaciones() {
+  // Obtener solo IDs de ubicaciones que tienen plantas
+  const idsUbicacionesConPlantas = new Set(listaPlantas.map(p => p.idUbicacion));
+  selectUbicacion.innerHTML = `<option value="">Todas las ubicaciones</option>`;
+  listaUbicaciones.forEach((ubicacion) => {
+    if (idsUbicacionesConPlantas.has(ubicacion.idUbicacion)) {
+      const option = document.createElement("option");
+      option.value = ubicacion.idUbicacion;
+      option.textContent = ubicacion.direccion;
+      selectUbicacion.appendChild(option);
+    }
+  });
+}
+
+// ========== Filtrar plantas según filtros ==========
+function filtrarPlantas() {
+  const nombreFiltro = inputNombre.value.trim().toLowerCase();
+  const ubicacionFiltro = selectUbicacion.value;
+
+  const plantasFiltradas = listaPlantas.filter(planta => {
+    const coincideNombre = planta.nombre.toLowerCase().includes(nombreFiltro);
+    const coincideUbicacion = ubicacionFiltro === "" || planta.idUbicacion === parseInt(ubicacionFiltro);
+    return coincideNombre && coincideUbicacion;
+  });
+
+  mostrarPlantas(plantasFiltradas);
+}
+
+// ========== Mostrar plantas ==========
 function mostrarPlantas(plantas) {
   if (plantas.length === 0) {
-    plantasContainer.innerHTML = "<p>No hay plantas registradas.</p>";
+    plantasContainer.innerHTML = "<p>No hay plantas registradas que coincidan con los filtros.</p>";
     return;
   }
 
   plantasContainer.innerHTML = "";
-  plantas.forEach((planta) => {
+  plantas.forEach(planta => {
     const div = document.createElement("div");
     div.classList.add("planta-card");
 
+    const direccion = obtenerDireccion(planta.idUbicacion);
+
     div.innerHTML = `
       <h3>${planta.nombre}</h3>
-      <p><strong>ID Ubicación:</strong> ${planta.idUbicacion}</p>
+      <p><strong>Ubicación:</strong> ${direccion}</p>
       <button class="btn-detalles" data-id="${planta.id}">Ver detalles</button>
     `;
 
     plantasContainer.appendChild(div);
   });
 
-  // Evento para botones "Ver detalles"
-  document.querySelectorAll(".btn-detalles").forEach((btn) => {
+  // Agregar evento a botones "Ver detalles"
+  document.querySelectorAll(".btn-detalles").forEach(btn => {
     btn.addEventListener("click", (e) => {
       const idPlanta = e.target.getAttribute("data-id");
-      const planta = plantas.find(pl => pl.id == idPlanta);
+      const planta = listaPlantas.find(p => p.id == idPlanta);
       mostrarDetallesPlanta(planta);
     });
   });
 }
 
-// Modal con detalles planta
+// ========== Mostrar detalles en modal ==========
 function mostrarDetallesPlanta(planta) {
+  const direccion = obtenerDireccion(planta.idUbicacion);
   modalBody.innerHTML = `
     <h2>Detalles de la Planta</h2>
     <p><strong>ID:</strong> ${planta.id}</p>
     <p><strong>Nombre:</strong> ${planta.nombre}</p>
-    <p><strong>ID Ubicación:</strong> ${planta.idUbicacion}</p>
+    <p><strong>Ubicación:</strong> ${direccion}</p>
   `;
-modal.classList.add("active"); // muestra el modal centrado
-
+  modal.classList.add("active");
 }
 
-// Filtrar plantas por nombre en cliente
-async function filtrarPlantasPorNombre(nombre) {
-  plantasContainer.textContent = "Buscando plantas por nombre...";
-  try {
-    const response = await getPlantas(); // Traemos todas para filtrar localmente
-    if (response.status === 0 && Array.isArray(response.data)) {
-      const filtradas = response.data.filter(planta =>
-        planta.nombre.toLowerCase().includes(nombre.toLowerCase())
-      );
-      mostrarPlantas(filtradas);
-    } else {
-      plantasContainer.textContent = "No se pudieron cargar las plantas para filtrar.";
-    }
-  } catch (error) {
-    plantasContainer.textContent = "Error al filtrar plantas por nombre.";
-    console.error(error);
-  }
+// ========== Obtener dirección desde ID ==========
+function obtenerDireccion(idUbicacion) {
+  const ubicacion = listaUbicaciones.find(u => u.idUbicacion === idUbicacion);
+  return ubicacion ? ubicacion.direccion : `Ubicación ID ${idUbicacion}`;
 }

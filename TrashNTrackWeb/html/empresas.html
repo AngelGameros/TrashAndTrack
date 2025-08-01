@@ -26,12 +26,13 @@
       <div class="content-area">
         <div class="filtros">
           <input type="text" id="inputNombre" placeholder="Buscar por Nombre" />
-          <input type="text" id="inputUbicacion" placeholder="Buscar por ID ubicación" />
-          <button id="btnFiltrar">Filtrar</button>
+          <select id="selectUbicacion" aria-label="Filtrar por ubicación">
+            <option value="">Todas las ubicaciones</option>
+            <!-- Opciones llenadas dinámicamente desde JS -->
+          </select>
         </div>
 
         <div id="empresasContainer" class="empresas-container"></div>
-
       </div>
     </main>
   </div>

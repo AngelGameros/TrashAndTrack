@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="../css/dashboard.css" />
   <link rel="stylesheet" href="../css/sidebar.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-  
 </head>
 <body>
   <div class="dashboard-container">
@@ -31,10 +30,6 @@
               <h1>Lista de Incidentes</h1>
               <p>Gestiona todos los incidentes registrados en el sistema</p>
             </div>
-            <button class="btn btn-primary" onclick="toggleNuevoIncidente()">
-              <i class="fas fa-plus"></i>
-              Nuevo Incidente
-            </button>
           </div>
 
           <!-- Filtros -->
@@ -61,51 +56,6 @@
 
           <!-- Lista de incidentes -->
           <ul id="lista-incidentes"></ul>
-
-          <!-- Formulario de Nuevo Incidente -->
-          <div id="formNuevoIncidente" class="card form-card" style="display: none; margin-top: 40px">
-            <div class="card-header">
-              <h2>Nuevo Incidente</h2>
-              <p>Completa todos los campos para registrar un nuevo incidente</p>
-            </div>
-            <div class="card-content">
-              <form id="incidenteForm" onsubmit="saveIncidente(event)">
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label for="incidenteNombre">Nombre *</label>
-                    <input type="text" id="incidenteNombre" name="nombre" required placeholder="Nombre del incidente" />
-                  </div>
-                  <div class="form-group">
-                    <label for="incidenteFechaIncidente">Fecha del Incidente *</label>
-                    <input type="datetime-local" id="incidenteFechaIncidente" name="fecha_incidente" required />
-                  </div>
-                  <div class="form-group">
-                    <label for="incidentePhotoUrl">URL de la Foto</label>
-                    <input type="url" id="incidentePhotoUrl" name="photo_url" placeholder="URL de la imagen del incidente" />
-                  </div>
-                  <div class="form-group">
-                    <label for="incidenteIdUsuario">ID Usuario *</label>
-                    <input type="number" id="incidenteIdUsuario" name="id_usuario" required min="1" placeholder="ID del usuario que reporta" />
-                  </div>
-                  <div class="form-group full-width">
-                    <label for="incidenteDescripcion">Descripción *</label>
-                    <textarea id="incidenteDescripcion" name="descripcion" rows="4" required placeholder="Descripción detallada del incidente"></textarea>
-                  </div>
-                </div>
-                <div class="form-actions">
-                  <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Crear Incidente
-                  </button>
-                  <button type="button" class="btn btn-secondary" onclick="resetIncidenteForm()">
-                    <i class="fas fa-undo"></i> Limpiar
-                  </button>
-                  <button type="button" class="btn btn-outline" onclick="toggleNuevoIncidente()">
-                    Cancelar
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
         </section>
       </div>
     </main>
@@ -120,31 +70,22 @@
   <!-- Toasts -->
   <div id="toastContainer" class="toast-container"></div>
 
+  <!-- Modal para ver detalles del incidente -->
+  <div id="modalIncidente" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2 id="modalTitulo"></h2>
+      <p id="modalDescripcion"></p>
+      <p><strong>Fecha:</strong> <span id="modalFecha"></span></p>
+      <p><strong>Estado:</strong> <span id="modalEstado">Pendiente</span></p>
+      <p><strong>Usuario:</strong> <span id="modalUsuario"></span></p>
+      <img id="modalImagen" src="" alt="Imagen del incidente" />
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script type="module" src="../js/incidentes.js"></script>
   <script src="../js/sidebar.js"></script>
   <script src="../js/authGuard.js"></script>
-
-  <script>
-    function toggleNuevoIncidente() {
-      const form = document.getElementById("formNuevoIncidente");
-      form.style.display = form.style.display === "none" ? "block" : "none";
-      if (form.style.display === "block") {
-        window.scrollTo({ top: form.offsetTop - 80, behavior: "smooth" });
-      }
-    }
-  </script>
-  <!-- Modal para ver detalles del incidente -->
-<div id="modalIncidente" class="modal" style="display:none;">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2 id="modalTitulo"></h2>
-    <p id="modalDescripcion"></p>
-    <p><strong>Fecha:</strong> <span id="modalFecha"></span></p>
-    <p><strong>Estado:</strong> <span id="modalEstado">Pendiente</span></p>
-    <p><strong>Usuario:</strong> <span id="modalUsuario"></span></p>
-    <img id="modalImagen" src="" alt="Imagen del incidente" />
-  </div>
-</div>
 </body>
 </html>

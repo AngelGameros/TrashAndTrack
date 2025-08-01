@@ -3,161 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipo - Dashboard Logístico</title>
+    <title>Equipo - Dashboard de Residuos Tóxicos</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <link href="../css/dashboard.css" rel="stylesheet">
     <link href="../css/sidebar.css" rel="stylesheet">
-    <link href="../css/equipo.css" rel="stylesheet"> </head>
+    <link href="../css/equipo.css" rel="stylesheet">
+</head>
 <body>
     <div class="dashboard-container">
         <div id="sidebar-placeholder"></div>
-
         <main class="main-content">
             <header class="header">
                 <div class="page-title">
                     <i class="fas fa-users" style="color: #22d3ee;"></i>
-                    <h1>Gestión de Usuarios</h1>
+                    <h1>Gestión de Equipo</h1>
                 </div>
                 <div class="header-actions">
-                    <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="Buscar usuario..." onkeyup="handleUserSearch()">
-                        <i class="fas fa-search"></i>
-                    </div>
                     <button class="btn btn-primary" id="newUserBtn">
-                        <i class="fas fa-user-plus"></i> Nuevo Usuario
-                    </button>
+                    <i class="fas fa-plus"></i>
+                    Aprobar Usuarios
+                </button>
                 </div>
             </header>
+
+            <div class="top-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar empleado..." onkeyup="handleUserSearch()">
+                </div>
+            
+            </div>
+            <div id="messageContainer" class="message" style="display: none;"></div>
 
             <section class="user-grid-section">
                 <div class="user-grid" id="userGrid">
                     </div>
             </section>
 
-            <div id="viewUserModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-button" onclick="closeModal('viewUserModal')">&times;</span>
-                    <h2>Detalles del Usuario <span id="viewUserNameFull"></span></h2>
-                    <div class="modal-form-group">
-                        <p><strong>ID de Usuario:</strong> <span id="viewUserId"></span></p>
-                        <p><strong>Nombre Completo:</strong> <span id="viewUserName"></span></p>
-                        <p><strong>Correo Electrónico:</strong> <span id="viewUserEmail"></span></p>
-                        <p><strong>Teléfono:</strong> <span id="viewUserPhone"></span></p>
-                        <p><strong>Tipo de Usuario:</strong> <span id="viewUserType"></span></p>
-                        <p><strong>UID de Firebase:</strong> <span id="viewUserFirebaseUid"></span></p>
-                        </div>
-                    <div class="modal-actions">
-                        <button type="button" class="btn-small btn-secondary" onclick="closeModal('viewUserModal')">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="editUserModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-button" onclick="closeModal('editUserModal')">&times;</span>
-                    <h2>Editar Usuario <span id="editUserNameFull"></span></h2>
-                    <form id="editUserForm">
-                        <input type="hidden" id="editUserId">
-                        <div class="modal-form-group">
-                            <label for="editNombre">Nombre:</label>
-                            <input type="text" id="editNombre" required>
-                            <div id="editNombreError" class="error-message"></div>
-                        </div>
-                        <div class="modal-form-group">
-                            <label for="editPrimerApell">Primer Apellido:</label>
-                            <input type="text" id="editPrimerApell" required>
-                            <div id="editPrimerApellError" class="error-message"></div>
-                        </div>
-                        <div class="modal-form-group">
-                            <label for="editSecundoApell">Segundo Apellido:</label>
-                            <input type="text" id="editSecundoApell">
-                            <div id="editSecundoApellError" class="error-message"></div>
-                        </div>
-                        <div class="modal-form-group">
-                            <label for="editCorreo">Correo Electrónico:</label>
-                            <input type="email" id="editCorreo" required>
-                            <div id="editCorreoError" class="error-message"></div>
-                        </div>
-                        <div class="modal-form-group">
-                            <label for="editNumeroTelefono">Número de Teléfono:</label>
-                            <input type="tel" id="editNumeroTelefono" required>
-                            <div id="editNumeroTelefonoError" class="error-message"></div>
-                        </div>
-                        <div class="modal-form-group">
-                            <label for="editTipoUsuario">Tipo de Usuario:</label>
-                            <select id="editTipoUsuario" required>
-                                <option value="">Seleccione un tipo</option>
-                                <option value="recolector">Recolector</option>
-                                <option value="administrador">Administrador</option>
-                                </select>
-                            <div id="editTipoUsuarioError" class="error-message"></div>
-                        </div>
-                        <div class="modal-actions">
-                            <button type="button" class="btn-small btn-secondary" onclick="closeModal('editUserModal')">Cancelar</button>
-                            <button type="submit" class="btn-small btn-primary">Guardar Cambios</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div id="addUserModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-button" onclick="closeModal('addUserModal')">&times;</span>
-                    <h2>Registrar Nuevo Usuario</h2>
-                    <form id="addUserForm">
-                        <div class="modal-form-group">
-                            <label for="newNombre">Nombre:</label>
-                            <input type="text" id="newNombre" required>
-                            <div id="newNombreError" class="error-message"></div>
-                        </div>
-                        <div class="modal-form-group">
-                            <label for="newPrimerApell">Primer Apellido:</label>
-                            <input type="text" id="newPrimerApell" required>
-                            <div id="newPrimerApellError" class="error-message"></div>
-                        </div>
-                        <div class="modal-form-group">
-                            <label for="newSecundoApell">Segundo Apellido:</label>
-                            <input type="text" id="newSecundoApell">
-                            <div id="newSecundoApellError" class="error-message"></div>
-                        </div>
-                        <div class="modal-form-group">
-                            <label for="newCorreo">Correo Electrónico:</label>
-                            <input type="email" id="newCorreo" required>
-                            <div id="newCorreoError" class="error-message"></div>
-                        </div>
-                        <div class="modal-form-group">
-                            <label for="newNumeroTelefono">Número de Teléfono:</label>
-                            <input type="tel" id="newNumeroTelefono" required>
-                            <div id="newNumeroTelefonoError" class="error-message"></div>
-                        </div>
-                        <div class="modal-form-group">
-                            <label for="newFirebaseUid">Firebase ID:</label>
-                            <input type="tel" id="newFirebaseUid" required>
-                            <div id="newFirebaseUidError" class="error-message"></div>
-                        </div>
-                        <div class="modal-form-group">
-                            <label for="newTipoUsuario">Tipo de Usuario:</label>
-                            <select id="newTipoUsuario" required>
-                                <option value="">Seleccione un tipo</option>
-                                <option value="recolector">Recolector</option>
-                                <option value="administrador">Administrador</option>
-                            </select>
-                            <div id="newTipoUsuarioError" class="error-message"></div>
-                        </div>
-                        <div class="modal-actions">
-                            <button type="button" class="btn-small btn-secondary" onclick="closeModal('addUserModal')">Cancelar</button>
-                            <button type="submit" class="btn-small btn-primary">Registrar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
+            
         </main>
     </div>
 
-    <script type="module" src="../js/equipo.js"></script> 
+    <div id="editUserModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('editUserModal')">&times;</span>
+            <h2>Editar Usuario: <span id="editUserNameFull"></span></h2>
+            <form id="editUserForm">
+                <input type="hidden" id="editUserId">
+                <div class="modal-form-group">
+                    <label for="editNombre">Nombre:</label>
+                    <input type="text" id="editNombre" required>
+                    <div id="editNombreError" class="error-message"></div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="editPrimerApell">Primer Apellido:</label>
+                    <input type="text" id="editPrimerApell" required>
+                    <div id="editPrimerApellError" class="error-message"></div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="editsegundoApellido">Segundo Apellido:</label>
+                    <input type="text" id="editsegundoApellido">
+                    <div id="editsegundoApellidoError" class="error-message"></div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="editNumeroTelefono">Número de Teléfono:</label>
+                    <input type="tel" id="editNumeroTelefono" required pattern="[0-9]{10}">
+                    <div id="editNumeroTelefonoError" class="error-message"></div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-small btn-secondary" onclick="closeModal('editUserModal')">Cancelar</button>
+                    <button type="submit" class="btn-small btn-edit">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
+    <script type="module" src="../js/equipo.js"></script>
     <script src="../js/sidebar.js"></script>
     <script src="../js/authGuard.js"></script>
 </body>

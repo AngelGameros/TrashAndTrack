@@ -43,6 +43,10 @@ export async function getRutas() {
     return fetchData("Rutas");
 }
 
+export async function getRutasDetalladas() {
+    return fetchData("Rutas/detalladas");
+}
+
 export async function getRutasById(id) {
     return fetchData(`Rutas/`+id);
 }

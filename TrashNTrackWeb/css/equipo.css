@@ -1,237 +1,9 @@
 /* css/equipo.css */
 
-.user-grid-section {
-    padding: 20px;
-}
-
-.user-grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(280px, 1fr)); /* Responsive grid */
-    gap: 20px;
-    padding: 20px;
-}
-
-.team-card {
-    background-color: var(--card-bg-color); /* Usar variable de CSS para el color de fondo */
-    border-radius: 12px;
-    box-shadow: var(--shadow-small); /* Usar variable de CSS para la sombra */
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    border: 1px solid var(--border-color); /* Borde suave */
-}
-
-.team-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-medium); /* Sombra más pronunciada al pasar el ratón */
-}
-
-.user-avatar {
-    width: 80px;
-    height: 80px;
-    background-color: var(--primary-color-light); /* Color de fondo para el avatar */
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
-    color: var(--primary-color); /* Color del icono */
-    font-size: 3em; /* Tamaño del icono */
-}
-
-.user-info h3 {
-    margin: 10px 0 5px;
-    color: var(--text-color-dark); /* Color del texto del nombre */
-    font-size: 0.95em;
-}
-
-.user-info .user-role {
-    color: var(--text-color-light); /* Color para el rol */
-    font-size: 0.85em;
-    margin-bottom: 10px;
-}
-
-.user-info .user-contact {
-    color: var(--text-color-medium); /* Color para la información de contacto */
-    font-size: 0.9em;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px; /* Espacio entre icono y texto */
-}
-
-.user-contact i {
-    color: var(--accent-color); /* Color del icono de contacto */
-}
-
-.user-actions {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px; /* Espacio entre botones */
-    justify-content: center;
-    flex-wrap: wrap; /* Para que los botones se envuelvan en pantallas pequeñas */
-}
-
-/* Estilos de botones específicos para las tarjetas de usuario */
-.btn-view, .btn-edit {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.2s ease;
-}
-
-.btn-view {
-    background-color: var(--btn-secondary-bg); /* Color de fondo para "Ver" */
-    color: var(--btn-secondary-text); /* Color del texto para "Ver" */
-}
-
-.btn-view:hover {
-    background-color: var(--btn-secondary-hover);
-}
-
-.btn-edit {
-    background-color: var(--btn-edit-bg); /* Color de fondo para "Editar" */
-    color: var(--btn-edit-text); /* Color del texto para "Editar" */
-}
-
-.btn-edit:hover {
-    background-color: var(--btn-edit-hover);
-}
-
-/* Estilos para los modales (pueden ser genéricos en dashboard.css) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
-    justify-content: center;
-    align-items: center;
-    padding-top: 60px; /* Adjust as needed */
-}
-
-.modal-content {
-    background-color: var(--modal-bg); /* Color de fondo del modal */
-    margin: auto;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: var(--shadow-large);
-    width: 90%;
-    max-width: 600px;
-    position: relative;
-    animation-name: animatetop;
-    animation-duration: 0.4s;
-}
-
-.close-button {
-    color: var(--text-color-light);
-    font-size: 28px;
-    font-weight: bold;
-    position: absolute;
-    top: 15px;
-    right: 25px;
-    cursor: pointer;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: var(--primary-color);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.modal-form-group {
-    margin-bottom: 15px;
-}
-
-.modal-form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: var(--text-color-dark);
-}
-
-.modal-form-group input[type="text"],
-.modal-form-group input[type="email"],
-.modal-form-group input[type="tel"],
-.modal-form-group select {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 1em;
-    background-color: var(--input-bg);
-    color: var(--text-color-dark);
-}
-
-.modal-form-group input.invalid,
-.modal-form-group select.invalid {
-    border-color: var(--error-color);
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 25px;
-}
-
-.btn-small {
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-}
-
-.btn-secondary {
-    background-color: var(--btn-secondary-bg);
-    color: var(--btn-secondary-text);
-    border: 1px solid var(--btn-secondary-border);
-}
-
-.btn-secondary:hover {
-    background-color: var(--btn-secondary-hover);
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-}
-
-.btn-primary:hover {
-    background-color: var(--primary-color-dark);
-}
-
-.error-message {
-    color: var(--error-color);
-    font-size: 0.85em;
-    margin-top: 5px;
-    display: none; /* Hidden by default */
-}
-
-/* Animación de apertura del modal */
-@keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
-}
-
-/* Considera agregar estas variables a tu `dashboard.css` o un archivo `variables.css` global */
+/* Variables (asegúrate de que estas estén en la parte superior o en un archivo de variables global) */
 :root {
-    --primary-color: #22d3ee; /* Color cian */
-    --primary-color-dark: #0e7490;
-    --primary-color-light: #67e8f9;
+    --primary-color: #22d3ee; /* Color principal (azul cian) */
+    --primary-color-light: #67e8f9; /* Azul cian más claro */
     --accent-color: #fde047; /* Amarillo */
     --background-color: #f8fafc; /* Gris muy claro */
     --card-bg-color: #ffffff; /* Blanco para tarjetas */
@@ -254,38 +26,483 @@
     --btn-edit-bg: #93c5fd; /* Azul suave para editar */
     --btn-edit-text: #1e293b;
     --btn-edit-hover: #60a5fa;
+    --btn-edit-border: #60a5fa;
+}
+
+/* Sección de cuadrícula de usuarios */
+.user-grid-section {
+    padding: 20px; /* Asegura un padding consistente */
+    padding-top: 0; /* Ajusta el padding superior si ya lo manejó top-bar */
+}
+
+/* Estilos para la nueva barra superior (búsqueda y botón "Nuevo Usuario") */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--card-bg-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-small);
+    margin-bottom: 20px; /* Espacio debajo de la barra */
+    gap: 15px; /* Espacio entre elementos */
+}
+
+.search-box {
+    position: relative;
+    flex-grow: 1; /* Permite que la caja de búsqueda crezca */
+    max-width: 400px; /* Limita el ancho para que no sea demasiado grande */
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 12px 12px 40px; /* Espacio para el icono a la izquierda */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: var(--input-bg);
+    color: var(--text-color-dark);
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2); /* Sombra para enfoque */
+}
+
+.search-box i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color-light);
+    font-size: 18px;
+}
+
+/* Ajustes para el botón primario en top-bar */
+.top-bar .btn-primary {
+    padding: 12px 20px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+}
+
+/* Mensajes de éxito/error */
+.message {
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+    display: none; /* Hidden by default */
+}
+
+.message.success {
+    background-color: #d1fae5; /* Verde claro */
+    color: #065f46; /* Verde oscuro */
+    border: 1px solid #34d399;
+}
+
+.message.error {
+    background-color: #fee2e2; /* Rojo claro */
+    color: #991b1b; /* Rojo oscuro */
+    border: 1px solid #ef4444;
+}
+
+/* Grid de Tarjetas de Equipo (ya debería estar, solo asegúrate de que sea similar) */
+.user-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    padding: 0 20px; /* Ajusta el padding lateral si user-grid-section ya tiene padding */
+}
+
+.team-card {
+    background-color: var(--card-bg-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-small);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid var(--border-color);
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    background-color: var(--primary-color-light);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    color: white;
+    font-size: 40px;
+}
+
+.user-avatar i {
+    color: white; /* Asegura que el icono sea blanco */
+}
+
+.user-info h3 {
+    font-size: 20px;
+    color: var(--text-color-dark);
+    margin-bottom: 5px;
+}
+
+.user-role {
+    font-size: 14px;
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.user-contact {
+    font-size: 14px;
+    color: var(--text-color-medium);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-small {
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-view {
+    background-color: transparent;
+    border-color: var(--border-color);
+    color: var(--text-color-medium);
+}
+
+.btn-view:hover {
+    background-color: var(--btn-secondary-bg);
+    border-color: var(--btn-secondary-bg);
+}
+
+.btn-edit {
+    background-color: var(--btn-edit-bg);
+    color: var(--btn-edit-text);
+    border-color: var(--btn-edit-bg);
+}
+
+.btn-edit:hover {
+    background-color: var(--btn-edit-hover);
+    border-color: var(--btn-edit-hover);
+}
+
+
+/* Estilos para modales */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--modal-bg);
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: var(--shadow-large);
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.close-button {
+    color: var(--text-color-light);
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--text-color-dark);
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.modal-info-grid,
+.modal-form-group {
+    margin-bottom: 15px;
+}
+
+.modal-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+    font-size: 16px;
+    color: var(--text-color-dark);
+}
+
+.modal-info-grid strong {
+    color: var(--text-color-medium);
+}
+
+.modal-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-color-medium);
+}
+
+.modal-form-group input[type="text"],
+.modal-form-group input[type="email"],
+.modal-form-group input[type="tel"],
+.modal-form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    font-size: 16px;
+    color: var(--text-color-dark);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-form-group input:focus,
+.modal-form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
+}
+
+.modal-form-group input.invalid,
+.modal-form-group select.invalid {
+    border-color: var(--error-color);
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 13px;
+    margin-top: 5px;
+    display: none; /* Hidden by default */
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+/* Estilos de botones generales (asegúrate de que dashboard.css los tenga o agrégalos aquí) */
+.btn {
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0d9488; /* Un poco más oscuro */
+    box-shadow: 0 4px 8px rgba(34, 211, 238, 0.2);
+}
+
+.btn-secondary {
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    border: 1px solid var(--btn-secondary-border);
+}
+
+.btn-secondary:hover {
+    background-color: var(--btn-secondary-hover);
+    box-shadow: 0 4px 8px rgba(226, 232, 240, 0.2);
+}
+
+/* Sección de Horarios */
+.schedule-section {
+    background-color: var(--card-bg-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-small);
+    padding: 20px;
+    margin: 20px; /* Asegura un margen alrededor */
+}
+
+.schedule-section h2 {
+    font-size: 20px;
+    color: var(--text-color-dark);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.schedule-item {
+    background-color: var(--input-bg);
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.schedule-time {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 14px;
+}
+
+.schedule-info {
+    font-size: 14px;
+    color: var(--text-color-medium);
+}
+
+.schedule-name {
+    font-weight: 600;
+    color: var(--text-color-dark);
+}
+
+
+.user-info {
+    /* Establece un ancho máximo para el contenedor de información */
+    max-width: 100%; /* Asegura que no exceda el ancho de la tarjeta */
+    text-align: center; /* Centra el texto */
+    margin-top: 15px; /* Espacio superior */
+    margin-bottom: 15px; /* Espacio inferior antes de los botones/acciones */
+    overflow: hidden; /* Oculta cualquier contenido que se desborde */
+    padding: 0 10px; /* Un poco de padding horizontal para evitar que el texto toque los bordes */
+}
+
+.user-info h3 {
+    font-size: 1.3em; /* Un poco más grande para el nombre */
+    color: var(--text-color-dark); /* Color oscuro para el nombre */
+    margin-bottom: 8px; /* Espacio debajo del nombre */
+    white-space: nowrap; /* Evita que el nombre se divida en varias líneas */
+    overflow: hidden; /* Oculta el texto que se desborda */
+    text-overflow: ellipsis; /* Añade puntos suspensivos (...) si el texto es demasiado largo */
+}
+
+.user-info .user-role {
+    font-size: 0.95em; /* Tamaño de fuente para el rol */
+    color: var(--text-color-medium); /* Color medio para el rol */
+    margin-bottom: 10px; /* Espacio debajo del rol */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-info .user-contact {
+    font-size: 0.9em; /* Tamaño de fuente para la información de contacto */
+    color: var(--text-color-light); /* Color más claro para el contacto */
+    margin-bottom: 5px; /* Pequeño espacio entre cada línea de contacto */
+    display: flex; /* Permite alinear el icono y el texto */
+    align-items: center; /* Alinea verticalmente el icono y el texto */
+    justify-content: center; /* Centra el contenido */
+    gap: 8px; /* Espacio entre el icono y el texto */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-info .user-contact i {
+    color: var(--primary-color); /* Color del icono, puedes ajustarlo */
+    font-size: 1em; /* Asegura que el icono tenga un tamaño legible */
+    flex-shrink: 0; /* Evita que el icono se encoja si el texto es largo */
+}
+
+.user-info h3,
+.user-info .user-role,
+.user-info .user-contact {
+    white-space: normal; /* Permite salto de línea */
+    overflow: visible;   /* Ya no oculta el exceso */
+    text-overflow: unset; /* Ya no muestra puntos suspensivos */
+}
+
+
+/* Considera añadir un media query para pantallas más pequeñas si las tarjetas se vuelven demasiado estrechas */
+@media (max-width: 480px) {
+    .user-info h3 {
+        font-size: 1.2em;
+    }
+    .user-info .user-role,
+    .user-info .user-contact {
+        font-size: 0.85em;
+    }
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .user-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        padding: 10px;
-    }
-
-    .modal-content {
-        width: 95%;
-        padding: 20px;
-    }
-
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .header-actions {
-        width: 100%;
+    .top-bar {
         flex-direction: column;
         align-items: stretch;
     }
-
     .search-box {
-        width: 100%;
+        max-width: 100%;
+        margin-bottom: 15px;
     }
-
-    .btn.btn-primary {
-        width: 100%;
-        margin-top: 10px;
+    .user-grid {
+        grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+    }
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+    .main-content {
+        margin-left: 0; /* Desactiva el margen lateral cuando el sidebar se colapsa */
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }

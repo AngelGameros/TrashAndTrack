@@ -238,8 +238,7 @@
               "RelativeToolTip": "TrashNTrack\\Controllers\\ContenedoresController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-31T00:49:58.287Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-31T00:49:58.287Z"
             },
             {
               "$type": "Document",
@@ -251,8 +250,7 @@
               "RelativeToolTip": "TrashNTrack\\Models\\Contenedores\\ContenedorListResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-31T00:42:49.993Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-31T00:42:49.993Z"
             },
             {
               "$type": "Document",
@@ -264,8 +262,7 @@
               "RelativeToolTip": "TrashNTrack\\Models\\Contenedores\\ContenedorMapper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-31T00:42:20.517Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-31T00:42:20.517Z"
             },
             {
               "$type": "Document",
@@ -277,8 +274,7 @@
               "RelativeToolTip": "TrashNTrack\\Models\\Contenedores\\ContenedorResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-31T00:42:07.421Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-31T00:42:07.421Z"
             },
             {
               "$type": "Document",
@@ -314,8 +310,7 @@
               "RelativeToolTip": "TrashNTrack\\Controllers\\IncidentesController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T05:02:39.959Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-29T05:02:39.959Z"
             },
             {
               "$type": "Document",
@@ -327,8 +322,7 @@
               "RelativeToolTip": "TrashNTrack\\Models\\Camiones\\CamionesMapper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T04:14:39.702Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-29T04:14:39.702Z"
             },
             {
               "$type": "Document",
@@ -592,8 +586,7 @@
               "RelativeToolTip": "TrashNTrack\\DataAccess\\MongoDbConnection.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAB8AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T20:53:14.273Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-18T20:53:14.273Z"
             },
             {
               "$type": "Document",
@@ -690,8 +683,7 @@
               "RelativeToolTip": "TrashNTrack\\Controllers\\UsuariosController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-23T20:46:10.923Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-23T20:46:10.923Z"
             },
             {
               "$type": "Document",
@@ -751,8 +743,7 @@
               "RelativeToolTip": "TrashNTrack\\Config\\ConfigMongoDb.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T20:52:35.004Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-18T20:52:35.004Z"
             },
             {
               "$type": "Document",

@@ -127,73 +127,71 @@ async function renderContainers(filteredContainers = null) {
         return;
     }
 
-    containersToRender.forEach(container => {
-        // Calcular el nivel de llenado real y sus clases para la barra y la cabecera
-        const currentWeight = container.values && container.values.weight_kg !== undefined && container.values.weight_kg !== null ? container.values.weight_kg : null;
-        const maxWeight = container.maxWeight_kg !== undefined && container.maxWeight_kg !== null ? container.maxWeight_kg : null;
+    containersToRender.forEach((container, index) => {
+    const currentWeight = container.values?.weight_kg ?? null;
+    const maxWeight = container.maxWeight_kg ?? null;
+    const temperature = container.values?.temperature_C ?? null;
 
-        const fillLevelRaw = calculateFillLevel(currentWeight, maxWeight);
-        const fillLevelNumeric = parseInt(fillLevelRaw); // Para el width de la barra
+    const fillLevelRaw = calculateFillLevel(currentWeight, maxWeight);
+    const fillLevelNumeric = parseInt(fillLevelRaw);
 
-        let statusClassHeader = 'status-offline'; // Clase por defecto para el span de status en la cabecera
-        let fillProgressClass = 'offline'; // Clase por defecto para la barra de progreso y la tarjeta principal
+    const containerCard = document.createElement('div');
+    containerCard.className = 'container-svg-card';
+    containerCard.innerHTML = `
+    <div class="container-card" style="
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        margin: 16px;
+        text-align: center;
+        transition: transform 0.2s;
+    ">
+        <div class="svg-clickable" data-index="${index}" style="cursor:pointer;">
+            <div style="font-size:16px; font-weight:bold; margin-bottom:8px;">
+                ${container.name || 'Sin nombre'}
+            </div>
+            <img src="../assets/contenedor.svg" alt="Contenedor" style="width:80px; height:auto; margin-bottom:12px;" />
+            <div style="font-size:14px; margin-bottom:8px;">
+                <strong>${temperature !== null ? temperature.toFixed(1) + "°C" : "N/A"}</strong>
+            </div>
 
-        if (!isNaN(fillLevelNumeric)) {
-            if (fillLevelNumeric >= 76) {
-                statusClassHeader = 'status-full';
-                fillProgressClass = 'full';
-            } else if (fillLevelNumeric >= 26) {
-                statusClassHeader = 'status-medium';
-                fillProgressClass = 'medium';
-            } else {
-                statusClassHeader = 'status-empty';
-                fillProgressClass = 'empty';
-            }
-        }
+            <div style="width:80%; margin:10px auto; background:#eee; border-radius:4px; height:10px; overflow:hidden;">
+                <div style="width:${fillLevelRaw}; height:100%; background-color:${
+                    fillLevelNumeric >= 80 ? '#e74c3c' : fillLevelNumeric >= 50 ? '#f39c12' : '#2ecc71'
+                }; transition: width 0.3s;"></div>
+            </div>
+            <div style="font-size:12px; margin-top:6px;">Nivel: ${fillLevelRaw}</div>
+        </div>
+    </div>
+`;
+
+    containersGrid.appendChild(containerCard);
+});
+
+document.querySelectorAll('.svg-clickable').forEach(el => {
+    el.addEventListener('click', (e) => {
+        const index = e.currentTarget.getAttribute('data-index');
+        const c = containersToRender[index];
+
+        const currentWeight = c.values?.weight_kg ?? null;
+        const maxWeight = c.maxWeight_kg ?? null;
+        const temperature = c.values?.temperature_C ?? null;
+        const fillLevel = calculateFillLevel(currentWeight, maxWeight);
+
+        document.getElementById('modalNombre').textContent = c.name || 'N/A';
+        document.getElementById('modalTipo').textContent = c.type || 'N/A';
         
-        // Obtener valores reales de las métricas si existen
-        const temperature = container.values && container.values.temperature_C !== undefined && container.values.temperature_C !== null ? `${container.values.temperature_C.toFixed(1)}°C` : 'N/A';
-        // Usamos el status general del contenedor como "Estado" o puedes tener un campo específico para "Estado sensor"
-        const sensorStatus = container.status || 'N/A'; 
+        document.getElementById('modalPeso').textContent = currentWeight !== null ? `${currentWeight.toFixed(2)} kg` : 'N/A';
+        document.getElementById('modalMaximo').textContent = maxWeight !== null ? `${maxWeight.toFixed(2)} kg` : 'N/A';
+        document.getElementById('modalTemperatura').textContent = temperature !== null ? `${temperature.toFixed(1)} °C` : 'N/A';
+        document.getElementById('modalPorcentaje').textContent = fillLevel;
 
-        const containerCard = document.createElement('div');
-        // La clase de la tarjeta principal ahora usa fillProgressClass para su estilo general
-        containerCard.className = `container-card ${fillProgressClass}`;
-        containerCard.innerHTML = `
-            <div class="container-header">
-                <span class="container-id">${container.deviceID || 'N/A'}</span>
-                <span class="container-status ${statusClassHeader}">${statusClassHeader.replace('status-', '')}</span>
-            </div>
-            <div class="container-info">
-                <strong>Tipo:</strong> ${container.type || 'N/A'}<br>
-                <strong>Descripción:</strong> ${container.name || 'N/A'}<br>
-                <strong>Fecha Última Actualización:</strong> ${formatDate(container.lastUpdated) || 'N/A'}
-                <br><strong>Peso Actual:</strong> ${currentWeight !== null ? `${currentWeight.toFixed(2)} kg` : 'N/A'}
-                <br><strong>Peso Máximo:</strong> ${maxWeight !== null ? `${maxWeight.toFixed(2)} kg` : 'N/A'}
-            </div>
-            <div class="fill-level">
-                <div class="fill-bar">
-                    <div class="fill-progress ${fillProgressClass}" style="width: ${isNaN(fillLevelNumeric) ? 0 : fillLevelNumeric}%"></div>
-                </div>
-                <div class="fill-text">${fillLevelRaw} lleno</div>
-            </div>
-            <div class="container-metrics">
-                <div class="metric-small">
-                    <div class="metric-small-value">${temperature}</div>
-                    <div class="metric-small-label">Temperatura</div>
-                </div>
-                <div class="metric-small">
-                    <div class="metric-small-value">${sensorStatus}</div>
-                    <div class="metric-small-label">Estado</div>
-                </div>
-            </div>
-            <div class="container-actions">
-                <button class="btn-small btn-view" data-id="${container.id}">Ver Detalles</button>
-                <button class="btn-small btn-edit" data-id="${container.id}">Editar</button>
-            </div>
-        `;
-        containersGrid.appendChild(containerCard);
+        document.getElementById('modalContenedor').classList.remove('hidden');
     });
+});
+
+
 
     attachButtonListeners();
     // Call updateStatsCards AFTER containers array has been populated/filtered

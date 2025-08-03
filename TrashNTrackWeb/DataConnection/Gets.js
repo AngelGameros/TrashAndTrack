@@ -51,12 +51,8 @@ export async function getRutasById(id) {
     return fetchData(`Rutas/`+id);
 }
 
-export async function getRutasByEmpresa(empresaId){
-    return fetchData(`Sensores/por-contenedor`+empresaId);
-}
-
-export async function getRutasByPlanta(plantaId){
-    return fetchData(`Sensores/por-contenedor`+plantaId);
+export async function getRutasDetalladasById(id){
+    return fetchData(`Rutas/detalladas/` + id);
 }
 
 // =======================================

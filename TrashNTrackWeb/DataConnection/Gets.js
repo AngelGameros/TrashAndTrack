@@ -58,9 +58,7 @@ export async function getRutasByEmpresa(empresaId){
 export async function getRutasByPlanta(plantaId){
     return fetchData(`Sensores/por-contenedor`+plantaId);
 }
-export async function getRutasDetalladas(id) {
-    return fetchData(`Rutas/detalladas/`+id);
-}
+
 // =======================================
 // GETS PARA REPORTES
 // =======================================
@@ -166,21 +164,21 @@ export async function getEmpresasByNombre() {
 // GETS PARA CONTENEDORES
 // =======================================
 export async function getContenedores() {
-    return fetchData("Containers");
+    return fetchData("Contenedores");
 }
 
 export async function getContenedoresById(id) {
-    return fetchData(`Containers/${id}`);
+    return fetchData(`Contenedores/${id}`);
 }
 
 export async function getContenedoresByEmpresa(idEmpresa){
-    return fetchData(`Containers/`+idEmpresa);
+    return fetchData(`Contenedores/`+idEmpresa);
 }
 export async function getContenedoresByTipoResiduo(tipoResiduoId){
-    return fetchData(`Containers/por-tipo-residuo/`+tipoResiduoId);
+    return fetchData(`Contenedores/por-tipo-residuo/`+tipoResiduoId);
 }
 export async function getContenedoresByEstado(estado){
-    return fetchData(`Containers/por-estado/`+estado);
+    return fetchData(`Contenedores/por-estado/`+estado);
 }
 
 // =======================================

@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\empresas\\empresalistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\empresas\\empresalistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\empresas\\empresaresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\empresas\\empresaresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\empresas\\empresamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\empresas\\empresamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\empresas\\empresa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\empresas\\empresa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\config\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\config\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,8 +14,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Config.json",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.json",
+              "RelativeDocumentMoniker": "TrashNTrack\\Config\\Config.json",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.json*",
+              "RelativeToolTip": "TrashNTrack\\Config\\Config.json*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-03T05:05:20.742Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
@@ -47,58 +48,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "EmpresaListresponse.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\EmpresaListresponse.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Empresas\\EmpresaListresponse.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\EmpresaListresponse.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\Empresas\\EmpresaListresponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T04:52:20.047Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "EmpresaResponse.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\EmpresaResponse.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Empresas\\EmpresaResponse.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\EmpresaResponse.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\Empresas\\EmpresaResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T04:52:06.667Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "EmpresaMapper.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\EmpresaMapper.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Empresas\\EmpresaMapper.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\EmpresaMapper.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\Empresas\\EmpresaMapper.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAswCAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T04:30:00.909Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Empresa.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\Empresa.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\Empresas\\Empresa.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\Empresas\\Empresa.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\Empresas\\Empresa.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAgwCkAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T04:29:50.194Z",
-              "EditorCaption": ""
             }
           ]
         }

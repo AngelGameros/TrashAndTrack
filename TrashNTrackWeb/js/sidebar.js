@@ -6,7 +6,7 @@ async function loadSideMenu() {
         .catch( (error) => { console.error(error); });
 }
 //show side menu
-export function showSideMenu() {
+export function showSideMenu(){
     //parent div
     var sideMenu = document.getElementById('side-menu');
     sideMenu.innerHTML = '<h1 id="sideBarTitle">Trash&Track</h1>'; //empty div

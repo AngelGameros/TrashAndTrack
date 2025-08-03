@@ -28,14 +28,34 @@ export async function putData(endpoint, data) {
 // PUTS PARA USUARIOS
 // =======================================
 
-export async function putUsuario(id, { nombre, primerApellido, segundoApellido, numeroTelefono }) {
-    return putData(`Usuarios/${id}`, {
+// Puts.js
+
+export async function putUsuario(id, { nombre, primerApellido, segundoApellido, numeroTelefono, firebase_uid }) {
+    // Primero actualizamos nombre y apellidos
+    const nameUpdate = await putData(`Usuarios/${id}`, {
         nombre,
-        primerApellido,
-        segundoApellido,
-        numeroTelefono
+        primer_apellido: primerApellido,
+        segundo_apellido: segundoApellido
     });
+
+    // Luego actualizamos el número telefónico usando el Firebase UID
+    const phoneUpdate = await putData("Usuarios/phone", {
+        firebase_uid,
+        numero_telefono: numeroTelefono
+    });
+
+    // Considera ambas actualizaciones exitosas si ambas respuestas dicen "success"
+    if (nameUpdate.status === "success" && phoneUpdate.status === "success") {
+        return { status: "success" };
+    }
+
+    // Si uno falla, devuelve el error
+    return {
+        status: "error",
+        message: (nameUpdate.message || phoneUpdate.message || "Error al actualizar usuario")
+    };
 }
+
 
 // =======================================
 // PUT para Empresas

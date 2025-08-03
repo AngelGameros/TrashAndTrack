@@ -119,4 +119,36 @@ public class IncidentesController : ControllerBase
             });
         }
     }
+
+
+    public class UpdateEstadoRequest
+    {
+        public string estado_incidente { get; set; }
+    }
+    [HttpPut("{id}")]
+    public ActionResult UpdateEstado(int id, [FromBody] UpdateEstadoRequest request)
+    {
+        try
+        {
+            if (request == null || string.IsNullOrEmpty(request.estado_incidente))
+            {
+                return BadRequest(new { status = "error", message = "El estado del incidente es requerido." });
+            }
+
+            bool updated = Incidente.UpdateEstadoIncidente(id, request.estado_incidente);
+
+            if (updated)
+            {
+                return Ok(new { status = "success", message = "Estado del incidente actualizado correctamente." });
+            }
+            else
+            {
+                return BadRequest(new { status = "error", message = "No se pudo actualizar el estado del incidente o el incidente no fue encontrado." });
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { status = "error", message = $"Error interno del servidor: {ex.Message}" });
+        }
+    }
 }

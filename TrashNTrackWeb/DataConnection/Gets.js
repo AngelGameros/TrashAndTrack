@@ -54,7 +54,9 @@ export async function getRutasByEmpresa(empresaId){
 export async function getRutasByPlanta(plantaId){
     return fetchData(`Sensores/por-contenedor`+plantaId);
 }
-
+export async function getRutasDetalladas(id) {
+    return fetchData(`Rutas/detalladas/`+id);
+}
 // =======================================
 // GETS PARA REPORTES
 // =======================================
@@ -134,6 +136,7 @@ export async function getIncidentesByUsuario(usuarioId){
 export async function getIncidentesByFecha() {
     return fetchData(`Incidentes/por-fecha`);
 }
+
 
 // =======================================
 // GETS PARA EMPRESAS

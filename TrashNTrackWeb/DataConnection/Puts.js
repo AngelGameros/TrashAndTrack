@@ -108,3 +108,42 @@ export async function putEmpresas(id, infoUbicacion) {
     */
 
 }
+
+// =======================================
+// PUT para USUARIOS
+// =======================================
+export async function putEmpresas(id, infoUsuario) {
+    if (!id) {
+        throw new Error("se debe especificar el id de la ruta.");
+    }
+    if (!infoUsuario) {
+        throw new Error("Updated route data cannot be empty.");
+    }
+    return fetchPut("Usuarios", id, infoUsuario);
+/*
+{
+  "nombre": "Nuevo Nombre",
+  "primer_apellido": "Nuevo Primer Apellido",
+  "segundo_apellido": "Nuevo Segundo Apellido"
+}
+*/
+}
+
+// =======================================
+// PUT para cambiar estado del incidente
+// =======================================
+export async function putEstadoIncidente(id, nuevoEstado) {
+    if (!nuevoEstado) {
+        throw new Error("se debe especificar el id de la ruta.");
+    }
+    if (!nuevoEstado) {
+        throw new Error("Updated route data cannot be empty.");
+    }
+    return fetchPut("Incidentes", id, nuevoEstado);
+
+    /*información esperada por el método
+    {
+        "estado_Incidente": "CERRADO"
+    }
+    */
+}

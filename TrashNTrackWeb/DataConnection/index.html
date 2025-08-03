@@ -80,10 +80,15 @@
     <div class="container">
         <h1>Simulador de Datos de Contenedores</h1>
         <p>Este simulador enviará datos aleatorios de contenedores a tu API de .NET Core cada 3 segundos.</p>
+        
         <div class="controls">
+            <label for="containerSelector">Seleccionar Contenedor:</label>
+            <select id="containerSelector">
+                </select>
             <button id="startButton">Iniciar Simulador</button>
             <button id="stopButton">Detener Simulador</button>
         </div>
+        
         <h2>Registro de Actividad:</h2>
         <div id="log">
             </div>

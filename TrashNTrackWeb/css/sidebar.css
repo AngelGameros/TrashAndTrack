@@ -1,85 +1,68 @@
-/* Sidebar Styles */
-.sidebar {
+/*
+* =============================================
+* CSS para el Sidebar - Estructura y Componentes
+* =============================================
+*/
+
+/* 1. Contenedor principal del sidebar */
+#side-menu {
+    /* El JS usa el ID 'side-menu' para el contenedor principal. */
+    position: fixed; /* Lo fija en la pantalla */
     width: 280px;
-    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-    color: white;
+    background: var(--sideMenuBackground);
+    color: var(--sideMenuNormalText);
     padding: 20px 0;
-    position: fixed;
     height: 100vh;
-    overflow-y: auto;
+    overflow-y: auto; /* Permite desplazamiento si el contenido es largo */
+    z-index: 1;
+    list-style: none; /* Elimina los puntos de lista si se usa <ul> */
+    margin: 0; /* Asegura que no tenga margen predeterminado */
+    top: 0; /* Lo ancla a la parte superior */
+    left: 0; /* Lo ancla a la parte izquierda */
 }
 
-.nav-group-label {
-  padding: 8px 24px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #64748b;
-  letter-spacing: 0.5px;
-}
-
-.sidebar-footer {
-  margin-top: 20px;
-  padding: 16px 24px;
-  border-top: 1px solid #334155;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.user-info i {
-  font-size: 32px;
-  color: #64748b;
-}
-
-.user-name {
-  font-weight: 600;
-  color: #64748b;
-  font-size: 14px;
-}
-
-.logo {
-    padding: 0 20px 30px;
-    border-bottom: 1px solid #334155;
-    margin-bottom: 20px;
-}
-
-.logo h2 {
-    color: #22d3ee;
-    font-weight: 700;
-    font-size: 24px;
-}
-
-.nav-menu {
-    list-style: none;
-}
-
-.nav-item {
-    margin: 5px 0;
-}
-
-.nav-link {
-    display: flex;
+/* 2. Estilos para cada opción del menú (el div que actúa como link) */
+.side-menu-option {
+    display: flex; /* Alinea ícono y texto horizontalmente */
     align-items: center;
     padding: 12px 20px;
-    color: #cbd5e1;
+    margin: 5% 0; /* Margen vertical entre opciones */
+    color: var(--sideMenuNormalText);
     text-decoration: none;
-    transition: all 0.3s ease;
-    border-left: 3px solid transparent;
+    transition: all 0.3s ease; /* Transición para efectos de hover */
+    border-left: 3px solid transparent; /* Borde lateral para el efecto de activo/hover */
+    cursor: pointer; /* Indica que es un elemento interactivo */
+    
 }
 
-.nav-link:hover,
-.nav-link.active {
-    background-color: rgba(34, 211, 238, 0.1);
-    color: #22d3ee;
-    border-left-color: #22d3ee;
+.side-menu-option:hover,
+.side-menu-option.active {
+    background-color: var(--sideMenuHover);
+    color: var(--sideMenuSelectedText);
+    border-left-color: var(--sideMenuLogo);
 }
 
-.nav-link i {
+/* 4. Estilos para el contenedor del ícono */
+.side-menu-icon {
+    /* El JS crea un div con la clase 'side-menu-icon' para el ícono. */
     width: 20px;
-    margin-right: 12px;
-    font-size: 16px;
+    margin-right: 12%;
+    font-size: 20px;
+    display: flex; /* Asegura que el ícono esté centrado en el div */
+    justify-content: center;
+    align-items: center;
+}
+
+/* 5. Estilos para la etiqueta de texto */
+.side-menu-label {
+    flex-grow: 1; /* Permite que el texto ocupe el espacio restante */
+    font-size: 18px;
+    font-weight: 500;
+    white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+    overflow: hidden; /* Oculta el texto si es muy largo */
+    text-overflow: ellipsis; /* Añade puntos suspensivos si se oculta */
+}
+.sideBarLaber{
+  display: flex;
+  margin-left: 10%;
 }

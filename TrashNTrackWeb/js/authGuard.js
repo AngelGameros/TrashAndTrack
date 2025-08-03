@@ -40,11 +40,12 @@
     }
 
     // Páginas que requieren autenticación de admin
-    const protectedPages = ["dashboard.html", "chat.html"]
+    const protectedPages = ["dashboard.html", "chat.html","perfil.html","camiones.html"]
+    const protectedFolder = "/html/"
     const currentPage = window.location.pathname.split("/").pop()
 
     // Solo aplicar guard en páginas protegidas
-    if (protectedPages.includes(currentPage)) {
+    if (currentPath.includes(protectedFolderPath)) {
       auth.onAuthStateChanged(async (user) => {
         if (user) {
           try {

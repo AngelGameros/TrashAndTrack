@@ -29,6 +29,11 @@ public class Incidente
         INSERT INTO Incidentes ( nombre, fecha_incidente, url_foto, descripcion, id_usuario, estado_incidente, fecha_resolucion, resuelto_por)
         OUTPUT INSERTED.id_incidente
         VALUES (@Nombre, @FechaIncidente, @PhotoUrl, @Descripcion, @IdUsuario, @EstadoIncidente, @FechaResolucion, @ResueltoPor)";
+
+    private static string IncidenteUpdateEstado = @"
+        UPDATE Incidentes
+        SET estado_incidente = @estado_incidente
+        WHERE id_incidente = @id_incidente";
     #endregion
 
     #region Properties
@@ -119,6 +124,19 @@ public class Incidente
         command.Parameters.AddWithValue("@ResueltoPor", (object)incidente.ResueltoPor ?? DBNull.Value);
 
         return Convert.ToInt32(SqlServerConnection.ExecuteScalar(command));
+    }
+
+
+    public static bool UpdateEstadoIncidente(int idIncidente, string nuevoEstado)
+    {
+        using (SqlCommand command = new SqlCommand(IncidenteUpdateEstado))
+        {
+            command.Parameters.AddWithValue("@id_incidente", idIncidente);
+            command.Parameters.AddWithValue("@estado_incidente", nuevoEstado ?? (object)DBNull.Value);
+
+            int rowsAffected = SqlServerConnection.ExecuteCommand(command);
+            return rowsAffected > 0;
+        }
     }
     #endregion
 }

@@ -10,7 +10,7 @@
             {
                 id = empresa.IdEmpresa,
                 nombre = empresa.Nombre,
-                fechaRegistro = empresa.FechaRegistro,
+                fechaRegistro = empresa.FechaRegistro.HasValue ? empresa.FechaRegistro.Value.ToString("yyyy-MM-dd HH:mm:ss") : null,
                 rfc = empresa.RFC,
                 idUbicacion = empresa.IdUbicacion
             }

@@ -97,24 +97,22 @@ namespace TrashNTrack.Controllers
             }
         }
 
-
-        [HttpPut]
-        [Route("update-details")] // Ruta más descriptiva para la actualización de detalles
-        public ActionResult UpdateUserDetails([FromBody] UserUpdateRequest request)
+        // Nuevo método PUT para actualizar nombre y apellidos por id_usuario
+        [HttpPut("{id}")]
+        public ActionResult UpdateUserDetails(int id, [FromBody] UserUpdateDetailsRequest request)
         {
             try
             {
-                if (request == null || string.IsNullOrEmpty(request.firebase_uid))
+                if (request == null)
                 {
                     return BadRequest(new { status = "error", message = "Datos de solicitud inválidos." });
                 }
 
-                bool updated = Usuario.UpdateUser(
-                    request.firebase_uid,
+                bool updated = Usuario.UpdateUserById(
+                    id,
                     request.nombre,
                     request.primer_apellido,
-                    request.segundo_apellido,
-                    request.tipo_usuario
+                    request.segundo_apellido
                 );
 
                 if (updated)
@@ -135,13 +133,11 @@ namespace TrashNTrack.Controllers
             }
         }
 
-        public class UserUpdateRequest
+        public class UserUpdateDetailsRequest
         {
-            public string firebase_uid { get; set; }
             public string nombre { get; set; }
             public string primer_apellido { get; set; }
             public string segundo_apellido { get; set; }
-            public string tipo_usuario { get; set; }
         }
 
         public class PhoneUpdateRequest

@@ -10,9 +10,12 @@ public class EmpresaMapper
         {
             IdEmpresa = Convert.ToInt32(row["id_empresa"]),
             Nombre = row["nombre"].ToString(),
-            FechaRegistro = row["fecha_registro"].ToString(),
-            RFC = row["rfc"].ToString(),
-            IdUbicacion = Convert.ToInt32(row["id_ubicacion"])
+            // Manejar FechaRegistro que podría ser NULL
+            FechaRegistro = row["fecha_registro"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(row["fecha_registro"]),
+            // Manejar RFC que podría ser NULL
+            RFC = row["rfc"] == DBNull.Value ? null : row["rfc"].ToString(),
+            // Manejar IdUbicacion que podría ser NULL
+            IdUbicacion = row["id_ubicacion"] == DBNull.Value ? (int?)null : Convert.ToInt32(row["id_ubicacion"])
         };
     }
 

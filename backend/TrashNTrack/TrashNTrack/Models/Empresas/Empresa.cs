@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
-using System.Text.Json.Serialization; // Agrega esta línea
+using System.Text.Json.Serialization;
 
 public class Empresa
 {
@@ -28,7 +28,7 @@ public class Empresa
 
     private static string EmpresaInsert = @"
         insert into EMPRESAS (nombre,rfc,id_ubicacion)
-        VALUES (@Nombre, @RFC, @IdUbicacion);"; 
+        VALUES (@Nombre, @RFC, @IdUbicacion);";
 
     private static string EmpresaUpdate = @"
         UPDATE Empresas
@@ -39,10 +39,9 @@ public class Empresa
     #region Properties
     public int IdEmpresa { get; set; }
     public string Nombre { get; set; }
-
-    public string FechaRegistro { get; set; }
+    public DateTime? FechaRegistro { get; set; } 
     public string RFC { get; set; }
-    public int IdUbicacion { get; set; }
+    public int? IdUbicacion { get; set; } 
     #endregion
 
     #region Constructors
@@ -50,12 +49,12 @@ public class Empresa
     {
         IdEmpresa = 0;
         Nombre = string.Empty;
-        FechaRegistro = string.Empty;
+        FechaRegistro = null; // Asignar null por defecto
         RFC = string.Empty;
-        IdUbicacion = 0;
+        IdUbicacion = null; // Asignar null por defecto
     }
 
-    public Empresa(int id, string nombre, string fechaRegistro, string rfc, int idUbicacion)
+    public Empresa(int id, string nombre, DateTime? fechaRegistro, string rfc, int? idUbicacion)
     {
         IdEmpresa = id;
         Nombre = nombre;
@@ -98,8 +97,8 @@ public class Empresa
     {
         SqlCommand command = new SqlCommand(EmpresaInsert);
         command.Parameters.AddWithValue("@Nombre", Nombre);
-        command.Parameters.AddWithValue("@RFC", RFC);
-        command.Parameters.AddWithValue("@IdUbicacion", IdUbicacion);
+        command.Parameters.AddWithValue("@RFC", RFC ?? (object)DBNull.Value); // Manejar RFC nulo
+        command.Parameters.AddWithValue("@IdUbicacion", IdUbicacion ?? (object)DBNull.Value); // Manejar IdUbicacion nulo
 
         IdEmpresa = Convert.ToInt32(SqlServerConnection.ExecuteScalar(command));
         return IdEmpresa;
@@ -110,9 +109,9 @@ public class Empresa
         SqlCommand command = new SqlCommand(EmpresaUpdate);
         command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
         command.Parameters.AddWithValue("@Nombre", Nombre);
-        command.Parameters.AddWithValue("@FechaRegistro", FechaRegistro);
-        command.Parameters.AddWithValue("@RFC", RFC);
-        command.Parameters.AddWithValue("@IdUbicacion", IdUbicacion);
+        command.Parameters.AddWithValue("@FechaRegistro", FechaRegistro ?? (object)DBNull.Value); // Manejar FechaRegistro nulo
+        command.Parameters.AddWithValue("@RFC", RFC ?? (object)DBNull.Value); // Manejar RFC nulo
+        command.Parameters.AddWithValue("@IdUbicacion", IdUbicacion ?? (object)DBNull.Value); // Manejar IdUbicacion nulo
 
         SqlServerConnection.ExecuteQuery(command);
     }

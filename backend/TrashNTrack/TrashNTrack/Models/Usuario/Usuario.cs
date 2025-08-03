@@ -17,6 +17,13 @@ public class Usuario
     FROM usuarios
     WHERE id_usuario = @ID";
 
+    // Nuevo statement para actualizar por id_usuario
+    private static String UsuarioUpdateById = @"
+    UPDATE usuarios
+    SET nombre = @Nombre,
+        primer_apellido = @PrimerApellido,
+        segundo_apellido = @SegundoApellido
+    WHERE id_usuario = @IdUsuario";
 
     #endregion
 
@@ -168,25 +175,19 @@ public class Usuario
         return rowsAffected > 0;
     }
 
-    public static bool UpdateUser(string firebaseUid, string newNombre, string newPrimerApellido, string newSegundoApellido, string newTipoUsuario)
+    // Nuevo método para actualizar por id_usuario
+    public static bool UpdateUserById(int idUsuario, string newNombre, string newPrimerApellido, string newSegundoApellido)
     {
-        string updateQuery = @"
-        UPDATE usuarios
-        SET nombre = @Nombre,
-            primer_apellido = @PrimerApellido,
-            segundo_apellido = @SegundoApellido,
-            tipo_usuario = @TipoUsuario
-        WHERE firebase_uid = @FirebaseUid";
+        using (SqlCommand command = new SqlCommand(UsuarioUpdateById))
+        {
+            command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+            command.Parameters.AddWithValue("@Nombre", newNombre ?? (object)DBNull.Value);
+            command.Parameters.AddWithValue("@PrimerApellido", newPrimerApellido ?? (object)DBNull.Value);
+            command.Parameters.AddWithValue("@SegundoApellido", newSegundoApellido ?? (object)DBNull.Value);
 
-        SqlCommand command = new SqlCommand(updateQuery);
-        command.Parameters.AddWithValue("@Nombre", newNombre ?? (object)DBNull.Value);
-        command.Parameters.AddWithValue("@PrimerApellido", newPrimerApellido ?? (object)DBNull.Value);
-        command.Parameters.AddWithValue("@SegundoApellido", newSegundoApellido ?? (object)DBNull.Value);
-        command.Parameters.AddWithValue("@TipoUsuario", newTipoUsuario ?? "recolector"); // Default a 'recolector' si es nulo
-        command.Parameters.AddWithValue("@FirebaseUid", firebaseUid);
-
-        int rowsAffected = SqlServerConnection.ExecuteCommand(command);
-        return rowsAffected > 0;
+            int rowsAffected = SqlServerConnection.ExecuteCommand(command);
+            return rowsAffected > 0;
+        }
     }
     #endregion
 }

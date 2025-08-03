@@ -1,5 +1,3 @@
-// Firebase ya está cargado globalmente desde el HTML
-const firebase = window.firebase
 
 // Configuración de Firebase
 const firebaseConfig = {

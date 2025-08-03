@@ -13,7 +13,7 @@ public class EmpresaListResponse
             {
                 id = e.IdEmpresa,
                 nombre = e.Nombre,
-                fechaRegistro = e.FechaRegistro,
+                fechaRegistro = e.FechaRegistro.HasValue ? e.FechaRegistro.Value.ToString("yyyy-MM-dd HH:mm:ss") : null,
                 rfc = e.RFC,
                 idUbicacion = e.IdUbicacion
             }).ToList()

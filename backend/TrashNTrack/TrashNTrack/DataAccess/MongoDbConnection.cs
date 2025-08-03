@@ -1,29 +1,31 @@
 ﻿using MongoDB.Driver;
-using MongoDB.Bson;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 public class MongoDbConnection
 {
     private readonly IMongoDatabase _database;
+    private readonly string _defaultCollectionName;
 
-    public MongoDbConnection()
+    public MongoDbConnection(IConfiguration configuration)
     {
         Console.WriteLine("[MONGODB] Inicializando conexión a MongoDB...");
 
-        if (Config.Configuration == null || Config.Configuration.MongoDb == null)
-        {
-            Console.WriteLine("[MONGODB] Configuración de MongoDB no encontrada.");
-            throw new InvalidOperationException("Configuración de MongoDB no cargada. Asegúrate de inicializar Config.Configuration al inicio de tu aplicación.");
-        }
-
         try
         {
-            Console.WriteLine($"[MONGODB] Intentando conectar a: {Config.Configuration.MongoDb.ConnectionString}");
-            var client = new MongoClient(Config.Configuration.MongoDb.ConnectionString);
-            _database = client.GetDatabase(Config.Configuration.MongoDb.DatabaseName);
-            Console.WriteLine($"[MONGODB] Conexión a MongoDB exitosa. Base de datos: {Config.Configuration.MongoDb.DatabaseName}");
+            var connectionString = configuration.GetValue<string>("mongoDb:ConnectionString");
+            var databaseName = configuration.GetValue<string>("mongoDb:DatabaseName");
+            _defaultCollectionName = configuration.GetValue<string>("mongoDb:CollectionName");
+
+            if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(databaseName))
+            {
+                throw new InvalidOperationException("La cadena de conexión o el nombre de la base de datos de MongoDB no se encuentran en la configuración.");
+            }
+
+            var client = new MongoClient(connectionString);
+            _database = client.GetDatabase(databaseName);
+            Console.WriteLine($"[MONGODB] Conexión a MongoDB exitosa. Base de datos: {databaseName}");
         }
         catch (Exception ex)
         {
@@ -32,170 +34,50 @@ public class MongoDbConnection
         }
     }
 
-    // ✅ Método para obtener colección específica por nombre
+    // Método para obtener la colección por defecto, usado por el servicio MQTT y otros endpoints no dinámicos
+    public IMongoCollection<TDocument> GetCollection<TDocument>()
+    {
+        return _database.GetCollection<TDocument>(_defaultCollectionName);
+    }
+
+    // Método para obtener una colección por su nombre (dinámico), usado por el simulador
     public IMongoCollection<TDocument> GetCollection<TDocument>(string collectionName)
     {
-        Console.WriteLine($"[MONGODB] Accediendo a colección: {collectionName}");
         return _database.GetCollection<TDocument>(collectionName);
     }
 
-    // ✅ Método para obtener colección por defecto (mantener compatibilidad)
-    public IMongoCollection<TDocument> GetCollection<TDocument>()
+    // Método unificado para insertar o actualizar datos (usado por MQTT y la API)
+    public async Task UpsertContainerInfo(ContainerInfo container, string collectionName)
     {
-        var collectionName = Config.Configuration.MongoDb.CollectionName;
-        return GetCollection<TDocument>(collectionName);
-    }
+        if (container == null) throw new ArgumentNullException(nameof(container));
 
-    // ✅ Método para generar nombre de colección basado en DeviceID
-    private string GetContainerCollectionName(string deviceId)
-    {
-        // Limpiar el deviceId para que sea un nombre válido de colección
-        var cleanDeviceId = deviceId.Replace(" ", "_").Replace("-", "_").ToLower();
-        return $"container_{cleanDeviceId}";
-    }
+        var collection = GetCollection<ContainerInfo>(collectionName);
+        var filter = Builders<ContainerInfo>.Filter.Eq(c => c.DeviceID, container.DeviceID);
 
-    // ✅ Nuevo método específico para insertar lecturas de contenedores
-    public async Task InsertContainerReading(ContainerData containerData)
-    {
-        if (containerData == null || string.IsNullOrEmpty(containerData.DeviceID))
+        // Usamos ReplaceOneAsync para insertar o reemplazar un documento existente
+        // El parámetro IsUpsert = true garantiza que si no existe, se inserta uno nuevo.
+        container.UpdatedAt = DateTime.UtcNow; // Aseguramos que la fecha de actualización sea la actual
+
+        var result = await collection.ReplaceOneAsync(filter, container, new ReplaceOptions { IsUpsert = true });
+
+        if (result.IsAcknowledged)
         {
-            Console.WriteLine("[MONGODB] Error: ContainerData o DeviceID es nulo");
-            return;
-        }
-
-        try
-        {
-            // ✅ Generar nombre de colección específica para este contenedor
-            var collectionName = GetContainerCollectionName(containerData.DeviceID);
-            Console.WriteLine($"[MONGODB] Insertando lectura en colección: {collectionName}");
-
-            // ✅ Obtener la colección específica del contenedor
-            var collection = GetCollection<ContainerData>(collectionName);
-
-            // ✅ Preparar el documento para inserción (generar nuevo ObjectId)
-            containerData.PrepareForInsert();
-
-            // ✅ Agregar timestamp de inserción si no existe
-            if (containerData.LastUpdated == default(DateTime))
+            if (result.MatchedCount == 0)
             {
-                containerData.LastUpdated = DateTime.UtcNow;
+                Console.WriteLine($"[MONGODB] Documento insertado en la colección '{collectionName}' para DeviceID: {container.DeviceID}");
             }
-
-            Console.WriteLine($"[MONGODB] Insertando nueva lectura para contenedor: {containerData.DeviceID}");
-            Console.WriteLine($"[MONGODB] Timestamp: {containerData.LastUpdated}");
-            Console.WriteLine($"[MONGODB] Temperatura: {containerData.Values?.Temperature_C}°C");
-            Console.WriteLine($"[MONGODB] Peso: {containerData.Values?.Weight_kg}kg");
-
-            // ✅ Insertar como nuevo documento (no upsert, para mantener historial)
-            await collection.InsertOneAsync(containerData);
-
-            Console.WriteLine($"[MONGODB] ✅ Lectura insertada exitosamente en {collectionName}");
-
-            // ✅ Mostrar estadísticas de la colección
-            var totalReadings = await collection.CountDocumentsAsync(FilterDefinition<ContainerData>.Empty);
-            Console.WriteLine($"[MONGODB] Total de lecturas para {containerData.DeviceID}: {totalReadings}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"[MONGODB] ❌ Error al insertar lectura del contenedor {containerData.DeviceID}: {ex.Message}");
-            throw;
-        }
-    }
-
-    // ✅ Método para obtener el último estado de un contenedor
-    public async Task<ContainerData> GetLatestContainerReading(string deviceId)
-    {
-        try
-        {
-            var collectionName = GetContainerCollectionName(deviceId);
-            var collection = GetCollection<ContainerData>(collectionName);
-
-            // Obtener la lectura más reciente
-            var latestReading = await collection
-                .Find(FilterDefinition<ContainerData>.Empty)
-                .SortByDescending(x => x.LastUpdated)
-                .FirstOrDefaultAsync();
-
-            return latestReading;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"[MONGODB] Error al obtener última lectura de {deviceId}: {ex.Message}");
-            return null;
-        }
-    }
-
-    // ✅ Método para obtener historial de un contenedor
-    public async Task<List<ContainerData>> GetContainerHistory(string deviceId, int limit = 100)
-    {
-        try
-        {
-            var collectionName = GetContainerCollectionName(deviceId);
-            var collection = GetCollection<ContainerData>(collectionName);
-
-            var history = await collection
-                .Find(FilterDefinition<ContainerData>.Empty)
-                .SortByDescending(x => x.LastUpdated)
-                .Limit(limit)
-                .ToListAsync();
-
-            Console.WriteLine($"[MONGODB] Obtenidas {history.Count} lecturas históricas de {deviceId}");
-            return history;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"[MONGODB] Error al obtener historial de {deviceId}: {ex.Message}");
-            return new List<ContainerData>();
-        }
-    }
-
-    // ✅ Mantener método original para compatibilidad con otros documentos
-    public async Task UpsertDocument<TDocument>(TDocument document) where TDocument : class
-    {
-        // Si es ContainerData, usar el nuevo método específico
-        if (document is ContainerData containerData)
-        {
-            await InsertContainerReading(containerData);
-            return;
-        }
-
-        // Código original para otros tipos de documentos
-        var collection = GetCollection<TDocument>();
-
-        try
-        {
-            var objectId = ((dynamic)document).Id;
-            Console.WriteLine($"[MONGODB] Preparando upsert para documento con ID: {objectId}");
-
-            var filter = Builders<TDocument>.Filter.Eq("_id", objectId);
-            var options = new ReplaceOptions { IsUpsert = true };
-
-            var result = await collection.ReplaceOneAsync(filter, document, options);
-
-            if (result.IsAcknowledged)
+            else if (result.ModifiedCount > 0)
             {
-                if (result.ModifiedCount > 0)
-                {
-                    Console.WriteLine($"[MONGODB] Documento con ID {objectId} actualizado.");
-                }
-                else if (result.UpsertedId != null)
-                {
-                    Console.WriteLine($"[MONGODB] Documento nuevo insertado con ID generado: {result.UpsertedId}.");
-                }
-                else
-                {
-                    Console.WriteLine($"[MONGODB] Documento con ID {objectId} no modificado (idéntico al existente).");
-                }
+                Console.WriteLine($"[MONGODB] Documento actualizado en la colección '{collectionName}' para DeviceID: {container.DeviceID}");
             }
             else
             {
-                Console.WriteLine($"[MONGODB] Operación de upsert NO reconocida por MongoDB para ID {objectId}.");
+                Console.WriteLine($"[MONGODB] Documento existente en la colección '{collectionName}' no se modificó para DeviceID: {container.DeviceID}");
             }
         }
-        catch (Exception ex)
+        else
         {
-            Console.WriteLine($"[MONGODB] Error al hacer upsert del documento: {ex.Message}");
-            throw;
+            Console.Error.WriteLine($"[MONGODB] La operación Upsert no fue reconocida para DeviceID: {container.DeviceID}");
         }
     }
 }

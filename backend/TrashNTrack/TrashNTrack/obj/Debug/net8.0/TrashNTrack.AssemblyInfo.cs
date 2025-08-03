@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TrashNTrack")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c93d6099aaa8e0a8ea88f74a841a01a8eef5445e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0bc65e1034f0742f52ba7358285b8080e7b19440")]
 [assembly: System.Reflection.AssemblyProductAttribute("TrashNTrack")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TrashNTrack")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

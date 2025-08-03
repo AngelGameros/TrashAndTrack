@@ -219,3 +219,23 @@ export async function getUbicaciones() {
 export async function getUbicacionesById(id) {
     return fetchData(`Ubicaciones/`+id);
 }
+// =======================================
+// GETS PARA Rutas_Plantas
+// =======================================
+export async function getRutasPlantasAll() {
+    return fetchData("RutasPlantas");
+}
+
+export async function getRutasPlantasById(idRuta,idPlanta) {
+    return fetchData(`RutasPlantas/`+idRuta + "/"+ idPlanta);
+}
+// =======================================
+// GETS PARA Rutas_Empresas
+// =======================================
+export async function getRutasEmpresasAll() {
+    return fetchData("RutasEmpresas");
+}
+
+export async function getRutasEmpresasById(idRuta,idEmpresa) {
+    return fetchData(`RutasEmpresas/`+idRuta + "/"+ idEmpresa);
+}

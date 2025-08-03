@@ -175,15 +175,42 @@
   },
   {
     "ContainingType": "ContainersController",
+    "Method": "PostContainer",
+    "RelativePath": "api/Containers/{collectionName}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "collectionName",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "container",
+        "Type": "ContainerInfo",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContainersController",
     "Method": "GetAllContainers",
-    "RelativePath": "api/Containers",
+    "RelativePath": "api/Containers/{collectionName}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "collectionName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ContainerData, TrashNTrack, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ContainerInfo, TrashNTrack, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -196,14 +223,19 @@
   {
     "ContainingType": "ContainersController",
     "Method": "BatchUpdateContainers",
-    "RelativePath": "api/Containers/batch-update",
+    "RelativePath": "api/Containers/batch-update/{collectionName}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
+        "Name": "collectionName",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
         "Name": "containers",
-        "Type": "System.Collections.Generic.List\u00601[[ContainerData, TrashNTrack, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ContainerInfo, TrashNTrack, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],
@@ -976,6 +1008,132 @@
       {
         "Name": "request",
         "Type": "UpdateRutaProgressStatusRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasEmpresasController",
+    "Method": "GetAll",
+    "RelativePath": "api/RutasEmpresas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasEmpresasController",
+    "Method": "Post",
+    "RelativePath": "api/RutasEmpresas",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newRutaEmpresa",
+        "Type": "RutaEmpresa",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasEmpresasController",
+    "Method": "Put",
+    "RelativePath": "api/RutasEmpresas",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updatedRutaEmpresa",
+        "Type": "RutaEmpresa",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasEmpresasController",
+    "Method": "GetByCompositeKey",
+    "RelativePath": "api/RutasEmpresas/{idRuta}/{idEmpresa}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idRuta",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      },
+      {
+        "Name": "idEmpresa",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasPlantasController",
+    "Method": "GetAll",
+    "RelativePath": "api/RutasPlantas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasPlantasController",
+    "Method": "Post",
+    "RelativePath": "api/RutasPlantas",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newRutaPlanta",
+        "Type": "RutaPlanta",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasPlantasController",
+    "Method": "Put",
+    "RelativePath": "api/RutasPlantas",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updatedRutaPlanta",
+        "Type": "RutaPlanta",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RutasPlantasController",
+    "Method": "GetByCompositeKey",
+    "RelativePath": "api/RutasPlantas/{idRuta}/{idPlanta}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idRuta",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      },
+      {
+        "Name": "idPlanta",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": true
       }
     ],

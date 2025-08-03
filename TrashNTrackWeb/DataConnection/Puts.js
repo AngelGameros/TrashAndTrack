@@ -172,3 +172,45 @@ export async function putEstadoIncidente(id, nuevoEstado) {
     }
     */
 }
+
+// =======================================
+// PUT RutasEmpresas
+// =======================================
+export async function putRutasEmpresas(nuevoEstado) {
+    if (!nuevoEstado) {
+        throw new Error("se debe especificar el id de la ruta.");
+    }
+    if (!nuevoEstado) {
+        throw new Error("Updated route data cannot be empty.");
+    }
+    return fetchPut("RutasEmpresas", nuevoEstado);
+
+    /*información esperada por el método
+{
+  "idRuta": 1, //este es el que se va a editar
+  "idEmpresa": 101,
+  "orden": 10
+}
+    */
+}
+
+
+// =======================================
+// PUT RutasPlantas
+// =======================================
+export async function putRutasPlantas(nuevoEstado) {
+    if (!nuevoEstado) {
+        throw new Error("se debe especificar el id de la ruta.");
+    }
+    if (!nuevoEstado) {
+        throw new Error("Updated route data cannot be empty.");
+    }
+    return fetchPut("RutasPlantas", nuevoEstado);
+
+    /*información esperada por el método
+{
+  "idRuta": 1,//este es el que se va a actualizar 
+  "idPlanta": 3
+}
+    */
+}

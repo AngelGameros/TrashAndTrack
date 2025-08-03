@@ -1,36 +1,61 @@
 import { config } from "./Config.js";
 
 
-export async function fetchPut(endpoint, id, info) {
-    var url = config.api.url + endpoint + "/" + id; // Include the ID in the URL
-    console.log("URL para el método: " + url);
-    console.log("Información a actualizar: " + JSON.stringify(info)); // Stringify para darle formato tipo JSon
+export async function putData(endpoint, data) {
+    const url = config.api.url + endpoint;
+    console.log("PUT =>", url);
 
-    try {
-        const response = await fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(info)
-        });
-
-        if (!response.ok) {
-            const errorBody = await response.json();
-            const errorMessage = `Error HTTP ${response.status}: ${errorBody.message || response.statusText}`;
-            console.error("Error updating data in the API:", errorMessage);
-            throw new Error(errorMessage);
+    return await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(result => {
+        if (!result.ok) {
+            return result.json().then(err => { throw err; });
         }
-
-        const result = await response.json();
-        console.log("PUT request successful (API response):", result);
-        return result;
-
-    } catch (error) {
-        console.error("Error realizando el PUT:", error);
+        return result.json();
+    })
+    .catch(error => {
+        console.error("Error en putData:", error);
         throw error;
-    }
+    });
 }
+
+// =======================================
+// PUTS PARA USUARIOS
+// =======================================
+
+// Puts.js
+
+export async function putUsuario(id, { nombre, primerApellido, segundoApellido, numeroTelefono, firebase_uid }) {
+    // Primero actualizamos nombre y apellidos
+    const nameUpdate = await putData(`Usuarios/${id}`, {
+        nombre,
+        primer_apellido: primerApellido,
+        segundo_apellido: segundoApellido
+    });
+
+    // Luego actualizamos el número telefónico usando el Firebase UID
+    const phoneUpdate = await putData("Usuarios/phone", {
+        firebase_uid,
+        numero_telefono: numeroTelefono
+    });
+
+    // Considera ambas actualizaciones exitosas si ambas respuestas dicen "success"
+    if (nameUpdate.status === "success" && phoneUpdate.status === "success") {
+        return { status: "success" };
+    }
+
+    // Si uno falla, devuelve el error
+    return {
+        status: "error",
+        message: (nameUpdate.message || phoneUpdate.message || "Error al actualizar usuario")
+    };
+}
+
 
 // =======================================
 // PUT para Empresas
@@ -42,7 +67,7 @@ export async function putEmpresas(id, infoEmpresa) {
     if (!infoEmpresa) {
         throw new Error("Updated route data cannot be empty.");
     }
-    return fetchPut("Rutas", id, infoEmpresa);
+    return putData("Rutas", id, infoEmpresa);
 
     /* Información esperada para actualizar Rutas:
 {
@@ -67,7 +92,7 @@ export async function putPlantas(id, infoPlantas) {
     if (!infoPlantas) {
         throw new Error("Updated route data cannot be empty.");
     }
-    return fetchPut("Plantas", id, infoPlantas);
+    return putData("Plantas", id, infoPlantas);
 }
 
 // =======================================
@@ -78,7 +103,7 @@ export async function cancelarRuta(id,idRutaLiberar) {
         throw new Error("Updated route data cannot be empty.");
     }
     id = "liberar";
-    return fetchPut("Rutas", id, idRutaLiberar);
+    return putData("Rutas", id, idRutaLiberar);
 
     /*
  el método espera un resultado parecido a:
@@ -89,14 +114,14 @@ export async function cancelarRuta(id,idRutaLiberar) {
 // =======================================
 // PUT para UBICACION
 // =======================================
-export async function putEmpresas(id, infoUbicacion) {
+export async function putEmpresa(id, infoUbicacion) {
     if (!id) {
         throw new Error("se debe especificar el id de la ruta.");
     }
     if (!infoUbicacion) {
         throw new Error("Updated route data cannot be empty.");
     }
-    return fetchPut("Rutas", id, infoUbicacion);
+    return putData("Rutas", id, infoUbicacion);
 
     /*información esperada por el método
     {
@@ -112,7 +137,7 @@ export async function putEmpresas(id, infoUbicacion) {
 // =======================================
 // PUT para USUARIOS
 // =======================================
-export async function putEmpresas(id, infoUsuario) {
+export async function putUsuarios(id, infoUsuario) {
     if (!id) {
         throw new Error("se debe especificar el id de la ruta.");
     }

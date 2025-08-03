@@ -18,7 +18,6 @@
 
   <div class="dashboard-container">
     <div id="sidebar-placeholder"></div>
-
     <main class="main-content">
       <header class="main-header">
         <div class="header">
@@ -28,20 +27,32 @@
           </div>
         </div>
       </header>
-
+      
       <div class="content-area">
-        <div class="filtros">
-          <input type="text" id="inputNombre" placeholder="Buscar por Nombre" />
-          <input type="text" id="inputUbicacion" placeholder="Buscar por ID ubicación" />
-          <button id="btnFiltrar">Filtrar</button>
+        <!-- Sección de controles -->
+        <div class="controls-section">
+          <div class="filtros">
+            <input type="text" id="inputNombre" placeholder="Buscar por Nombre" />
+            <select id="selectUbicacion" aria-label="Filtrar por ubicación">
+              <option value="">Todas las ubicaciones</option>
+              <!-- Opciones llenadas dinámicamente desde JS -->
+            </select>
+          </div>
+          
+          <!-- Contenedor específico para el botón de crear -->
+          <div class="action-buttons">
+            <button id="createEmpresaBtn" class="create-empresa-btn">
+              <i class="fas fa-plus"></i>
+              Crear Nueva Empresa
+            </button>
+          </div>
         </div>
-
+        
         <div id="empresasContainer" class="empresas-container"></div>
-
       </div>
     </main>
   </div>
-
+  
   <script type="module" src="../js/empresas.js"></script>
   <script src="../js/sidebar.js"></script>
   <script src="../js/authGuard.js"></script>

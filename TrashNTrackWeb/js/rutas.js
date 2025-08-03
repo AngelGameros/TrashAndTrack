@@ -1,575 +1,499 @@
-// API Configuration
-const API_BASE_URL = "https://api.trashtrack.com/v1" // Simulated API
-const API_ENDPOINTS = {
-  routes: "/routes/baja-california",
-  stats: "/stats/baja-california",
-  alerts: "/alerts/active",
-}
+// rutas.js
+import { getRutasDetalladas } from '../DataConnection/Gets.js'; // Importa la función para obtener rutas detalladas
 
 // Global Variables
-let map
-let selectedRoute = null
-let currentFilter = "all"
-let markers = []
-let routeLine = null
-let allRoutes = []
-let filteredRoutes = []
+let map;
+let selectedRoute = null;
+let currentFilter = "all";
+let markers = [];
+let routeLine = null;
+let allRoutes = [];
+let filteredRoutes = [];
+let loadingOverlay = null; // Reference to the loading overlay
 
-// Baja California locations data
-const BAJA_CALIFORNIA_LOCATIONS = {
-  // Baja California Norte
-  Tijuana: [32.5149, -117.0382],
-  Mexicali: [32.6519, -115.4681],
-  Ensenada: [31.8667, -116.5833],
-  Tecate: [32.5764, -116.6292],
-  Rosarito: [32.3667, -117.0333],
-  "San Felipe": [31.0167, -114.8333],
+// Initialize Map
+function initializeMap() {
+    console.log("Intentando inicializar el mapa...");
+    const mapElement = document.getElementById("routeMap");
+    if (mapElement) {
+        console.log("Elemento #routeMap encontrado.");
+        if (map) { // Destroy existing map if it was already initialized
+            map.remove();
+            console.log("Mapa existente removido.");
+        }
+        // Centered near Baja California, zoomed out
+        map = L.map("routeMap").setView([29.5, -114.5], 6);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+        console.log("Mapa inicializado correctamente.");
 
-  // Baja California Sur
-  "La Paz": [24.1426, -110.3128],
-  "Los Cabos": [22.8905, -109.9167],
-  Loreto: [26.0167, -111.35],
-  Mulegé: [26.8833, -111.9833],
-  "Santa Rosalía": [27.3333, -112.2667],
-  "Guerrero Negro": [27.9833, -114.0667],
-}
-
-// Simulated API Functions
-class RoutesAPI {
-  static async fetchRoutes() {
-    showLoading(true)
-
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    // Simulated route data for Baja California
-    const routes = [
-      {
-        id: "BC001",
-        name: "RUTA #BC001",
-        origin: "Tijuana",
-        destination: "Mexicali",
-        status: "active",
-        conductor: "Miguel Hernández",
-        departure: "06:00 AM",
-        arrival: "09:30 AM",
-        cargo: "Residuos industriales",
-        coordinates: {
-          origin: BAJA_CALIFORNIA_LOCATIONS["Tijuana"],
-          destination: BAJA_CALIFORNIA_LOCATIONS["Mexicali"],
-        },
-        progress: 45,
-        vehicle: "Camión-001",
-        distance: "188 km",
-      },
-      {
-        id: "BC002",
-        name: "RUTA #BC002",
-        origin: "Ensenada",
-        destination: "Tecate",
-        status: "delayed",
-        conductor: "Ana Rodríguez",
-        departure: "07:00 AM",
-        arrival: "10:15 AM (+45 min)",
-        cargo: "Contenedores de reciclaje",
-        coordinates: {
-          origin: BAJA_CALIFORNIA_LOCATIONS["Ensenada"],
-          destination: BAJA_CALIFORNIA_LOCATIONS["Tecate"],
-        },
-        progress: 30,
-        vehicle: "Camión-002",
-        distance: "95 km",
-      },
-      {
-        id: "BC003",
-        name: "RUTA #BC003",
-        origin: "La Paz",
-        destination: "Los Cabos",
-        status: "completed",
-        conductor: "Carlos López",
-        departure: "05:30 AM",
-        arrival: "08:45 AM",
-        cargo: "Residuos orgánicos",
-        coordinates: {
-          origin: BAJA_CALIFORNIA_LOCATIONS["La Paz"],
-          destination: BAJA_CALIFORNIA_LOCATIONS["Los Cabos"],
-        },
-        progress: 100,
-        vehicle: "Camión-003",
-        distance: "220 km",
-      },
-      {
-        id: "BC004",
-        name: "RUTA #BC004",
-        origin: "Mexicali",
-        destination: "San Felipe",
-        status: "scheduled",
-        conductor: "Laura Martínez",
-        departure: "14:00 PM",
-        arrival: "16:30 PM",
-        cargo: "Materiales peligrosos",
-        coordinates: {
-          origin: BAJA_CALIFORNIA_LOCATIONS["Mexicali"],
-          destination: BAJA_CALIFORNIA_LOCATIONS["San Felipe"],
-        },
-        progress: 0,
-        vehicle: "Camión-004",
-        distance: "198 km",
-      },
-      {
-        id: "BC005",
-        name: "RUTA #BC005",
-        origin: "Loreto",
-        destination: "Santa Rosalía",
-        status: "active",
-        conductor: "Roberto García",
-        departure: "08:00 AM",
-        arrival: "11:30 AM",
-        cargo: "Residuos médicos",
-        coordinates: {
-          origin: BAJA_CALIFORNIA_LOCATIONS["Loreto"],
-          destination: BAJA_CALIFORNIA_LOCATIONS["Santa Rosalía"],
-        },
-        progress: 65,
-        vehicle: "Camión-005",
-        distance: "135 km",
-      },
-      {
-        id: "BC006",
-        name: "RUTA #BC006",
-        origin: "Rosarito",
-        destination: "Ensenada",
-        status: "completed",
-        conductor: "Patricia Morales",
-        departure: "06:30 AM",
-        arrival: "08:00 AM",
-        cargo: "Residuos domésticos",
-        coordinates: {
-          origin: BAJA_CALIFORNIA_LOCATIONS["Rosarito"],
-          destination: BAJA_CALIFORNIA_LOCATIONS["Ensenada"],
-        },
-        progress: 100,
-        vehicle: "Camión-006",
-        distance: "75 km",
-      },
-    ]
-
-    showLoading(false)
-    return routes
-  }
-
-  static async fetchStats() {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 500))
-
-    return {
-      activeRoutes: 2,
-      completedToday: 2,
-      delayedRoutes: 1,
-      scheduledRoutes: 1,
-      avgTime: "3.2h",
+        // Invalidate map size after initialization to ensure it renders properly
+        map.invalidateSize();
+        console.log("map.invalidateSize() llamado.");
+    } else {
+        console.error("Error: Elemento 'routeMap' no encontrado para inicializar el mapa.");
     }
-  }
-
-  static async fetchAlerts() {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 300))
-
-    return [
-      {
-        id: 1,
-        type: "delay",
-        message: "Ruta #BC002: Retraso de 45 minutos",
-        severity: "warning",
-        routeId: "BC002",
-      },
-      {
-        id: 2,
-        type: "maintenance",
-        message: "Camión-007: Mantenimiento programado",
-        severity: "info",
-        routeId: null,
-      },
-    ]
-  }
 }
 
-// Utility Functions
-function getStatusColor(status) {
-  const colors = {
-    active: "#06b6d4",
-    completed: "#10b981",
-    delayed: "#ef4444",
-    scheduled: "#f59e0b",
-  }
-  return colors[status] || "#6b7280"
+// Helper to format date
+function formatDate(isoString) {
+    if (!isoString) return "N/A";
+    const date = new Date(isoString);
+    return date.toLocaleDateString("es-ES", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 }
 
-function getStatusText(status) {
-  const texts = {
-    active: "En Progreso",
-    completed: "Completada",
-    delayed: "Retrasada",
-    scheduled: "Programada",
-  }
-  return texts[status] || "Desconocido"
-}
-
-function getStatusIcon(status) {
-  const icons = {
-    active: "🚛",
-    completed: "✅",
-    delayed: "⚠️",
-    scheduled: "📅",
-  }
-  return icons[status] || "📍"
-}
-
-function showLoading(show) {
-  const overlay = document.getElementById("loadingOverlay")
-  if (show) {
-    overlay.classList.remove("hidden")
-  } else {
-    overlay.classList.add("hidden")
-  }
-}
-
-// Map Functions
-function initMap() {
-  // Center map on Baja California
-  map = window.L.map("map").setView([29.0, -114.0], 6)
-
-  // Add OpenStreetMap tiles
-  window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "© OpenStreetMap contributors",
-  }).addTo(map)
-
-  // Set map bounds to Baja California
-  const bajaBounds = [
-    [22.8, -117.5], // Southwest
-    [32.7, -109.0], // Northeast
-  ]
-  map.setMaxBounds(bajaBounds)
-  map.fitBounds(bajaBounds)
-}
-
-function addMarkersToMap() {
-  // Clear existing markers
-  markers.forEach((marker) => map.removeLayer(marker))
-  markers = []
-
-  filteredRoutes.forEach((route) => {
-    const color = getStatusColor(route.status)
-
-    // Create custom icon
-    const createCustomIcon = (isDestination = false) => {
-      return window.L.divIcon({
-        className: "custom-marker",
-        html: `<div style="width: 20px; height: 20px; background-color: ${color}; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
-        iconSize: [20, 20],
-        iconAnchor: [10, 10],
-      })
-    }
-
-    // Add origin marker
-    const originMarker = window.L.marker(route.coordinates.origin, {
-      icon: createCustomIcon(),
-    }).addTo(map)
-
-    originMarker.bindPopup(`
-            <div style="text-align: center;">
-                <strong>${route.origin}</strong><br>
-                <small>Origen - ${route.name}</small><br>
-                <small>Conductor: ${route.conductor}</small><br>
-                <small>Vehículo: ${route.vehicle}</small>
-            </div>
-        `)
-
-    markers.push(originMarker)
-
-    // Add destination marker
-    const destMarker = window.L.marker(route.coordinates.destination, {
-      icon: createCustomIcon(true),
-    }).addTo(map)
-
-    destMarker.bindPopup(`
-            <div style="text-align: center;">
-                <strong>${route.destination}</strong><br>
-                <small>Destino - ${route.name}</small><br>
-                <small>Estado: ${getStatusText(route.status)}</small><br>
-                <small>Distancia: ${route.distance}</small>
-            </div>
-        `)
-
-    markers.push(destMarker)
-  })
-}
-
-function showRouteOnMap(route) {
-  // Remove existing route line
-  if (routeLine) {
-    map.removeLayer(routeLine)
-  }
-
-  const color = getStatusColor(route.status)
-
-  // Create route line
-  routeLine = window.L.polyline([route.coordinates.origin, route.coordinates.destination], {
-    color: color,
-    weight: 4,
-    opacity: 0.8,
-    dashArray: route.status === "scheduled" ? "10, 10" : null,
-  }).addTo(map)
-
-  // Fit map to show the route
-  const group = new window.L.featureGroup([routeLine])
-  map.fitBounds(group.getBounds().pad(0.1))
-
-  // Add truck icon for active routes
-  if (route.status === "active") {
-    const midLat = (route.coordinates.origin[0] + route.coordinates.destination[0]) / 2
-    const midLng = (route.coordinates.origin[1] + route.coordinates.destination[1]) / 2
-
-    const truckIcon = window.L.divIcon({
-      html: '<div style="font-size: 24px;">🚛</div>',
-      iconSize: [30, 30],
-      iconAnchor: [15, 15],
-      className: "truck-marker",
-    })
-
-    const truckMarker = window.L.marker([midLat, midLng], {
-      icon: truckIcon,
-    }).addTo(map)
-
-    markers.push(truckMarker)
-  }
-}
-
-function clearRouteFromMap() {
-  if (routeLine) {
-    map.removeLayer(routeLine)
-    routeLine = null
-  }
-
-  // Remove truck markers
-  markers = markers.filter((marker) => {
-    if (marker.options.icon && marker.options.icon.options.className === "truck-marker") {
-      map.removeLayer(marker)
-      return false
-    }
-    return true
-  })
-
-  // Reset map view to Baja California
-  const bajaBounds = [
-    [22.8, -117.5],
-    [32.7, -109.0],
-  ]
-  map.fitBounds(bajaBounds)
-}
-
-// UI Functions
+// Render Route Cards
 function renderRouteCards() {
-  const container = document.getElementById("routeListContent")
-  container.innerHTML = ""
+    const routeListContent = document.getElementById("routeListContent");
+    if (!routeListContent) {
+        console.error("Element with ID 'routeListContent' not found.");
+        return;
+    }
+    routeListContent.innerHTML = ""; // Clear previous content
 
-  if (filteredRoutes.length === 0) {
-    container.innerHTML = '<p style="text-align: center; color: #64748b; padding: 2rem;">No se encontraron rutas</p>'
-    return
-  }
+    if (filteredRoutes.length === 0) {
+        routeListContent.innerHTML = "<p class='text-center text-gray-500'>No hay rutas disponibles con los filtros actuales.</p>";
+        return;
+    }
 
-  filteredRoutes.forEach((route) => {
-    const card = document.createElement("div")
-    card.className = `route-card ${selectedRoute?.id === route.id ? "selected" : ""}`
-    card.onclick = () => selectRoute(route)
+    filteredRoutes.forEach((route) => {
+        // Parse the JSON strings for companies
+        let empresas = [];
+        try {
+            empresas = JSON.parse(route.empresas_json);
+        } catch (e) {
+            console.error("Error parsing empresas_json for route", route.id_ruta, e);
+        }
 
-    card.innerHTML = `
-            <div class="route-card-header">
-                <h3 class="route-card-title">${route.name}</h3>
-                <span class="status-badge status-${route.status}">${getStatusText(route.status)}</span>
+        const routeCard = document.createElement("div");
+        routeCard.className = "route-card";
+        routeCard.dataset.routeId = route.id_ruta; // Store route ID
+
+        // Determine status class
+        const statusClass = (route.estado_ruta || 'desconocido').toLowerCase().replace(' ', '-');
+
+        let companiesHtml = "";
+        if (empresas.length > 0) {
+            empresas.forEach((empresaData) => {
+                const empresa = empresaData.empresa;
+                companiesHtml += `
+                    <div class="company-item">
+                        <i class="fas fa-industry"></i>
+                        <span>${empresa.nombre || 'Nombre de Empresa Desconocido'}</span>
+                    </div>
+                `;
+            });
+        } else {
+            companiesHtml = '<p class="text-sm text-gray-400">No hay empresas asignadas.</p>';
+        }
+
+        routeCard.innerHTML = `
+            <div class="route-header">
+                <h3>${route.nombre_ruta || 'Ruta sin Nombre'}</h3>
+                <span class="route-status status-${statusClass}">${route.estado_ruta || 'Desconocido'}</span>
             </div>
-            <div class="route-card-details">
-                <p><strong>${route.origin} → ${route.destination}</strong></p>
-                <p>Conductor: ${route.conductor}</p>
-                <p>Vehículo: ${route.vehicle}</p>
-                <p>Salida: ${route.departure} | ETA: ${route.arrival}</p>
-                <p>Carga: ${route.cargo}</p>
-                <p>Distancia: ${route.distance}</p>
+            <div class="route-details">
+                <p><i class="fas fa-info-circle"></i> ${route.descripcion_ruta || 'Sin descripción'}</p>
+                <p><i class="fas fa-calendar-alt"></i> Creada: ${formatDate(route.fecha_creacion)}</p>
+                <p><i class="fas fa-warehouse"></i> Planta: ${route.nombre_planta || 'N/A'}</p>
+                <div class="route-companies">
+                    <h4>Empresas en la ruta:</h4>
+                    ${companiesHtml}
+                </div>
             </div>
-            <div class="progress-bar">
-                <div class="progress-fill progress-${route.status}" style="width: ${route.progress}%"></div>
+            <div class="route-actions">
+                <button class="btn btn-small btn-view" onclick="showRouteDetails(${route.id_ruta})">Ver Detalles</button>
+                <button class="btn btn-small btn-edit" onclick="editRoute(${route.id_ruta})">Editar</button>
             </div>
-        `
-
-    container.appendChild(card)
-  })
+        `;
+        routeListContent.appendChild(routeCard);
+    });
 }
 
-function updateStats(stats) {
-  document.getElementById("activeRoutes").textContent = stats.activeRoutes
-  document.getElementById("completedToday").textContent = stats.completedToday
-  document.getElementById("delayedRoutes").textContent = stats.delayedRoutes
-  document.getElementById("scheduledRoutes").textContent = stats.scheduledRoutes
-  document.getElementById("avgTime").textContent = stats.avgTime
+// Add markers and draw route line on the map
+function addMarkersToMap() {
+    // Clear existing markers and lines
+    markers.forEach((marker) => map.removeLayer(marker));
+    markers = [];
+    if (routeLine) {
+        map.removeLayer(routeLine);
+        routeLine = null;
+    }
+
+    if (selectedRoute) {
+        const routePoints = [];
+
+        // Add plant marker from route object directly
+        if (selectedRoute.latitud_planta && selectedRoute.longitud_planta) {
+            const plantLat = parseFloat(selectedRoute.latitud_planta);
+            const plantLng = parseFloat(selectedRoute.longitud_planta);
+            // Validar si las coordenadas son números válidos antes de usarlas
+            if (!isNaN(plantLat) && !isNaN(plantLng)) {
+                const plantMarker = L.marker([plantLat, plantLng], { icon: L.icon({
+                    iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                })}).addTo(map);
+                plantMarker.bindPopup(`<b>${selectedRoute.nombre_planta || 'Planta'}</b>`).openPopup();
+                markers.push(plantMarker);
+                routePoints.push([plantLat, plantLng]);
+            } else {
+                console.warn(`Coordenadas de planta inválidas para ruta ${selectedRoute.id_ruta}: Lat ${selectedRoute.latitud_planta}, Lng ${selectedRoute.longitud_planta}`);
+            }
+        }
+
+        // Add company markers from parsed 'coordenadas_ruta_json'
+        let coordenadasRuta = [];
+        try {
+            coordenadasRuta = JSON.parse(selectedRoute.coordenadas_ruta_json);
+        } catch (e) {
+            console.error("Error parsing coordenadas_ruta_json for selected route", selectedRoute.id_ruta, e);
+        }
+
+        coordenadasRuta.forEach(coordData => {
+            const punto = coordData.punto;
+            if (punto && punto.latitud && punto.longitud) {
+                const companyLat = parseFloat(punto.latitud);
+                const companyLng = parseFloat(punto.longitud);
+                // Validar si las coordenadas son números válidos
+                if (!isNaN(companyLat) && !isNaN(companyLng)) {
+                    const companyMarker = L.marker([companyLat, companyLng]).addTo(map);
+                    companyMarker.bindPopup(`<b>${punto.nombre || 'Empresa'}</b>`).openPopup();
+                    markers.push(companyMarker);
+                    routePoints.push([companyLat, companyLng]);
+                } else {
+                    console.warn(`Coordenadas de empresa inválidas en coordenadas_ruta_json para ruta ${selectedRoute.id_ruta}: Lat ${punto.latitud}, Lng ${punto.longitud}`);
+                }
+            }
+        });
+
+        // Draw polyline
+        if (routePoints.length > 1) {
+            routeLine = L.polyline(routePoints, { color: "blue" }).addTo(map);
+            map.fitBounds(routeLine.getBounds(), { padding: [50, 50] }); // Zoom to fit the route with some padding
+        } else if (routePoints.length === 1) {
+            map.setView(routePoints[0], 12); // If only one point, just center the map there
+        }
+    } else {
+        // Default view if no route is selected (e.g., center on Baja California)
+        map.setView([29.5, -114.5], 6);
+    }
 }
 
-function renderAlerts(alerts) {
-  const container = document.getElementById("alertsSection")
 
-  if (alerts.length === 0) {
-    container.innerHTML = ""
-    return
-  }
+// Show route details (select a route and update map)
+function showRouteDetails(routeId) {
+    selectedRoute = allRoutes.find((route) => route.id_ruta === routeId);
+    if (selectedRoute) {
+        console.log("Ruta Seleccionada:", selectedRoute);
+        addMarkersToMap(); // Update map for the selected route
+        // Highlight the selected card
+        document.querySelectorAll('.route-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        document.querySelector(`.route-card[data-route-id="${routeId}"]`).classList.add('selected');
 
-  container.innerHTML = `
-        <div class="alerts-title">
-            <div class="alert-dot"></div>
-            <span>Alertas Activas</span>
-        </div>
-        ${alerts
-          .map(
-            (alert) => `
-            <div class="alert-item">
-                <div class="alert-item-dot ${alert.severity === "warning" ? "alert-red" : "alert-orange"}"></div>
-                <span>${alert.message}</span>
-            </div>
-        `,
-          )
-          .join("")}
-    `
+        // Populate and open the details modal
+        populateViewRouteModal(selectedRoute);
+        // Assuming 'viewRouteModal' exists in your HTML
+        openModal('viewRouteModal');
+
+    }
 }
 
-function selectRoute(route) {
-  selectedRoute = route
-  renderRouteCards()
-  showRouteOnMap(route)
-  showRouteInfo(route)
+// Populate View Route Modal
+function populateViewRouteModal(route) {
+    document.getElementById('viewRouteName').textContent = route.nombre_ruta || 'N/A';
+    document.getElementById('viewRouteDescription').textContent = route.descripcion_ruta || 'N/A';
+    document.getElementById('viewRoutePlant').textContent = route.nombre_planta || 'N/A';
+    document.getElementById('viewRouteStatus').textContent = route.estado_ruta || 'N/A';
+    document.getElementById('viewRouteStatus').className = `status-badge ${(route.estado_ruta || 'desconocido').toLowerCase().replace(' ', '-')}-badge`;
+    document.getElementById('viewRouteCreationDate').textContent = formatDate(route.fecha_creacion);
+
+    const containersList = document.getElementById('viewRouteCompaniesAndContainers');
+    if (!containersList) {
+        console.error("Elemento 'viewRouteCompaniesAndContainers' no encontrado.");
+        return;
+    }
+    containersList.innerHTML = ''; // Clear previous content
+
+    let empresas = [];
+    try {
+        empresas = JSON.parse(route.empresas_json);
+    } catch (e) {
+        console.error("Error parsing empresas_json for view modal", route.id_ruta, e);
+    }
+
+    if (empresas.length > 0) {
+        empresas.forEach(empresaData => {
+            const empresa = empresaData.empresa;
+            const companyDiv = document.createElement('div');
+            companyDiv.className = 'company-detail-item';
+            companyDiv.innerHTML = `
+                <h4>Empresa: ${empresa.nombre || 'N/A'}</h4>
+                <p>Dirección: ${empresa.direccion || 'N/A'}</p>
+                <h5>Contenedores:</h5>
+                <ul class="container-list">
+                    ${(empresa.contenedores && empresa.contenedores.length > 0) ?
+                        empresa.contenedores.map(cData => {
+                            const contenedor = cData.contenedor;
+                            return `<li>- ${contenedor.descripcion || 'N/A'} (Tipo: ${contenedor.tipo_contenedor || 'N/A'}, Capacidad: ${contenedor.capacidad_maxima || 'N/A'}kg)</li>`;
+                        }).join('')
+                        : '<li>No hay contenedores para esta empresa.</li>'}
+                </ul>
+            `;
+            containersList.appendChild(companyDiv);
+        });
+    } else {
+        containersList.innerHTML = '<li>No hay empresas ni contenedores asignados a esta ruta.</li>';
+    }
 }
 
+
+// Edit route (placeholder function)
+function editRoute(routeId) {
+    const routeToEdit = allRoutes.find(r => r.id_ruta === routeId);
+    if (routeToEdit) {
+        alert(`Editar ruta: ${routeToEdit.nombre_ruta} (ID: ${routeId})`);
+        // Here you would typically open a modal or navigate to an edit page
+        // and pre-fill a form with routeToEdit data.
+        console.log("Ruta a editar:", routeToEdit);
+    }
+}
+window.editRoute = editRoute; // Make it globally accessible
+
+// Clear selected route and map display
 function clearSelection() {
-  selectedRoute = null
-  renderRouteCards()
-  clearRouteFromMap()
-  hideRouteInfo()
-  addMarkersToMap()
+    selectedRoute = null;
+    addMarkersToMap(); // Clears markers and line from map
+    document.querySelectorAll('.route-card').forEach(card => {
+        card.classList.remove('selected');
+    });
 }
 
-function showRouteInfo(route) {
-  const infoPanel = document.getElementById("routeInfo")
-  const title = document.getElementById("routeInfoTitle")
-  const details = document.getElementById("routeInfoDetails")
-
-  title.innerHTML = `${getStatusIcon(route.status)} ${route.name}`
-  details.innerHTML = `
-        <p><strong>Ruta:</strong> ${route.origin} → ${route.destination}</p>
-        <p><strong>Conductor:</strong> ${route.conductor}</p>
-        <p><strong>Vehículo:</strong> ${route.vehicle}</p>
-        <p><strong>Salida:</strong> ${route.departure}</p>
-        <p><strong>Llegada:</strong> ${route.arrival}</p>
-        <p><strong>Carga:</strong> ${route.cargo}</p>
-        <p><strong>Distancia:</strong> ${route.distance}</p>
-        <p><strong>Progreso:</strong> ${route.progress}%</p>
-    `
-
-  infoPanel.classList.add("show")
-}
-
-function hideRouteInfo() {
-  document.getElementById("routeInfo").classList.remove("show")
-}
-
+// Filter routes based on search term and current filter
 function filterRoutes(searchTerm = "") {
-  let routes = allRoutes
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
 
-  // Apply status filter
-  if (currentFilter !== "all") {
-    routes = routes.filter((route) => route.status === currentFilter)
-  }
+    filteredRoutes = allRoutes.filter((route) => {
+        const matchesSearch =
+            (route.nombre_ruta || '').toLowerCase().includes(lowerCaseSearchTerm) ||
+            (route.descripcion_ruta || '').toLowerCase().includes(lowerCaseSearchTerm) ||
+            (route.nombre_planta || '').toLowerCase().includes(lowerCaseSearchTerm);
 
-  // Apply search filter
-  if (searchTerm.trim()) {
-    const term = searchTerm.toLowerCase()
-    routes = routes.filter(
-      (route) =>
-        route.name.toLowerCase().includes(term) ||
-        route.conductor.toLowerCase().includes(term) ||
-        route.origin.toLowerCase().includes(term) ||
-        route.destination.toLowerCase().includes(term) ||
-        route.cargo.toLowerCase().includes(term),
-    )
-  }
+        // Check companies in the route
+        let empresas = [];
+        try {
+            empresas = JSON.parse(route.empresas_json);
+        } catch (e) {
+            console.error("Error parsing empresas_json for filter", route.id_ruta, e);
+        }
 
-  filteredRoutes = routes
-  renderRouteCards()
-  addMarkersToMap()
+        const matchesCompany = empresas.some(empresaData =>
+            (empresaData.empresa.nombre || '').toLowerCase().includes(lowerCaseSearchTerm) ||
+            (empresaData.empresa.direccion || '').toLowerCase().includes(lowerCaseSearchTerm) ||
+            (empresaData.empresa.contenedores || []).some(cData =>
+                (cData.contenedor.descripcion || '').toLowerCase().includes(lowerCaseSearchTerm) ||
+                (cData.contenedor.tipo_residuo || '').toLowerCase().includes(lowerCaseSearchTerm)
+            )
+        );
+
+        const matchesFilter =
+            currentFilter === "all" ||
+            (route.estado_ruta || '').toLowerCase() === currentFilter;
+
+        return (matchesSearch || matchesCompany) && matchesFilter;
+    });
+    renderRouteCards();
+    // No need to call addMarkersToMap here, as it's typically called when a route is *selected*.
+    // If you want markers for ALL filtered routes visible by default, you would need different logic.
+}
+window.filterRoutes = filterRoutes; // Make it globally accessible for onkeyup in HTML
+
+
+// Handle filter button clicks
+function setupFilterButtons() {
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    filterButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            // Update active button
+            filterButtons.forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            // Update filter
+            currentFilter = btn.dataset.filter;
+
+            // Clear selection and update
+            clearSelection();
+            filterRoutes(document.getElementById('searchInput').value); // Re-apply search term with new filter
+        });
+    });
 }
 
-function setupFilterButtons() {
-  const filterButtons = document.querySelectorAll(".filter-btn")
-  filterButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      // Update active button
-      filterButtons.forEach((b) => b.classList.remove("active"))
-      btn.classList.add("active")
+// NUEVA FUNCIÓN: Calcular y actualizar estadísticas basadas en las rutas
+function updateStatsBasedOnRoutes(routes) {
+    let active = 0;
+    let completed = 0;
+    let delayed = 0;
+    let scheduled = 0;
+    
+    // Asumo que 'hoy' se refiere al día actual para 'completedToday'
+    const today = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
 
-      // Update filter
-      currentFilter = btn.dataset.filter
+    routes.forEach(route => {
+        const status = (route.estado_ruta || '').toLowerCase();
+        if (status === 'activa') {
+            active++;
+        } else if (status === 'completada') {
+            completed++;
+            // Lógica para 'completadas hoy' - necesitarías un campo de fecha de finalización
+            // if (route.fecha_finalizacion && route.fecha_finalizacion.startsWith(today)) {
+            //     completedToday++;
+            // }
+        } else if (status === 'retrasada') {
+            delayed++;
+        } else if (status === 'pendiente') {
+            scheduled++;
+        }
+    });
 
-      // Clear selection and update
-      clearSelection()
-      filterRoutes()
-    })
-  })
+    // Actualiza los elementos HTML
+    document.getElementById("activeRoutes").textContent = active;
+    document.getElementById("completedToday").textContent = completed; // Podría ser '0' si no hay lógica de fecha de finalización
+    document.getElementById("delayedRoutes").textContent = delayed;
+    document.getElementById("scheduledRoutes").textContent = scheduled;
+    document.getElementById("avgTime").textContent = "N/A"; // Calcular si tienes los datos de tiempo de ruta
 }
 
 // API Integration Functions
 async function loadData() {
-  try {
-    // Load routes
-    allRoutes = await RoutesAPI.fetchRoutes()
-    filteredRoutes = [...allRoutes]
+    showLoadingOverlay(); // Show loading overlay before fetching data
+    try {
+        const apiResponse = await getRutasDetalladas(); // Assuming this is your actual API call
+        console.log("Respuesta de la API para rutas:", apiResponse);
 
-    // Load stats
-    const stats = await RoutesAPI.fetchStats()
-    updateStats(stats)
+        if (apiResponse && apiResponse.status === 0 && Array.isArray(apiResponse.data)) {
+            allRoutes = apiResponse.data;
+            filterRoutes(); // Initial rendering with all data
 
-    // Load alerts
-    const alerts = await RoutesAPI.fetchAlerts()
-    renderAlerts(alerts)
-
-    // Render UI
-    renderRouteCards()
-    addMarkersToMap()
-  } catch (error) {
-    console.error("Error loading data:", error)
-    alert("Error al cargar los datos. Por favor, intente nuevamente.")
-  }
+            // Calcula estadísticas a partir de 'allRoutes'
+            updateStatsBasedOnRoutes(allRoutes);
+            
+            // Renderiza alertas (si tienes un array de alertas separado en la respuesta o calculas desde rutas)
+            // Por ahora, un placeholder
+            // renderAlerts([]); // Pasa tu array real de alertas aquí
+            
+            console.log("Datos cargados y renderizados.");
+        } else {
+            console.error("Formato de respuesta de la API inesperado o error:", apiResponse);
+            allRoutes = [];
+            filteredRoutes = [];
+            document.getElementById("routeListContent").innerHTML = "<p class='text-center text-red-500'>No se pudieron cargar las rutas. Intente de nuevo más tarde.</p>";
+        }
+    } catch (error) {
+        console.error("Error al cargar rutas desde la API:", error);
+        allRoutes = [];
+        filteredRoutes = [];
+        document.getElementById("routeListContent").innerHTML = "<p class='text-center text-red-500'>Error de red al cargar rutas. Verifique su conexión o intente de nuevo.</p>";
+    } finally {
+        hideLoadingOverlay(); // Hide loading overlay after data is loaded or error occurs
+    }
 }
 
 async function refreshData() {
-  await loadData()
+  await loadData();
+  // Al recargar, si había una ruta seleccionada, la volvemos a seleccionar para que se muestre en el mapa.
   if (selectedRoute) {
-    // Re-select the current route if it still exists
-    const updatedRoute = allRoutes.find((r) => r.id === selectedRoute.id)
+    const updatedRoute = allRoutes.find((r) => r.id_ruta === selectedRoute.id_ruta);
     if (updatedRoute) {
-      selectRoute(updatedRoute)
+      showRouteDetails(updatedRoute.id_ruta); // Vuelve a mostrar detalles y marcadores de la ruta
     } else {
-      clearSelection()
+      clearSelection(); // Si la ruta ya no existe, limpia la selección
     }
   }
 }
 
-// Modal Functions (placeholder)
-function openNewRouteModal() {
-  alert("Funcionalidad de nueva ruta en desarrollo")
+
+// General Modal Functions (assuming you have these in a shared script or similar)
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'block';
+    } else {
+        console.error(`Modal con ID '${modalId}' no encontrado.`);
+    }
 }
 
-// Initialize Application
-function init() {
-  initMap()
-  setupFilterButtons()
-  loadData()
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
+    } else {
+        console.error(`Modal con ID '${modalId}' no encontrado.`);
+    }
+}
+window.closeModal = closeModal; // Make it global for onclick in HTML
+
+// Loading Overlay Functions
+function showLoadingOverlay() {
+    if (loadingOverlay) {
+        loadingOverlay.classList.remove("hidden");
+        // Asegúrate de que el overlay sea visible
+        loadingOverlay.style.opacity = '1';
+        loadingOverlay.style.pointerEvents = 'auto';
+    }
 }
 
-// Start the application
-document.addEventListener("DOMContentLoaded", init)
+function hideLoadingOverlay() {
+    if (loadingOverlay) {
+        loadingOverlay.classList.add("hidden");
+        // Permite que el CSS de transición haga su trabajo para el fade
+        // Después de un pequeño retraso, quita pointer-events
+        setTimeout(() => {
+            if (loadingOverlay.classList.contains("hidden")) {
+                loadingOverlay.style.pointerEvents = 'none';
+            }
+        }, 300); // Coincide con la duración de la transición CSS
+    }
+}
+
+// Event Listeners
+document.addEventListener("DOMContentLoaded", () => {
+    // Get reference to the loading overlay early
+    loadingOverlay = document.getElementById("loadingOverlay");
+
+   
+
+    initializeMap(); // Initialize map on page load
+    loadData(); // Load data from API
+
+    // Setup filter buttons
+    setupFilterButtons();
+
+    // Set up the "Nueva Ruta" button
+    const newRouteBtn = document.getElementById('newContainerBtn'); 
+    if (newRouteBtn) {
+        newRouteBtn.addEventListener('click', () => {
+            alert('Funcionalidad para "Nueva Ruta" no implementada todavía.');
+        });
+    } else {
+        console.warn("Elemento 'newContainerBtn' (Nueva Ruta) no encontrado.");
+    }
+});
+
+// Expose functions to global scope if used in HTML attributes (though 'addEventListener' is preferred)
+window.showRouteDetails = showRouteDetails; // Needs to be global for onclick in renderRouteCards
+window.editRoute = editRoute; // Already global, keeping for consistency
+window.filterRoutes = filterRoutes; // Already global
+window.clearSelection = clearSelection; // Already global
+window.refreshData = refreshData; // Using refreshData to handle re-selection after load

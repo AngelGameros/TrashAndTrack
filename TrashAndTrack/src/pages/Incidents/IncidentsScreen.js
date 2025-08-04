@@ -13,6 +13,7 @@ import {
   Alert,
   RefreshControl,
   StatusBar,
+  SafeAreaView,
 } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { LinearGradient } from "expo-linear-gradient"
@@ -174,12 +175,14 @@ const IncidentsScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
 
       {/* Header */}
-      <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.header}>
-        <MaterialIcons name="report-problem" size={32} color="#FFFFFF" />
+      <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.header}>
+        <View style={styles.headerIconContainer}>
+          <MaterialIcons name="report-problem" size={40} color="#bfdbfe" />
+        </View>
         <Text style={styles.headerTitle}>Gestión de Incidentes</Text>
         <Text style={styles.headerSubtitle}>Reporta y gestiona incidentes de recolección</Text>
       </LinearGradient>
@@ -187,7 +190,9 @@ const IncidentsScreen = () => {
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#3b82f6"]} tintColor="#3b82f6" />
+        }
         showsVerticalScrollIndicator={false}
       >
         {/* Tab Buttons */}
@@ -196,14 +201,14 @@ const IncidentsScreen = () => {
             style={[styles.tabButton, !showForm && styles.activeTabButton]}
             onPress={() => setShowForm(false)}
           >
-            <MaterialIcons name="list" size={20} color={!showForm ? "#FFFFFF" : "#4A90E2"} />
+            <MaterialIcons name="list" size={20} color={!showForm ? "#FFFFFF" : "#3b82f6"} />
             <Text style={[styles.tabButtonText, !showForm && styles.activeTabButtonText]}>Ver Incidentes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.tabButton, showForm && styles.activeTabButton]}
             onPress={() => setShowForm(true)}
           >
-            <MaterialIcons name="add-circle-outline" size={20} color={showForm ? "#FFFFFF" : "#4A90E2"} />
+            <MaterialIcons name="add-circle-outline" size={20} color={showForm ? "#FFFFFF" : "#3b82f6"} />
             <Text style={[styles.tabButtonText, showForm && styles.activeTabButtonText]}>Nuevo Incidente</Text>
           </TouchableOpacity>
         </View>
@@ -215,7 +220,7 @@ const IncidentsScreen = () => {
               <Text style={styles.inputLabel}>Nombre del Incidente</Text>
               <TextInput
                 placeholder="Ej: Derrame de aceite"
-                placeholderTextColor="#9CA3AF"
+                placeholderTextColor="#64748b"
                 style={styles.input}
                 value={incidentName}
                 onChangeText={setIncidentName}
@@ -226,7 +231,7 @@ const IncidentsScreen = () => {
               <Text style={styles.inputLabel}>Descripción Detallada</Text>
               <TextInput
                 placeholder="Describe el incidente con el mayor detalle posible..."
-                placeholderTextColor="#9CA3AF"
+                placeholderTextColor="#64748b"
                 style={[styles.input, styles.textArea]}
                 multiline
                 numberOfLines={4}
@@ -238,9 +243,11 @@ const IncidentsScreen = () => {
             {/* Photo Section */}
             <View style={styles.photoSection}>
               <Text style={styles.inputLabel}>Evidencia Fotográfica</Text>
-              <TouchableOpacity style={styles.photoButton} onPress={takePhoto}>
-                <MaterialIcons name="camera-alt" size={24} color="#FFFFFF" />
-                <Text style={styles.photoButtonText}>Tomar Foto</Text>
+              <TouchableOpacity style={styles.buttonWrapper} onPress={takePhoto}>
+                <LinearGradient colors={["#16a34a", "#22c55e"]} style={styles.buttonGradient}>
+                  <MaterialIcons name="camera-alt" size={24} color="#FFFFFF" />
+                  <Text style={styles.buttonText}>Tomar Foto</Text>
+                </LinearGradient>
               </TouchableOpacity>
 
               {incidentImage && (
@@ -254,10 +261,10 @@ const IncidentsScreen = () => {
             </View>
 
             {/* Submit Button */}
-            <TouchableOpacity style={styles.submitButton} onPress={handleSaveIncident}>
-              <LinearGradient colors={["#10B981", "#059669"]} style={styles.submitButtonGradient}>
+            <TouchableOpacity style={styles.buttonWrapper} onPress={handleSaveIncident}>
+              <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.buttonGradient}>
                 <MaterialIcons name="save" size={24} color="#FFFFFF" />
-                <Text style={styles.submitButtonText}>Guardar Incidente</Text>
+                <Text style={styles.buttonText}>Guardar Incidente</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>
@@ -265,7 +272,9 @@ const IncidentsScreen = () => {
           <View style={styles.listContainer}>
             {incidents.length === 0 ? (
               <View style={styles.emptyState}>
-                <MaterialIcons name="assignment-late" size={80} color="#9CA3AF" />
+                <View style={styles.emptyStateIconContainer}>
+                  <MaterialIcons name="assignment-late" size={60} color="#94a3b8" />
+                </View>
                 <Text style={styles.emptyStateTitle}>Sin Incidentes Reportados</Text>
                 <Text style={styles.emptyStateText}>
                   Aún no has reportado ningún incidente. Usa el botón "Nuevo Incidente" para comenzar.
@@ -280,7 +289,7 @@ const IncidentsScreen = () => {
                 >
                   <View style={styles.incidentCardHeader}>
                     <View style={styles.incidentIconContainer}>
-                      <MaterialIcons name="warning" size={24} color="#F59E0B" />
+                      <MaterialIcons name="warning" size={24} color="#f59e0b" />
                     </View>
                     <View style={styles.incidentCardInfo}>
                       <Text style={styles.incidentCardTitle}>{incident.name}</Text>
@@ -288,7 +297,7 @@ const IncidentsScreen = () => {
                     </View>
                     {incident.imageUri && (
                       <View style={styles.imageIndicator}>
-                        <MaterialIcons name="image" size={20} color="#4A90E2" />
+                        <MaterialIcons name="image" size={20} color="#3b82f6" />
                       </View>
                     )}
                   </View>
@@ -307,14 +316,14 @@ const IncidentsScreen = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <TouchableOpacity style={styles.modalCloseButton} onPress={() => setModalVisible(false)}>
-              <MaterialIcons name="close" size={28} color="#9CA3AF" />
+              <MaterialIcons name="close" size={28} color="#64748b" />
             </TouchableOpacity>
 
             {selectedIncident && (
               <ScrollView contentContainerStyle={styles.modalScrollContent} showsVerticalScrollIndicator={false}>
                 <View style={styles.modalHeader}>
                   <View style={styles.modalIconContainer}>
-                    <MaterialIcons name="report-problem" size={32} color="#F59E0B" />
+                    <MaterialIcons name="report-problem" size={32} color="#f59e0b" />
                   </View>
                   <Text style={styles.modalTitle}>{selectedIncident.name}</Text>
                   <Text style={styles.modalDate}>{formatDateTime(selectedIncident.date)}</Text>
@@ -336,31 +345,46 @@ const IncidentsScreen = () => {
           </View>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#f8fafc",
   },
   header: {
-    paddingTop: 50,
-    paddingBottom: 30,
-    paddingHorizontal: 20,
+    borderRadius: 24,
+    padding: 24,
     alignItems: "center",
+    margin: 16,
+    shadowColor: "#3b82f6",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 15,
+    elevation: 10,
+  },
+  headerIconContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)",
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginTop: 12,
     marginBottom: 4,
   },
   headerSubtitle: {
     fontSize: 16,
-    color: "rgba(255, 255, 255, 0.8)",
+    color: "#dbeafe",
     textAlign: "center",
   },
   scrollView: {
@@ -372,14 +396,14 @@ const styles = StyleSheet.create({
   tabsContainer: {
     flexDirection: "row",
     margin: 16,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 12,
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
     padding: 4,
-    shadowColor: "#000",
+    shadowColor: "#9ca3af",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.08,
     shadowRadius: 8,
-    elevation: 2,
+    elevation: 4,
   },
   tabButton: {
     flex: 1,
@@ -387,16 +411,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: 12,
   },
   activeTabButton: {
-    backgroundColor: "#4A90E2",
+    backgroundColor: "#3b82f6",
   },
   tabButtonText: {
     marginLeft: 8,
     fontSize: 14,
     fontWeight: "600",
-    color: "#4A90E2",
+    color: "#3b82f6",
   },
   activeTabButtonText: {
     color: "#FFFFFF",
@@ -410,22 +434,22 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#374151",
+    color: "#1f2937",
     marginBottom: 8,
   },
   input: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
+    borderColor: "#e2e8f0",
+    borderRadius: 16,
     padding: 16,
     fontSize: 16,
-    color: "#1F2937",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    color: "#1f2937",
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
   },
   textArea: {
     height: 100,
@@ -434,35 +458,46 @@ const styles = StyleSheet.create({
   photoSection: {
     marginBottom: 20,
   },
-  photoButton: {
-    backgroundColor: "#10B981",
-    borderRadius: 12,
-    padding: 16,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#10B981",
+  // New common styles for buttons with gradient and shadow
+  buttonWrapper: {
+    borderRadius: 16,
+    overflow: "hidden",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 5,
+    // Specific shadow color will be applied directly to the wrapper
   },
-  photoButtonText: {
+  buttonGradient: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 16,
+    paddingHorizontal: 24, // Added horizontal padding for better spacing
+  },
+  buttonText: {
     color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 16, // Consistent font size
+    fontWeight: "600", // Consistent font weight
     marginLeft: 8,
+  },
+  // Apply specific shadow colors to the button wrappers
+  photoButton: {
+    shadowColor: "#16a34a", // Green shadow for photo button
+  },
+  submitButton: {
+    shadowColor: "#3b82f6", // Blue shadow for submit button
   },
   imagePreviewContainer: {
     marginTop: 16,
     position: "relative",
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: "hidden",
   },
   imagePreview: {
     width: "100%",
     height: 200,
-    borderRadius: 12,
+    borderRadius: 16,
   },
   removeImageButton: {
     position: "absolute",
@@ -475,60 +510,54 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  submitButton: {
-    borderRadius: 12,
-    overflow: "hidden",
-    shadowColor: "#10B981",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  submitButtonGradient: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 16,
-  },
-  submitButtonText: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "bold",
-    marginLeft: 8,
-  },
   listContainer: {
     padding: 16,
   },
   emptyState: {
     alignItems: "center",
     paddingVertical: 60,
+    backgroundColor: "#ffffff",
+    borderRadius: 24,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  emptyStateIconContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#f1f5f9",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 24,
   },
   emptyStateTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#374151",
-    marginTop: 20,
+    color: "#1f2937",
     marginBottom: 10,
   },
   emptyStateText: {
     fontSize: 16,
-    color: "#6B7280",
+    color: "#64748b",
     textAlign: "center",
     lineHeight: 24,
     paddingHorizontal: 20,
   },
   incidentCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
     borderLeftWidth: 4,
-    borderLeftColor: "#F59E0B",
+    borderLeftColor: "#f59e0b",
   },
   incidentCardHeader: {
     flexDirection: "row",
@@ -539,7 +568,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#FEF3C7",
+    backgroundColor: "#fef3c7",
     justifyContent: "center",
     alignItems: "center",
     marginRight: 12,
@@ -550,25 +579,25 @@ const styles = StyleSheet.create({
   incidentCardTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     marginBottom: 4,
   },
   incidentCardDate: {
     fontSize: 12,
-    color: "#6B7280",
+    color: "#64748b",
     fontWeight: "500",
   },
   imageIndicator: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "#EBF4FF",
+    backgroundColor: "#e0e7ff",
     justifyContent: "center",
     alignItems: "center",
   },
   incidentCardDescription: {
     fontSize: 14,
-    color: "#6B7280",
+    color: "#64748b",
     lineHeight: 20,
   },
   modalContainer: {
@@ -577,7 +606,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContent: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 20,
@@ -602,7 +631,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: "#FEF3C7",
+    backgroundColor: "#fef3c7",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 16,
@@ -610,13 +639,13 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     textAlign: "center",
     marginBottom: 8,
   },
   modalDate: {
     fontSize: 16,
-    color: "#6B7280",
+    color: "#64748b",
     textAlign: "center",
   },
   modalSection: {
@@ -625,22 +654,22 @@ const styles = StyleSheet.create({
   modalSectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     marginBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#F3F4F6",
+    borderBottomColor: "#f1f5f9",
     paddingBottom: 8,
   },
   modalDescription: {
     fontSize: 16,
-    color: "#374151",
+    color: "#1f2937",
     lineHeight: 24,
   },
   modalImage: {
     width: "100%",
     height: 250,
-    borderRadius: 12,
-    backgroundColor: "#F3F4F6",
+    borderRadius: 16,
+    backgroundColor: "#f1f5f9",
   },
 })
 

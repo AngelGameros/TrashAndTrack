@@ -13,7 +13,7 @@ public class ItinerarioSimplificadoResponse
             {
                 id = i.IdItinerario,
                 estado = i.Estado,
-                fechaProgramada = i.FechaProgramada.ToString("yyyy-MM-dd"),
+                fechaProgramada = i.FechaProgramada.ToString("yyyy-MM-ddTHH:mm:ss"),
                 horaInicioReal = i.HoraInicioReal?.ToString("HH:mm") ?? null,
                 horaFinReal = i.HoraFinReal?.ToString("HH:mm") ?? null,
                 idAprobador = i.IdAprobador,

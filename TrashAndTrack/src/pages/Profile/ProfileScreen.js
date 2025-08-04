@@ -13,13 +13,16 @@ import {
   ActivityIndicator,
   RefreshControl,
   StatusBar,
+  SafeAreaView,
 } from "react-native"
 import { auth, db } from "../../config/Firebase/firebaseConfig"
 import { doc, updateDoc } from "firebase/firestore"
 import { MaterialIcons } from "@expo/vector-icons"
 import { LinearGradient } from "expo-linear-gradient"
 
+// Componente Principal de la Pantalla de Perfil
 export default function ProfileScreen() {
+  // Estado del Componente
   const IP_URL = process.env.EXPO_PUBLIC_IP_URL
   const [userData, setUserData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -28,6 +31,12 @@ export default function ProfileScreen() {
   const [isEditing, setIsEditing] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
 
+  // Efecto para Cargar Datos del Usuario
+  useEffect(() => {
+    fetchUserData()
+  }, [])
+
+  // Función para Obtener Datos del Usuario desde el Servidor
   const fetchUserData = async () => {
     try {
       const currentUser = auth.currentUser
@@ -50,15 +59,13 @@ export default function ProfileScreen() {
     }
   }
 
-  useEffect(() => {
-    fetchUserData()
-  }, [])
-
+  // Función de Refresco (Pull-to-refresh)
   const onRefresh = useCallback(() => {
     setRefreshing(true)
     fetchUserData()
   }, [])
 
+  // Función para Actualizar el Número de Teléfono
   const handleUpdatePhone = async () => {
     if (!phoneNumber.trim()) {
       Alert.alert("Error", "El número de teléfono no puede estar vacío")
@@ -77,6 +84,7 @@ export default function ProfileScreen() {
       const currentUser = auth.currentUser
       if (!currentUser?.uid) throw new Error("No hay usuario autenticado")
 
+      // Actualización en la base de datos SQL
       const sqlResponse = await fetch(`http://${IP_URL}:5000/api/usuarios/phone`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -88,6 +96,7 @@ export default function ProfileScreen() {
 
       if (!sqlResponse.ok) throw new Error("Error al actualizar el número en SQL Server")
 
+      // Actualización en Firestore
       const userDocRef = doc(db, "usersApproval", currentUser.uid)
       await updateDoc(userDocRef, { numeroTelefono: phoneNumber })
 
@@ -96,14 +105,12 @@ export default function ProfileScreen() {
       setIsEditing(false)
     } catch (error) {
       console.error("Error al actualizar el teléfono:", error)
-
       let errorMessage = "No se pudo actualizar el número de teléfono"
       if (error.code === "not-found") {
         errorMessage = "Documento de usuario no encontrado"
-      } else if (error.message.includes("permission-denied")) {
+      } else if (error.message?.includes("permission-denied")) {
         errorMessage = "No tienes permiso para realizar esta acción"
       }
-
       Alert.alert("Error", errorMessage)
       setPhoneNumber(userData.numeroTelefono || "")
     } finally {
@@ -111,24 +118,27 @@ export default function ProfileScreen() {
     }
   }
 
+  // Renderizado Condicional: Pantalla de Carga
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
-        <LinearGradient colors={["#4A90E2", "#357ABD"]} style={StyleSheet.absoluteFillObject} />
-        <ActivityIndicator size="large" color="#FFFFFF" />
+      <View style={styles.centeredScreen}>
+        <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
+        <ActivityIndicator size="large" color="#3b82f6" />
         <Text style={styles.loadingText}>Cargando perfil...</Text>
       </View>
     )
   }
 
+  // Renderizado Condicional: Pantalla de Error
   if (!userData) {
     return (
-      <View style={styles.errorContainer}>
-        <StatusBar barStyle="dark-content" backgroundColor="#F8FAFC" />
-        <MaterialIcons name="error-outline" size={80} color="#EF4444" />
+      <View style={styles.centeredScreen}>
+        <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
+        <View style={styles.errorIconContainer}>
+          <MaterialIcons name="error-outline" size={60} color="#ef4444" />
+        </View>
         <Text style={styles.errorTitle}>Error de Carga</Text>
-        <Text style={styles.errorText}>No se pudo cargar la información del usuario</Text>
+        <Text style={styles.errorText}>No se pudo cargar la información del usuario.</Text>
         <TouchableOpacity style={styles.retryButton} onPress={fetchUserData}>
           <MaterialIcons name="refresh" size={20} color="#FFFFFF" />
           <Text style={styles.retryButtonText}>Reintentar</Text>
@@ -137,199 +147,289 @@ export default function ProfileScreen() {
     )
   }
 
+  // Renderizado Principal de la Pantalla
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
 
-      {/* Header with Profile */}
-      <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.header}>
-        <View style={styles.profileSection}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#3b82f6"]} tintColor="#3b82f6" />
+        }
+      >
+        {/* Encabezado con Degradado */}
+        <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.profileHeader}>
           <View style={styles.avatarContainer}>
             <Image
               source={{
                 uri: `https://ui-avatars.com/api/?name=${encodeURIComponent(
                   userData.nombre + " " + userData.primerApellido,
-                )}&background=FFFFFF&color=4A90E2&size=120`,
+                )}&background=e0e7ff&color=1e40af&size=128&fontSize=0.4&bold=true`,
               }}
               style={styles.avatar}
             />
-            <View style={styles.statusIndicator} />
           </View>
           <Text style={styles.userName}>
             {userData.nombre} {userData.primerApellido} {userData.segundoApellido}
           </Text>
-          <View style={styles.userTypeBadge}>
-            <MaterialIcons name="badge" size={16} color="#FFFFFF" />
-            <Text style={styles.userTypeText}>
-              {userData.tipoUsuario === "recolector" ? "Recolector" : "Administrador"}
-            </Text>
-          </View>
-        </View>
-      </LinearGradient>
+          <Text style={styles.userRole}>{userData.tipoUsuario === "recolector" ? "Recolector" : "Administrador"}</Text>
+        </LinearGradient>
 
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#4A90E2"]} />}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Information Card */}
-        <View style={styles.infoCard}>
-          <Text style={styles.cardTitle}>Información Personal</Text>
-
-          {/* Email */}
-          <View style={styles.infoItem}>
-            <View style={styles.infoIconContainer}>
-              <MaterialIcons name="email" size={20} color="#4A90E2" />
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>Correo electrónico</Text>
-              <Text style={styles.infoValue}>{userData.correo}</Text>
-            </View>
-          </View>
-
-          {/* Phone */}
-          <View style={styles.infoItem}>
-            <View style={styles.infoIconContainer}>
-              <MaterialIcons name="phone" size={20} color="#4A90E2" />
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>Teléfono</Text>
-              {isEditing ? (
+        {/* Contenido Principal */}
+        <View style={styles.contentContainer}>
+          {/* Tarjeta de Información Personal */}
+          <View style={styles.infoCard}>
+            <InfoRow icon="mail-outline" label="Correo electrónico" value={userData.correo} />
+            <InfoRow
+              icon="phone-iphone"
+              label="Teléfono"
+              isEditing={isEditing}
+              editComponent={
                 <TextInput
                   style={styles.phoneInput}
                   value={phoneNumber}
                   onChangeText={setPhoneNumber}
                   keyboardType="phone-pad"
                   placeholder="Ingresa tu número"
-                  placeholderTextColor="#9CA3AF"
+                  placeholderTextColor="#64748b"
+                  autoFocus
                 />
-              ) : (
-                <Text style={styles.infoValue}>{phoneNumber || "No proporcionado"}</Text>
-              )}
-            </View>
-            {!isEditing && (
-              <TouchableOpacity style={styles.editIconButton} onPress={() => setIsEditing(true)}>
-                <MaterialIcons name="edit" size={18} color="#6B7280" />
+              }
+              value={phoneNumber || "No proporcionado"}
+            />
+            <InfoRow icon="fingerprint" label="ID de usuario" value={userData.firebaseUid} isLast />
+          </View>
+
+          {/* Botones de Acción */}
+          <View style={styles.actionsContainer}>
+            {isEditing ? (
+              <>
+                <TouchableOpacity style={styles.primaryButton} onPress={handleUpdatePhone} disabled={isUpdating}>
+                  {isUpdating ? (
+                    <ActivityIndicator size="small" color="#FFFFFF" />
+                  ) : (
+                    <>
+                      <MaterialIcons name="save" size={20} color="#FFFFFF" />
+                      <Text style={styles.primaryButtonText}>Guardar Cambios</Text>
+                    </>
+                  )}
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.secondaryButton}
+                  onPress={() => {
+                    setIsEditing(false)
+                    setPhoneNumber(userData.numeroTelefono || "")
+                  }}
+                  disabled={isUpdating}
+                >
+                  <Text style={styles.secondaryButtonText}>Cancelar</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <TouchableOpacity style={styles.primaryButton} onPress={() => setIsEditing(true)}>
+                <MaterialIcons name="edit" size={20} color="#FFFFFF" />
+                <Text style={styles.primaryButtonText}>Editar Teléfono</Text>
               </TouchableOpacity>
             )}
           </View>
 
-          {/* User ID */}
-          <View style={styles.infoItem}>
-            <View style={styles.infoIconContainer}>
-              <MaterialIcons name="fingerprint" size={20} color="#4A90E2" />
-            </View>
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>ID de usuario</Text>
-              <Text style={styles.smallInfoValue}>{userData.firebaseUid}</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Action Buttons */}
-        {isEditing && (
-          <View style={styles.actionButtons}>
-            <TouchableOpacity
-              style={[styles.actionButton, styles.saveButton]}
-              onPress={handleUpdatePhone}
-              disabled={isUpdating}
-            >
-              <LinearGradient colors={["#10B981", "#059669"]} style={styles.actionButtonGradient}>
-                {isUpdating ? (
-                  <ActivityIndicator size="small" color="#FFFFFF" />
-                ) : (
-                  <>
-                    <MaterialIcons name="save" size={20} color="#FFFFFF" />
-                    <Text style={styles.actionButtonText}>GUARDAR CAMBIOS</Text>
-                  </>
-                )}
-              </LinearGradient>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.actionButton, styles.cancelButton]}
-              onPress={() => {
-                setIsEditing(false)
-                setPhoneNumber(userData.numeroTelefono || "")
-              }}
-              disabled={isUpdating}
-            >
-              <MaterialIcons name="close" size={20} color="#6B7280" />
-              <Text style={styles.cancelButtonText}>CANCELAR</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-
-        {/* Stats Card */}
-        <View style={styles.statsCard}>
-          <Text style={styles.cardTitle}>Estadísticas</Text>
-          <View style={styles.statsGrid}>
-            <View style={styles.statItem}>
-              <MaterialIcons name="local-shipping" size={24} color="#4A90E2" />
-              <Text style={styles.statValue}>0</Text>
-              <Text style={styles.statLabel}>Rutas Completadas</Text>
-            </View>
-            <View style={styles.statItem}>
-              <MaterialIcons name="assignment" size={24} color="#10B981" />
-              <Text style={styles.statValue}>0</Text>
-              <Text style={styles.statLabel}>Reportes Enviados</Text>
-            </View>
-            <View style={styles.statItem}>
-              <MaterialIcons name="warning" size={24} color="#F59E0B" />
-              <Text style={styles.statValue}>0</Text>
-              <Text style={styles.statLabel}>Incidentes</Text>
+          {/* Tarjeta de Estadísticas */}
+          <View style={styles.statsCard}>
+            <Text style={styles.cardTitle}>Estadísticas</Text>
+            <View style={styles.statsGrid}>
+              <StatItem icon="local-shipping" value="0" label="Rutas" color="#3b82f6" />
+              <StatItem icon="assignment" value="0" label="Reportes" color="#16a34a" />
+              <StatItem icon="warning" value="0" label="Incidentes" color="#f59e0b" />
             </View>
           </View>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   )
 }
 
+// Componentes Auxiliares de UI
+const InfoRow = ({ icon, label, value, isEditing, editComponent, isLast = false }) => (
+  <View style={[styles.infoRow, isLast && styles.infoRowLast]}>
+    <MaterialIcons name={icon} size={22} color="#3b82f6" style={styles.infoIcon} />
+    <View style={styles.infoTextContainer}>
+      <Text style={styles.infoLabel}>{label}</Text>
+      {isEditing ? editComponent : <Text style={styles.infoValue}>{value}</Text>}
+    </View>
+  </View>
+)
+
+const StatItem = ({ icon, value, label, color }) => (
+  <View style={styles.statItem}>
+    <View style={[styles.statIconWrapper, { backgroundColor: `${color}20` }]}>
+      <MaterialIcons name={icon} size={28} color={color} />
+    </View>
+    <Text style={styles.statValue}>{value}</Text>
+    <Text style={styles.statLabel}>{label}</Text>
+  </View>
+)
+
+// Hoja de Estilos
 const styles = StyleSheet.create({
-  container: {
+  // Contenedores Principales
+  safeArea: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#f8fafc",
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    fontSize: 18,
-    color: "#FFFFFF",
-    marginTop: 16,
-    fontWeight: "500",
-  },
-  errorContainer: {
+  centeredScreen: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#f8fafc",
     padding: 20,
   },
-  errorTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#374151",
-    marginTop: 20,
-    marginBottom: 10,
+  contentContainer: {
+    padding: 20,
+    marginTop: -60, // Sube el contenido para que se solape con el header
   },
-  errorText: {
-    fontSize: 16,
-    color: "#6B7280",
+
+  // Encabezado de Perfil
+  profileHeader: {
+    alignItems: "center",
+    paddingTop: 50,
+    paddingBottom: 80, // Más padding para que la tarjeta de info quepa encima
+    paddingHorizontal: 20,
+  },
+  avatarContainer: {
+    width: 124,
+    height: 124,
+    borderRadius: 62,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  avatar: {
+    width: 112,
+    height: 112,
+    borderRadius: 56,
+    borderWidth: 3,
+    borderColor: "#FFFFFF",
+  },
+  userName: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#FFFFFF",
     textAlign: "center",
-    marginBottom: 30,
+  },
+  userRole: {
+    fontSize: 17,
+    color: "rgba(255, 255, 255, 0.8)",
+    marginTop: 4,
+    fontWeight: "500",
+  },
+
+  // Tarjetas de Contenido
+  infoCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  statsCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    padding: 20,
+    marginTop: 25,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1f2937",
+    marginBottom: 20,
+  },
+
+  // Filas de Información
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    paddingVertical: 18,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f1f5f9",
+  },
+  infoRowLast: {
+    borderBottomWidth: 0,
+  },
+  infoIcon: {
+    marginRight: 15,
+    marginTop: 3,
+  },
+  infoTextContainer: {
+    flex: 1,
+  },
+  infoLabel: {
+    fontSize: 14,
+    color: "#64748b",
+    marginBottom: 4,
+  },
+  infoValue: {
+    fontSize: 16,
+    color: "#1f2937",
+    fontWeight: "500",
+  },
+  phoneInput: {
+    fontSize: 16,
+    color: "#1f2937",
+    fontWeight: "500",
+    paddingVertical: 0,
+  },
+
+  // Botones de Acción
+  actionsContainer: {
+    marginTop: 30,
+    gap: 15,
+  },
+  primaryButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#3b82f6",
+    paddingVertical: 16,
+    borderRadius: 12,
+    shadowColor: "#3b82f6",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  primaryButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginLeft: 10,
+  },
+  secondaryButton: {
+    alignItems: "center",
+    paddingVertical: 12,
+  },
+  secondaryButtonText: {
+    color: "#3b82f6",
+    fontSize: 16,
+    fontWeight: "600",
   },
   retryButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#4A90E2",
-    paddingHorizontal: 20,
+    backgroundColor: "#3b82f6",
+    paddingHorizontal: 24,
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: 12,
   },
   retryButtonText: {
     color: "#FFFFFF",
@@ -337,206 +437,60 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginLeft: 8,
   },
-  header: {
-    paddingTop: 50,
-    paddingBottom: 40,
-    paddingHorizontal: 20,
-  },
-  profileSection: {
-    alignItems: "center",
-  },
-  avatarContainer: {
-    position: "relative",
-    marginBottom: 16,
-  },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 4,
-    borderColor: "rgba(255, 255, 255, 0.3)",
-  },
-  statusIndicator: {
-    position: "absolute",
-    bottom: 5,
-    right: 5,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: "#10B981",
-    borderWidth: 3,
-    borderColor: "#FFFFFF",
-  },
-  userName: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    textAlign: "center",
-    marginBottom: 8,
-  },
-  userTypeBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-  },
-  userTypeText: {
-    color: "#FFFFFF",
-    fontWeight: "600",
-    fontSize: 14,
-    marginLeft: 6,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 16,
-    paddingTop: 0,
-  },
-  infoCard: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 16,
-    padding: 20,
-    marginTop: -20,
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#1F2937",
-    marginBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#F3F4F6",
-    paddingBottom: 12,
-  },
-  infoItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  infoIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#EBF4FF",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 16,
-  },
-  infoContent: {
-    flex: 1,
-  },
-  infoLabel: {
-    fontSize: 14,
-    color: "#6B7280",
-    marginBottom: 4,
-    fontWeight: "500",
-  },
-  infoValue: {
-    fontSize: 16,
-    color: "#1F2937",
-    fontWeight: "600",
-  },
-  smallInfoValue: {
-    fontSize: 12,
-    color: "#6B7280",
-    fontWeight: "500",
-    fontFamily: "monospace",
-  },
-  phoneInput: {
-    fontSize: 16,
-    color: "#1F2937",
-    fontWeight: "600",
-    borderBottomWidth: 2,
-    borderBottomColor: "#4A90E2",
-    paddingVertical: 4,
-  },
-  editIconButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "#F3F4F6",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  actionButtons: {
-    marginBottom: 16,
-  },
-  actionButton: {
-    borderRadius: 12,
-    marginBottom: 12,
-    overflow: "hidden",
-  },
-  saveButton: {
-    shadowColor: "#10B981",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  cancelButton: {
-    backgroundColor: "#FFFFFF",
-    borderWidth: 2,
-    borderColor: "#E5E7EB",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 16,
-  },
-  actionButtonGradient: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 16,
-  },
-  actionButtonText: {
-    color: "#FFFFFF",
-    fontWeight: "bold",
-    fontSize: 16,
-    marginLeft: 8,
-  },
-  cancelButtonText: {
-    color: "#6B7280",
-    fontWeight: "bold",
-    fontSize: 16,
-    marginLeft: 8,
-  },
-  statsCard: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
-  },
+
+  // Sección de Estadísticas
   statsGrid: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
   },
   statItem: {
     alignItems: "center",
     flex: 1,
   },
+  statIconWrapper: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 8,
+  },
   statValue: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "#1F2937",
-    marginTop: 8,
-    marginBottom: 4,
+    color: "#1f2937",
   },
   statLabel: {
-    fontSize: 12,
-    color: "#6B7280",
+    fontSize: 13,
+    color: "#64748b",
+    marginTop: 2,
+  },
+
+  // Textos de Estado (Carga/Error)
+  loadingText: {
+    fontSize: 16,
+    color: "#64748b",
+    marginTop: 16,
+  },
+  errorIconContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#fef2f2",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 24,
+  },
+  errorTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#1f2937",
+    marginBottom: 10,
+  },
+  errorText: {
+    fontSize: 16,
+    color: "#64748b",
     textAlign: "center",
-    fontWeight: "500",
+    marginBottom: 30,
   },
 })

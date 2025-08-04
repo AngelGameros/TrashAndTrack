@@ -182,8 +182,8 @@ export default function ChatScreen() {
     return (
       <View style={[styles.messageBubble, isMyMessage ? styles.myMessage : styles.otherMessage]}>
         {!isMyMessage && <Text style={styles.senderName}>{senderLabel}</Text>}
-        <Text style={styles.messageText}>{item.text}</Text>
-        <Text style={styles.timestamp}>
+        <Text style={[styles.messageText, isMyMessage && styles.myMessageText]}>{item.text}</Text>
+        <Text style={[styles.timestamp, isMyMessage && styles.myTimestamp]}>
           {item.timestamp
             ? new Date(item.timestamp.toDate()).toLocaleTimeString([], {
                 hour: "2-digit",
@@ -198,9 +198,8 @@ export default function ChatScreen() {
   if (loadingAdmins) {
     return (
       <View style={styles.loadingContainer}>
-        <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
-        <LinearGradient colors={["#4A90E2", "#357ABD"]} style={StyleSheet.absoluteFillObject} />
-        <ActivityIndicator size="large" color="#FFFFFF" />
+        <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
+        <ActivityIndicator size="large" color="#3b82f6" />
         <Text style={styles.loadingText}>Cargando administradores...</Text>
       </View>
     )
@@ -208,21 +207,29 @@ export default function ChatScreen() {
 
   if (!selectedAdmin) {
     return (
-      <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
+      <SafeAreaView style={styles.safeArea}>
+        <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
 
         {/* Header */}
-        <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.header}>
-          <MaterialIcons name="support-agent" size={32} color="#FFFFFF" />
+        <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.header}>
+          <View style={styles.headerIconContainer}>
+            <MaterialIcons name="support-agent" size={40} color="#bfdbfe" />
+          </View>
           <Text style={styles.headerTitle}>Soporte Técnico</Text>
           <Text style={styles.headerSubtitle}>Selecciona un administrador para chatear</Text>
         </LinearGradient>
 
         {admins.length === 0 ? (
           <View style={styles.noAdminsContainer}>
-            <MaterialIcons name="support-agent" size={80} color="#9CA3AF" />
+            <View style={styles.noAdminsIconContainer}>
+              <MaterialIcons name="support-agent" size={60} color="#94a3b8" />
+            </View>
             <Text style={styles.noAdminsTitle}>Sin Administradores</Text>
             <Text style={styles.noAdminsText}>No hay administradores disponibles en este momento.</Text>
+            <TouchableOpacity style={styles.retryButton} onPress={onRefresh}>
+              <MaterialIcons name="refresh" size={20} color="#FFFFFF" />
+              <Text style={styles.retryButtonText}>Reintentar</Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <FlatList
@@ -231,19 +238,19 @@ export default function ChatScreen() {
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.adminItem} onPress={() => handleSelectAdmin(item)}>
                 <View style={styles.adminAvatar}>
-                  <MaterialIcons name="person" size={24} color="#4A90E2" />
+                  <MaterialIcons name="person" size={24} color="#3b82f6" />
                 </View>
                 <View style={styles.adminInfo}>
                   <Text style={styles.adminName}>{item.name || item.email}</Text>
                   <Text style={styles.adminEmail}>{item.email}</Text>
                   <Text style={styles.adminStatus}>Disponible</Text>
                 </View>
-                <MaterialIcons name="chevron-right" size={24} color="#9CA3AF" />
+                <MaterialIcons name="chevron-right" size={24} color="#64748b" />
               </TouchableOpacity>
             )}
             contentContainerStyle={styles.adminList}
             refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#4A90E2"]} tintColor="#4A90E2" />
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#3b82f6"]} tintColor="#3b82f6" />
             }
             showsVerticalScrollIndicator={false}
           />
@@ -253,11 +260,11 @@ export default function ChatScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
 
       {/* Chat Header */}
-      <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.chatHeader}>
+      <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.chatHeader}>
         <TouchableOpacity
           onPress={() => {
             setSelectedAdmin(null)
@@ -271,11 +278,6 @@ export default function ChatScreen() {
           <Text style={styles.chatHeaderTitle}>{selectedAdmin.name || selectedAdmin.email}</Text>
           <Text style={styles.chatHeaderSubtitle}>Administrador • En línea</Text>
         </View>
-        <View style={styles.chatHeaderActions}>
-          <TouchableOpacity style={styles.headerActionButton}>
-            <MaterialIcons name="more-vert" size={24} color="#FFFFFF" />
-          </TouchableOpacity>
-        </View>
       </LinearGradient>
 
       <KeyboardAvoidingView
@@ -287,12 +289,14 @@ export default function ChatScreen() {
         <View style={{ flex: 1 }}>
           {loadingMessages ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color="#4A90E2" />
-              <Text style={[styles.loadingText, { color: "#4A90E2" }]}>Cargando mensajes...</Text>
+              <ActivityIndicator size="large" color="#3b82f6" />
+              <Text style={[styles.loadingText, { color: "#3b82f6" }]}>Cargando mensajes...</Text>
             </View>
           ) : messages.length === 0 ? (
             <View style={styles.noMessagesContainer}>
-              <MaterialIcons name="chat-bubble-outline" size={80} color="#9CA3AF" />
+              <View style={styles.noMessagesIconContainer}>
+                <MaterialIcons name="chat-bubble-outline" size={60} color="#94a3b8" />
+              </View>
               <Text style={styles.noMessagesTitle}>¡Inicia la conversación!</Text>
               <Text style={styles.noMessagesText}>
                 Envía tu primer mensaje para comenzar a chatear con el administrador.
@@ -312,8 +316,8 @@ export default function ChatScreen() {
                 <RefreshControl
                   refreshing={refreshing}
                   onRefresh={onRefresh}
-                  colors={["#4A90E2"]}
-                  tintColor="#4A90E2"
+                  colors={["#3b82f6"]}
+                  tintColor="#3b82f6"
                 />
               }
               showsVerticalScrollIndicator={false}
@@ -328,7 +332,7 @@ export default function ChatScreen() {
                 value={inputText}
                 onChangeText={setInputText}
                 placeholder="Escribe tu mensaje..."
-                placeholderTextColor="#9CA3AF"
+                placeholderTextColor="#64748b"
                 multiline
                 blurOnSubmit={false}
               />
@@ -348,79 +352,125 @@ export default function ChatScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#f8fafc",
   },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#f8fafc",
   },
   loadingText: {
-    marginTop: 16,
+    marginTop: 12,
     fontSize: 16,
-    color: "#FFFFFF",
-    fontWeight: "500",
+    color: "#64748b",
   },
   header: {
-    paddingTop: 20,
-    paddingBottom: 30,
-    paddingHorizontal: 20,
+    borderRadius: 24,
+    padding: 24,
     alignItems: "center",
+    margin: 16,
+    shadowColor: "#3b82f6",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 15,
+    elevation: 10,
+  },
+  headerIconContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)",
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginTop: 12,
     marginBottom: 4,
   },
   headerSubtitle: {
     fontSize: 16,
-    color: "rgba(255, 255, 255, 0.8)",
+    color: "#dbeafe",
     textAlign: "center",
   },
   noAdminsContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 40,
+    padding: 32,
+    backgroundColor: "#ffffff",
+    borderRadius: 24,
+    margin: 16,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  noAdminsIconContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#f1f5f9",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 24,
   },
   noAdminsTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "#374151",
-    marginTop: 20,
-    marginBottom: 10,
+    color: "#1f2937",
+    marginBottom: 12,
   },
   noAdminsText: {
     fontSize: 16,
-    color: "#6B7280",
+    color: "#64748b",
     textAlign: "center",
     lineHeight: 24,
+    marginBottom: 24,
+  },
+  retryButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#3b82f6",
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 12,
+  },
+  retryButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "600",
+    marginLeft: 8,
   },
   adminList: {
     padding: 16,
   },
   adminItem: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
     flexDirection: "row",
     alignItems: "center",
-    shadowColor: "#000",
+    shadowColor: "#9ca3af",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.08,
     shadowRadius: 8,
-    elevation: 2,
+    elevation: 4,
   },
   adminAvatar: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: "#EBF4FF",
+    backgroundColor: "#e0e7ff",
     justifyContent: "center",
     alignItems: "center",
     marginRight: 16,
@@ -431,17 +481,17 @@ const styles = StyleSheet.create({
   adminName: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     marginBottom: 4,
   },
   adminEmail: {
     fontSize: 14,
-    color: "#6B7280",
+    color: "#64748b",
     marginBottom: 2,
   },
   adminStatus: {
     fontSize: 12,
-    color: "#10B981",
+    color: "#16a34a",
     fontWeight: "500",
   },
   chatHeader: {
@@ -449,7 +499,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 16,
     paddingHorizontal: 16,
-    shadowColor: "#000",
+    shadowColor: "#3b82f6",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -490,6 +540,7 @@ const styles = StyleSheet.create({
   },
   flatListContentArea: {
     flex: 1,
+    backgroundColor: "#f8fafc",
   },
   messagesList: {
     paddingVertical: 16,
@@ -501,7 +552,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 16,
     marginBottom: 12,
-    shadowColor: "#000",
+    shadowColor: "#9ca3af",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
@@ -509,54 +560,60 @@ const styles = StyleSheet.create({
   },
   myMessage: {
     alignSelf: "flex-end",
-    backgroundColor: "#4A90E2",
+    backgroundColor: "#3b82f6",
     borderBottomRightRadius: 4,
   },
   otherMessage: {
     alignSelf: "flex-start",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderBottomLeftRadius: 4,
     borderWidth: 1,
-    borderColor: "#F3F4F6",
+    borderColor: "#f1f5f9",
   },
   senderName: {
     fontSize: 12,
-    color: "#6B7280",
+    color: "#64748b",
     marginBottom: 4,
     fontWeight: "600",
   },
   messageText: {
     fontSize: 16,
-    color: "#1F2937",
+    color: "#1f2937",
     lineHeight: 22,
+  },
+  myMessageText: {
+    color: "#FFFFFF",
   },
   timestamp: {
     fontSize: 11,
-    color: "#9CA3AF",
+    color: "#64748b",
     alignSelf: "flex-end",
     marginTop: 6,
+  },
+  myTimestamp: {
+    color: "#dbeafe",
   },
   inputContainer: {
     paddingHorizontal: 16,
     paddingTop: 12,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderTopWidth: 1,
-    borderTopColor: "#F3F4F6",
+    borderTopColor: "#f1f5f9",
   },
   inputWrapper: {
     flexDirection: "row",
     alignItems: "flex-end",
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#f8fafc",
     borderRadius: 24,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderColor: "#e2e8f0",
   },
   textInput: {
     flex: 1,
     fontSize: 16,
-    color: "#1F2937",
+    color: "#1f2937",
     maxHeight: 100,
     minHeight: 40,
     paddingVertical: 8,
@@ -570,10 +627,10 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   sendButtonActive: {
-    backgroundColor: "#4A90E2",
+    backgroundColor: "#3b82f6",
   },
   sendButtonInactive: {
-    backgroundColor: "#9CA3AF",
+    backgroundColor: "#94a3b8",
   },
   noMessagesContainer: {
     flex: 1,
@@ -581,16 +638,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 40,
   },
+  noMessagesIconContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#f1f5f9",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 24,
+  },
   noMessagesTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#374151",
+    color: "#1f2937",
     marginTop: 20,
     marginBottom: 10,
   },
   noMessagesText: {
     fontSize: 16,
-    color: "#6B7280",
+    color: "#64748b",
     textAlign: "center",
     lineHeight: 24,
   },

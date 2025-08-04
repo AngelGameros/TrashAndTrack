@@ -11,11 +11,13 @@ import {
   Alert,
   RefreshControl,
   StatusBar,
+  SafeAreaView,
 } from "react-native"
 import { Calendar, LocaleConfig } from "react-native-calendars"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, useFocusEffect } from "@react-navigation/native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { LinearGradient } from "expo-linear-gradient"
+import { auth } from "../../config/Firebase/firebaseConfig"
 import axios from "axios"
 
 LocaleConfig.locales["es"] = {
@@ -41,19 +43,50 @@ LocaleConfig.locales["es"] = {
 LocaleConfig.defaultLocale = "es"
 
 const CalendarScreen = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0])
   const [selectedCollection, setSelectedCollection] = useState(null)
   const [modalVisible, setModalVisible] = useState(false)
   const [collectionData, setCollectionData] = useState({})
   const [refreshing, setRefreshing] = useState(false)
   const navigation = useNavigation()
+  const [userId, setUserId] = useState(null)
   const IP_URL = process.env.EXPO_PUBLIC_IP_URL
 
-  const userId = 2
+  const getLocalDateString = () => {
+    const d = new Date()
+    const year = d.getFullYear()
+    const month = String(d.getMonth() + 1).padStart(2, "0")
+    const day = String(d.getDate()).padStart(2, "0")
+    return `${year}-${month}-${day}`
+  }
+  const [selectedDate, setSelectedDate] = useState(getLocalDateString())
 
-  const fetchItinerarios = async () => {
+  const fetchUserId = async () => {
     try {
-      const res = await axios.get(`http://${IP_URL}:5000/api/itinerarios/usuario/${userId}`)
+      const currentUser = auth.currentUser
+      if (!currentUser) {
+        console.error("No hay usuario autenticado")
+        throw new Error("No hay usuario autenticado")
+      }
+      const response = await fetch(`http://${IP_URL}:5000/api/usuarios/firebase/${currentUser.uid}`)
+      if (!response.ok) {
+        console.error("Error en respuesta:", response.status)
+        throw new Error("Error al obtener datos del usuario")
+      }
+      const result = await response.json()
+      if (!result?.usuario) {
+        console.error("Respuesta no contiene usuario:", result)
+        throw new Error("La respuesta no contiene datos de usuario")
+      }
+      return result.usuario.idUsuario
+    } catch (error) {
+      console.error("Error completo en fetchUserId:", error)
+      throw error
+    }
+  }
+
+  const fetchItinerarios = async (uid) => {
+    try {
+      const res = await axios.get(`http://${IP_URL}:5000/api/itinerarios/usuario/${uid}`)
       const data = res.data.data
 
       const grouped = {}
@@ -61,15 +94,62 @@ const CalendarScreen = () => {
       data.forEach((it) => {
         if (it.estado.toLowerCase() === "cancelado") return
 
-        const fecha = it.fechaProgramada
+        // Extraer solo la parte de la fecha (YYYY-MM-DD) para la clave de agrupación
+        const fecha = it.fechaProgramada.split("T")[0]
         if (!grouped[fecha]) grouped[fecha] = []
+
+        // Función para formatear tiempo
+        const formatTime = (dateString) => {
+          if (!dateString) return "Sin hora"
+          try {
+            let date
+            // Verificar si la cadena ya contiene información de zona horaria (Z, +HH:MM, -HH:MM)
+            const hasTimezone = dateString.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(dateString)
+
+            if (hasTimezone) {
+              // Si tiene información de zona horaria, parsearla directamente
+              date = new Date(dateString)
+            } else {
+              // Si no tiene información de zona horaria, asumir que es hora de Tijuana
+              // y añadir el offset de Tijuana (UTC-07:00 durante PDT, que es común en agosto)
+              // Esto asegura que se interprete como hora local de Tijuana desde el inicio.
+              const dateWithTz = `${dateString}-07:00`
+              date = new Date(dateWithTz)
+            }
+
+            // Formatear este objeto de fecha a la zona horaria deseada (Tijuana)
+            return date.toLocaleTimeString("es-MX", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+              timeZone: "America/Tijuana",
+            })
+          } catch (e) {
+            console.error("Error al formatear la hora:", e, "para la cadena:", dateString)
+            return "Sin hora"
+          }
+        }
+
+        // Determinar el tiempo a mostrar basado en el estado
+        let displayTime = "Sin hora"
+        const estado = it.estado.toLowerCase()
+
+        if (estado === "finalizada" && it.fechaFin) {
+          displayTime = `Finalizada: ${formatTime(it.fechaFin)}`
+        } else if (estado === "en_proceso" && it.fechaInicio) {
+          displayTime = `Iniciada: ${formatTime(it.fechaInicio)}`
+        } else if (estado === "iniciada" && it.fechaInicio) {
+          displayTime = `Iniciada: ${formatTime(it.fechaInicio)}`
+        } else if (it.fechaProgramada) {
+          displayTime = `Programada: ${formatTime(it.fechaProgramada)}`
+        }
 
         grouped[fecha].push({
           id: it.id,
           title: it.nombreRuta,
-          time: "Sin hora",
+          time: displayTime,
           location: it.descripcionRuta,
-          status: it.estado.toLowerCase(),
+          status: estado,
           details: {
             peso: calcularPeso(it.empresas),
             tipoResiduo: extraerTiposResiduo(it.empresas),
@@ -86,12 +166,26 @@ const CalendarScreen = () => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true)
-    fetchItinerarios().finally(() => setRefreshing(false))
-  }, [])
+    if (userId) {
+      fetchItinerarios(userId).finally(() => setRefreshing(false))
+    } else {
+      setRefreshing(false)
+    }
+  }, [userId])
 
   useEffect(() => {
-    fetchItinerarios()
+    fetchUserId()
+      .then((id) => setUserId(id))
+      .catch((err) => console.error("No se pudo obtener el userId:", err))
   }, [])
+
+  useFocusEffect(
+    useCallback(() => {
+      if (userId) {
+        fetchItinerarios(userId)
+      }
+    }, [userId]),
+  )
 
   const calcularPeso = (empresasJSON) => {
     try {
@@ -151,16 +245,28 @@ const CalendarScreen = () => {
   const markedDates = {}
   Object.keys(collectionData).forEach((date) => {
     const statuses = collectionData[date].map((c) => c.status)
-    let dotColor = "#4A90E2"
-    if (statuses.every((s) => s === "completado")) dotColor = "#10B981"
+    let dotColor = "#3b82f6" // Azul por defecto (programado/iniciado)
 
-    markedDates[date] = { marked: true, dotColor, selected: date === selectedDate }
+    // Si todas las rutas están finalizadas, verde
+    if (statuses.every((s) => s === "finalizada")) {
+      dotColor = "#16a34a"
+    }
+    // Si hay alguna en proceso, naranja
+    else if (statuses.some((s) => s === "en_proceso")) {
+      dotColor = "#f59e0b"
+    }
+
+    markedDates[date] = {
+      marked: true,
+      dotColor,
+      selected: date === selectedDate,
+    }
   })
 
   if (markedDates[selectedDate]) {
-    markedDates[selectedDate].selectedColor = "#4A90E2"
+    markedDates[selectedDate].selectedColor = "#3b82f6"
   } else {
-    markedDates[selectedDate] = { selected: true, selectedColor: "#4A90E2" }
+    markedDates[selectedDate] = { selected: true, selectedColor: "#3b82f6" }
   }
 
   const renderCollections = () => {
@@ -170,7 +276,7 @@ const CalendarScreen = () => {
       return (
         <View style={styles.noCollections}>
           <View style={styles.noCollectionsIcon}>
-            <MaterialIcons name="event-available" size={48} color="#4A90E2" />
+            <MaterialIcons name="event-available" size={48} color="#3b82f6" />
           </View>
           <Text style={styles.noCollectionsTitle}>¡Día libre!</Text>
           <Text style={styles.noCollectionsText}>No hay recolecciones programadas para hoy.</Text>
@@ -191,24 +297,47 @@ const CalendarScreen = () => {
           >
             <View style={styles.collectionHeader}>
               <View style={styles.collectionTimeContainer}>
-                <MaterialIcons name="schedule" size={16} color="#6B7280" />
+                <MaterialIcons name="schedule" size={16} color="#64748b" />
                 <Text style={styles.collectionTime}>{collection.time}</Text>
               </View>
               <View
                 style={[
                   styles.statusBadge,
-                  collection.status === "completado" ? styles.completedBadge : styles.assignedBadge,
+                  collection.status === "finalizada"
+                    ? styles.completedBadge
+                    : collection.status === "en_proceso"
+                      ? styles.inProgressBadge
+                      : styles.assignedBadge,
                 ]}
               >
                 <MaterialIcons
-                  name={collection.status === "completado" ? "check-circle" : "schedule"}
+                  name={
+                    collection.status === "finalizada"
+                      ? "check-circle"
+                      : collection.status === "en_proceso"
+                        ? "play-circle-filled"
+                        : "schedule"
+                  }
                   size={12}
-                  color={collection.status === "completado" ? "#10B981" : "#4A90E2"}
+                  color={
+                    collection.status === "finalizada"
+                      ? "#16a34a"
+                      : collection.status === "en_proceso"
+                        ? "#f59e0b"
+                        : "#3b82f6"
+                  }
                 />
                 <Text
                   style={[
                     styles.statusText,
-                    collection.status === "completado" ? { color: "#10B981" } : { color: "#4A90E2" },
+                    {
+                      color:
+                        collection.status === "finalizada"
+                          ? "#16a34a"
+                          : collection.status === "en_proceso"
+                            ? "#f59e0b"
+                            : "#3b82f6",
+                    },
                   ]}
                 >
                   {collection.status.toUpperCase()}
@@ -217,7 +346,7 @@ const CalendarScreen = () => {
             </View>
             <Text style={styles.collectionTitle}>{collection.title}</Text>
             <View style={styles.locationContainer}>
-              <MaterialIcons name="location-on" size={16} color="#6B7280" />
+              <MaterialIcons name="location-on" size={16} color="#64748b" />
               <Text style={styles.collectionLocation}>{collection.location}</Text>
             </View>
           </TouchableOpacity>
@@ -227,11 +356,14 @@ const CalendarScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
 
       {/* Header */}
-      <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.header}>
+      <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.header}>
+        <View style={styles.headerIconContainer}>
+          <MaterialIcons name="event" size={40} color="#bfdbfe" />
+        </View>
         <Text style={styles.headerTitle}>Mi Calendario</Text>
         <Text style={styles.headerSubtitle}>Gestiona tus recolecciones programadas</Text>
       </LinearGradient>
@@ -239,7 +371,9 @@ const CalendarScreen = () => {
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#3b82f6"]} tintColor="#3b82f6" />
+        }
         showsVerticalScrollIndicator={false}
       >
         {/* Calendar */}
@@ -250,16 +384,16 @@ const CalendarScreen = () => {
             onDayPress={handleDayPress}
             markedDates={markedDates}
             theme={{
-              backgroundColor: "#FFFFFF",
-              calendarBackground: "#FFFFFF",
-              textSectionTitleColor: "#6B7280",
-              selectedDayBackgroundColor: "#4A90E2",
-              selectedDayTextColor: "#FFFFFF",
-              todayTextColor: "#4A90E2",
-              dayTextColor: "#1F2937",
-              textDisabledColor: "#D1D5DB",
-              arrowColor: "#4A90E2",
-              monthTextColor: "#1F2937",
+              backgroundColor: "#ffffff",
+              calendarBackground: "#ffffff",
+              textSectionTitleColor: "#64748b",
+              selectedDayBackgroundColor: "#3b82f6",
+              selectedDayTextColor: "#ffffff",
+              todayTextColor: "#3b82f6",
+              dayTextColor: "#1f2937",
+              textDisabledColor: "#d1d5db",
+              arrowColor: "#3b82f6",
+              monthTextColor: "#1f2937",
               textMonthFontWeight: "bold",
               textDayFontFamily: "System",
               textMonthFontFamily: "System",
@@ -274,11 +408,11 @@ const CalendarScreen = () => {
         {/* Legend */}
         <View style={styles.legendContainer}>
           <View style={styles.legendItem}>
-            <View style={[styles.legendDot, { backgroundColor: "#4A90E2" }]} />
+            <View style={[styles.legendDot, { backgroundColor: "#3b82f6" }]} />
             <Text style={styles.legendText}>Programado</Text>
           </View>
           <View style={styles.legendItem}>
-            <View style={[styles.legendDot, { backgroundColor: "#10B981" }]} />
+            <View style={[styles.legendDot, { backgroundColor: "#16a34a" }]} />
             <Text style={styles.legendText}>Completado</Text>
           </View>
         </View>
@@ -308,24 +442,24 @@ const CalendarScreen = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-              <MaterialIcons name="close" size={28} color="#9CA3AF" />
+              <MaterialIcons name="close" size={28} color="#64748b" />
             </TouchableOpacity>
 
             <ScrollView contentContainerStyle={styles.modalScrollContent} showsVerticalScrollIndicator={false}>
               <View style={styles.modalHeader}>
                 <View style={styles.modalIconContainer}>
-                  <MaterialIcons name="event" size={24} color="#4A90E2" />
+                  <MaterialIcons name="event" size={24} color="#3b82f6" />
                 </View>
                 <Text style={styles.modalTitle}>{selectedCollection?.title}</Text>
               </View>
 
               <View style={styles.modalSection}>
                 <View style={styles.detailRow}>
-                  <MaterialIcons name="schedule" size={20} color="#4A90E2" />
+                  <MaterialIcons name="schedule" size={20} color="#3b82f6" />
                   <Text style={styles.detailText}>{selectedCollection?.time}</Text>
                 </View>
                 <View style={styles.detailRow}>
-                  <MaterialIcons name="location-on" size={20} color="#4A90E2" />
+                  <MaterialIcons name="location-on" size={20} color="#3b82f6" />
                   <Text style={styles.detailText}>{selectedCollection?.location}</Text>
                 </View>
               </View>
@@ -348,7 +482,7 @@ const CalendarScreen = () => {
 
               {selectedCollection?.status === "pendiente" && (
                 <TouchableOpacity style={styles.startButton} onPress={() => iniciarRuta(selectedCollection.id)}>
-                  <LinearGradient colors={["#10B981", "#059669"]} style={styles.startButtonGradient}>
+                  <LinearGradient colors={["#16a34a", "#22c55e"]} style={styles.startButtonGradient}>
                     <MaterialIcons name="play-arrow" size={24} color="#FFFFFF" />
                     <Text style={styles.startButtonText}>INICIAR RUTA</Text>
                   </LinearGradient>
@@ -358,30 +492,46 @@ const CalendarScreen = () => {
           </View>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#f8fafc",
   },
   header: {
-    paddingTop: 50,
-    paddingBottom: 30,
-    paddingHorizontal: 20,
+    borderRadius: 24,
+    padding: 24,
     alignItems: "center",
+    margin: 16,
+    shadowColor: "#3b82f6",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 15,
+    elevation: 10,
+  },
+  headerIconContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)",
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginBottom: 8,
+    marginBottom: 4,
   },
   headerSubtitle: {
     fontSize: 16,
-    color: "rgba(255, 255, 255, 0.8)",
+    color: "#dbeafe",
     textAlign: "center",
   },
   scrollView: {
@@ -394,11 +544,11 @@ const styles = StyleSheet.create({
     margin: 16,
     borderRadius: 16,
     overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
   },
   calendar: {
     borderRadius: 16,
@@ -409,13 +559,13 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     paddingVertical: 12,
     marginHorizontal: 16,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 12,
-    shadowColor: "#000",
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    shadowColor: "#9ca3af",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.08,
     shadowRadius: 8,
-    elevation: 2,
+    elevation: 4,
   },
   legendItem: {
     flexDirection: "row",
@@ -430,7 +580,7 @@ const styles = StyleSheet.create({
   },
   legendText: {
     fontSize: 14,
-    color: "#6B7280",
+    color: "#64748b",
     fontWeight: "500",
   },
   selectedDateContainer: {
@@ -439,26 +589,26 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#1F2937",
+    color: "#1f2937",
     marginBottom: 16,
     textTransform: "capitalize",
   },
   noCollections: {
     alignItems: "center",
     paddingVertical: 40,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderRadius: 16,
-    shadowColor: "#000",
+    shadowColor: "#9ca3af",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.08,
     shadowRadius: 8,
-    elevation: 2,
+    elevation: 4,
   },
   noCollectionsIcon: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: "#EBF4FF",
+    backgroundColor: "#e0e7ff",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 16,
@@ -466,31 +616,31 @@ const styles = StyleSheet.create({
   noCollectionsTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     marginBottom: 8,
   },
   noCollectionsText: {
     fontSize: 14,
-    color: "#6B7280",
+    color: "#64748b",
     textAlign: "center",
   },
   collectionCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
   },
   completedCard: {
-    borderLeftColor: "#10B981",
+    borderLeftColor: "#16a34a",
     borderLeftWidth: 4,
   },
   assignedCard: {
-    borderLeftColor: "#4A90E2",
+    borderLeftColor: "#3b82f6",
     borderLeftWidth: 4,
   },
   collectionHeader: {
@@ -505,7 +655,7 @@ const styles = StyleSheet.create({
   },
   collectionTime: {
     fontSize: 14,
-    color: "#6B7280",
+    color: "#64748b",
     fontWeight: "500",
     marginLeft: 6,
   },
@@ -517,10 +667,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   completedBadge: {
-    backgroundColor: "#D1FAE5",
+    backgroundColor: "#dcfce7",
   },
   assignedBadge: {
-    backgroundColor: "#DBEAFE",
+    backgroundColor: "#dbeafe",
   },
   statusText: {
     fontSize: 11,
@@ -530,7 +680,7 @@ const styles = StyleSheet.create({
   collectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     marginBottom: 8,
   },
   locationContainer: {
@@ -539,7 +689,7 @@ const styles = StyleSheet.create({
   },
   collectionLocation: {
     fontSize: 14,
-    color: "#6B7280",
+    color: "#64748b",
     marginLeft: 6,
     flex: 1,
   },
@@ -549,7 +699,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContent: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 20,
@@ -574,7 +724,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: "#EBF4FF",
+    backgroundColor: "#e0e7ff",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 12,
@@ -582,7 +732,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     textAlign: "center",
   },
   modalSection: {
@@ -596,22 +746,22 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontSize: 16,
-    color: "#374151",
+    color: "#1f2937",
     marginLeft: 12,
     flex: 1,
   },
   sectionHeader: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     marginBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#F3F4F6",
+    borderBottomColor: "#f1f5f9",
     paddingBottom: 8,
   },
   detailsContainer: {
-    backgroundColor: "#F8FAFC",
-    borderRadius: 12,
+    backgroundColor: "#f8fafc",
+    borderRadius: 16,
     padding: 16,
     marginBottom: 20,
   },
@@ -621,25 +771,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: "#F3F4F6",
+    borderBottomColor: "#f1f5f9",
   },
   detailLabel: {
     fontSize: 15,
-    color: "#6B7280",
+    color: "#64748b",
     fontWeight: "500",
   },
   detailValue: {
     fontSize: 15,
-    color: "#1F2937",
+    color: "#1f2937",
     fontWeight: "600",
     textAlign: "right",
     flex: 1,
     marginLeft: 10,
   },
   startButton: {
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: "hidden",
-    shadowColor: "#10B981",
+    shadowColor: "#16a34a",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -656,6 +806,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     marginLeft: 8,
+  },
+  inProgressBadge: {
+    backgroundColor: "#fef3c7",
   },
 })
 

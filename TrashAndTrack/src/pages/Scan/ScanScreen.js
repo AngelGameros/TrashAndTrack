@@ -1,166 +1,193 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { View, Text, StyleSheet, Linking, Alert, Dimensions, TouchableOpacity, StatusBar } from "react-native"
-import { CameraView, useCameraPermissions } from "expo-camera"
-import { MaterialIcons } from "@expo/vector-icons"
-import { LinearGradient } from "expo-linear-gradient"
+import { useState, useEffect, useCallback } from "react";
+import { View, Text, StyleSheet, Linking, Alert, Dimensions, TouchableOpacity, StatusBar, SafeAreaView } from "react-native";
+import { CameraView, useCameraPermissions } from "expo-camera";
+import { MaterialIcons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
-const { width } = Dimensions.get("window")
+const { width, height } = Dimensions.get("window");
+
+// --- Componente de Alerta Personalizada (Sin cambios) ---
+const CustomAlert = ({ data, onDismiss, onCopy, onOpenLink }) => {
+    const isLink = data?.startsWith("http");
+
+    const handleCopyToClipboard = () => {
+        // For web/iframe environments, execCommand is more reliable
+        const textArea = document.createElement("textarea");
+        textArea.value = data;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            onCopy();
+        } catch (err) {
+            Alert.alert("Error", "No se pudo copiar el texto.");
+        }
+        document.body.removeChild(textArea);
+    };
+
+    return (
+        <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+                <View style={styles.modalHeader}>
+                    <View style={styles.modalIconWrapper}>
+                        <MaterialIcons name="check-circle" size={24} color="#22c55e" />
+                    </View>
+                    <Text style={styles.modalTitle}>Código Escaneado</Text>
+                </View>
+                <Text style={styles.modalData} numberOfLines={4}>{data}</Text>
+                <View style={styles.modalActions}>
+                    <TouchableOpacity style={styles.modalButton} onPress={handleCopyToClipboard}>
+                        <MaterialIcons name="content-copy" size={20} color="#3b82f6" />
+                        <Text style={styles.modalButtonText}>Copiar</Text>
+                    </TouchableOpacity>
+                    {isLink && (
+                         <TouchableOpacity style={styles.modalButton} onPress={() => onOpenLink(data)}>
+                            <MaterialIcons name="open-in-new" size={20} color="#3b82f6" />
+                            <Text style={styles.modalButtonText}>Abrir</Text>
+                        </TouchableOpacity>
+                    )}
+                </View>
+                 <TouchableOpacity style={styles.modalPrimaryButton} onPress={onDismiss}>
+                    <Text style={styles.modalPrimaryButtonText}>Escanear Otro</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+};
+
 
 export default function ScanScreen() {
-  const [scannedData, setScannedData] = useState(null)
-  const [permission, requestPermission] = useCameraPermissions()
-  const [cameraType, setCameraType] = useState("back")
-  const [cameraKey, setCameraKey] = useState(0)
+  const [scannedData, setScannedData] = useState(null);
+  const [permission, requestPermission] = useCameraPermissions();
+  const [cameraType, setCameraType] = useState("back");
+  const [torchEnabled, setTorchEnabled] = useState(false);
+  // La clave de la cámara fuerza el reinicio del componente cuando cambia
+  const [cameraKey, setCameraKey] = useState(0);
 
   useEffect(() => {
-    if (!permission) return
+    if (!permission) return;
     if (!permission.granted) {
-      requestPermission()
+      requestPermission();
     }
-  }, [permission])
+  }, [permission]);
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    if (scannedData) return
+  const handleBarCodeScanned = ({ data }) => {
+    if (scannedData) return; // Evita escanear múltiples veces
+    setScannedData(data);
+  };
 
-    setScannedData(data)
-    console.log(`Tipo de código: ${type}`)
-    console.log(`Datos escaneados: ${data}`)
+  const handleOpenLink = (url) => {
+    Linking.openURL(url).catch((err) => Alert.alert("Error", "No se pudo abrir el enlace."));
+    setScannedData(null);
+  };
+  
+  const handleCopy = () => {
+    Alert.alert("Copiado", "El contenido se ha copiado al portapapeles.");
+  };
 
-    Alert.alert(
-      "Código QR Escaneado",
-      `Contenido: ${data}`,
-      [
-        {
-          text: "Escanear Otro",
-          onPress: () => setScannedData(null),
-          style: "default",
-        },
-        {
-          text: "Cerrar",
-          style: "cancel",
-        },
-      ],
-      { cancelable: false },
-    )
-
-    if (data.startsWith("http://") || data.startsWith("https://")) {
-      Linking.openURL(data).catch((err) => console.error("No se pudo abrir la URL", err))
-    }
-  }
-
+  // Función para reiniciar la cámara manualmente
   const restartCamera = () => {
-    setScannedData(null)
-    setCameraKey((prev) => prev + 1)
-  }
+    setScannedData(null);
+    setCameraKey(prevKey => prevKey + 1);
+  };
 
-  if (!permission) return null
+  if (!permission) return null;
 
+  // --- Pantalla de Permisos (Sin cambios) ---
   if (!permission.granted) {
     return (
-      <View style={styles.permissionContainer}>
-        <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
-        <LinearGradient colors={["#4A90E2", "#357ABD"]} style={StyleSheet.absoluteFillObject} />
-        <View style={styles.permissionContent}>
-          <View style={styles.permissionIcon}>
+      <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.permissionContainer}>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.permissionIconContainer}>
             <MaterialIcons name="camera-alt" size={60} color="#FFFFFF" />
-          </View>
-          <Text style={styles.permissionTitle}>Acceso a Cámara Requerido</Text>
-          <Text style={styles.permissionText}>
-            Para escanear códigos QR necesitamos acceso a tu cámara. Por favor, concede los permisos necesarios.
-          </Text>
-          <TouchableOpacity style={styles.permissionButton} onPress={requestPermission}>
-            <Text style={styles.permissionButtonText}>Conceder Permisos</Text>
-          </TouchableOpacity>
         </View>
-      </View>
-    )
+        <Text style={styles.permissionTitle}>Acceso a la Cámara</Text>
+        <Text style={styles.permissionText}>
+          Necesitamos tu permiso para usar la cámara y poder escanear códigos QR.
+        </Text>
+        <TouchableOpacity style={styles.permissionButton} onPress={requestPermission}>
+          <Text style={styles.permissionButtonText}>Conceder Permiso</Text>
+        </TouchableOpacity>
+      </LinearGradient>
+    );
   }
 
+  // --- Pantalla Principal del Escáner (Actualizada) ---
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#000000" />
-
-      {/* Header */}
-      <LinearGradient colors={["rgba(74, 144, 226, 0.9)", "rgba(53, 122, 189, 0.9)"]} style={styles.header}>
-        <MaterialIcons name="qr-code-scanner" size={32} color="#FFFFFF" />
-        <Text style={styles.headerTitle}>Escáner QR</Text>
-        <Text style={styles.headerSubtitle}>Apunta la cámara hacia el código QR</Text>
-      </LinearGradient>
-
-      {/* Camera */}
+      <StatusBar barStyle="light-content" backgroundColor="#000" />
       <CameraView
-        key={cameraKey}
+        key={cameraKey} // Se usa la clave para forzar el reinicio
         onBarcodeScanned={scannedData ? undefined : handleBarCodeScanned}
         barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
         facing={cameraType}
-        style={styles.camera}
+        enableTorch={torchEnabled}
+        style={StyleSheet.absoluteFillObject}
       >
         <View style={styles.overlay}>
-          {/* Scanning Frame */}
-          <View style={styles.scanningArea}>
-            <View style={styles.scanFrame}>
-              {/* Corner indicators */}
-              <View style={[styles.corner, styles.topLeft]} />
-              <View style={[styles.corner, styles.topRight]} />
-              <View style={[styles.corner, styles.bottomLeft]} />
-              <View style={[styles.corner, styles.bottomRight]} />
+          {/* Header */}
+          <SafeAreaView style={styles.header}>
+            <Text style={styles.headerTitle}>Escáner QR</Text>
+          </SafeAreaView>
 
-              {/* Scanning line animation */}
-              <View style={styles.scanLine} />
-            </View>
+          {/* Marco de escaneo */}
+          <View style={styles.scanFrame}>
+            <View style={[styles.corner, styles.topLeft]} />
+            <View style={[styles.corner, styles.topRight]} />
+            <View style={[styles.corner, styles.bottomLeft]} />
+            <View style={[styles.corner, styles.bottomRight]} />
           </View>
+          <Text style={styles.instructionsText}>Apunta al código para escanear</Text>
 
-          {/* Instructions */}
-          <View style={styles.instructionsContainer}>
-            <Text style={styles.instructionsText}>Coloca el código QR dentro del marco</Text>
+          {/* Controles inferiores */}
+          <View style={styles.controlsContainer}>
+            <TouchableOpacity style={styles.controlButton} onPress={() => setTorchEnabled(t => !t)}>
+              <MaterialIcons name={torchEnabled ? "flash-on" : "flash-off"} size={28} color="#FFFFFF" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.controlButton} onPress={restartCamera}>
+              <MaterialIcons name="refresh" size={28} color="#FFFFFF" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.controlButton} onPress={() => setCameraType(c => c === 'back' ? 'front' : 'back')}>
+              <MaterialIcons name="flip-camera-ios" size={28} color="#FFFFFF" />
+            </TouchableOpacity>
           </View>
         </View>
       </CameraView>
 
-      {/* Bottom Controls */}
-      <View style={styles.controlsContainer}>
-        <TouchableOpacity style={styles.controlButton} onPress={restartCamera}>
-          <MaterialIcons name="refresh" size={24} color="#4A90E2" />
-          <Text style={styles.controlButtonText}>Reiniciar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.controlButton}
-          onPress={() => setCameraType(cameraType === "back" ? "front" : "back")}
-        >
-          <MaterialIcons name="flip-camera-ios" size={24} color="#4A90E2" />
-          <Text style={styles.controlButtonText}>Voltear</Text>
-        </TouchableOpacity>
-      </View>
+      {scannedData && (
+        <CustomAlert 
+            data={scannedData} 
+            onDismiss={() => setScannedData(null)}
+            onCopy={handleCopy}
+            onOpenLink={handleOpenLink}
+        />
+      )}
     </View>
-  )
+  );
 }
 
+// --- Hoja de Estilos (Sin cambios) ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000",
+    backgroundColor: "#000",
   },
   permissionContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    padding: 32,
   },
-  permissionContent: {
-    alignItems: "center",
-    padding: 40,
-    maxWidth: 320,
-  },
-  permissionIcon: {
+  permissionIconContainer: {
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 30,
+    marginBottom: 32,
   },
   permissionTitle: {
     fontSize: 24,
@@ -171,152 +198,158 @@ const styles = StyleSheet.create({
   },
   permissionText: {
     fontSize: 16,
-    color: "rgba(255, 255, 255, 0.8)",
+    color: "rgba(255, 255, 255, 0.85)",
     textAlign: "center",
     lineHeight: 24,
-    marginBottom: 30,
+    marginBottom: 32,
   },
   permissionButton: {
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 32,
     paddingVertical: 16,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
+    borderRadius: 16,
   },
   permissionButtonText: {
-    color: "#4A90E2",
+    color: "#1e3a8a",
     fontSize: 16,
-    fontWeight: "600",
-  },
-  header: {
-    paddingTop: 50,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    alignItems: "center",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 10,
-  },
-  headerTitle: {
-    fontSize: 24,
     fontWeight: "bold",
-    color: "#FFFFFF",
-    marginTop: 12,
-    marginBottom: 4,
-  },
-  headerSubtitle: {
-    fontSize: 14,
-    color: "rgba(255, 255, 255, 0.8)",
-    textAlign: "center",
-  },
-  camera: {
-    flex: 1,
   },
   overlay: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'transparent',
+    justifyContent: 'space-between',
   },
-  scanningArea: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 120, // Account for header
+  header: {
+    width: '100%',
+    padding: 16,
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#FFFFFF',
   },
   scanFrame: {
-    width: width * 0.7,
-    height: width * 0.7,
-    position: "relative",
+    alignSelf: 'center',
+    width: width * 0.65,
+    height: width * 0.65,
+    position: 'relative',
   },
   corner: {
     position: "absolute",
-    width: 30,
-    height: 30,
-    borderColor: "#4A90E2",
-    borderWidth: 4,
+    width: 40,
+    height: 40,
+    borderColor: "#FFFFFF",
+    borderWidth: 5,
+    borderRadius: 12,
   },
-  topLeft: {
-    top: 0,
-    left: 0,
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
-    borderTopLeftRadius: 8,
-  },
-  topRight: {
-    top: 0,
-    right: 0,
-    borderLeftWidth: 0,
-    borderBottomWidth: 0,
-    borderTopRightRadius: 8,
-  },
-  bottomLeft: {
-    bottom: 0,
-    left: 0,
-    borderRightWidth: 0,
-    borderTopWidth: 0,
-    borderBottomLeftRadius: 8,
-  },
-  bottomRight: {
-    bottom: 0,
-    right: 0,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-    borderBottomRightRadius: 8,
-  },
-  scanLine: {
-    position: "absolute",
-    top: "50%",
-    left: 0,
-    right: 0,
-    height: 2,
-    backgroundColor: "#4A90E2",
-    shadowColor: "#4A90E2",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-  },
-  instructionsContainer: {
-    position: "absolute",
-    bottom: 200,
-    left: 20,
-    right: 20,
-    alignItems: "center",
-  },
+  topLeft: { top: -2, left: -2, borderRightWidth: 0, borderBottomWidth: 0 },
+  topRight: { top: -2, right: -2, borderLeftWidth: 0, borderBottomWidth: 0 },
+  bottomLeft: { bottom: -2, left: -2, borderRightWidth: 0, borderTopWidth: 0 },
+  bottomRight: { bottom: -2, right: -2, borderLeftWidth: 0, borderTopWidth: 0 },
   instructionsText: {
+    alignSelf: 'center',
     fontSize: 16,
     color: "#FFFFFF",
-    textAlign: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingVertical: 10,
     borderRadius: 20,
     overflow: "hidden",
+    marginTop: 24,
   },
   controlsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingVertical: 30,
-    paddingHorizontal: 40,
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    alignItems: 'center',
+    width: '100%',
+    paddingVertical: 32,
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   controlButton: {
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalContainer: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 24,
+    padding: 24,
+    width: '100%',
+    maxWidth: 400,
+    alignItems: 'center',
+  },
+  modalHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 16,
+  },
+  modalIconWrapper: {
+      backgroundColor: '#dcfce7',
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 12,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1f2937',
+  },
+  modalData: {
+    fontSize: 16,
+    color: '#4b5569',
+    textAlign: 'center',
+    marginBottom: 24,
+    paddingHorizontal: 16,
+  },
+  modalActions: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      width: '100%',
+      marginBottom: 16,
+  },
+  modalButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#eef2ff',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     borderRadius: 12,
-    minWidth: 80,
+    marginHorizontal: 8,
   },
-  controlButtonText: {
-    color: "#4A90E2",
-    fontSize: 12,
-    fontWeight: "600",
-    marginTop: 4,
+  modalButtonText: {
+    color: '#3b82f6',
+    fontWeight: '600',
+    marginLeft: 8,
   },
-})
+  modalPrimaryButton: {
+      width: '100%',
+      backgroundColor: '#3b82f6',
+      padding: 16,
+      borderRadius: 16,
+      alignItems: 'center',
+  },
+  modalPrimaryButtonText: {
+      color: '#FFFFFF',
+      fontSize: 16,
+      fontWeight: 'bold',
+  }
+});

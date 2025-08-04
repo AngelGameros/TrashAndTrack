@@ -26,7 +26,7 @@ export default function ReportsScreen({ route }) {
 
   // Empresas y selección
   const [empresas, setEmpresas] = useState([])
-  const [empresaSeleccionada, setEmpresaSeleccionada] = useState(null)
+  const [empresaSeleccionada, setEmpresaSeleccionada] = useState("")
 
   // Contenedores de empresa seleccionada
   const [contenedores, setContenedores] = useState([])
@@ -45,8 +45,33 @@ export default function ReportsScreen({ route }) {
   const [refreshing, setRefreshing] = useState(false)
   const [loadingContenedores, setLoadingContenedores] = useState(false)
 
-  const idUsuario = route?.params?.idUsuario || 2
+  const [idUsuario, setIdUsuario] = useState(null)
   const [idCamion, setIdCamion] = useState(null)
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const currentUser = auth.currentUser
+        if (!currentUser) {
+          console.error("No hay usuario autenticado")
+          return
+        }
+        const response = await fetch(`http://${IP_URL}:5000/api/usuarios/firebase/${currentUser.uid}`)
+        if (!response.ok) throw new Error("Error al obtener datos del usuario")
+
+        const result = await response.json()
+        if (!result?.usuario?.idUsuario) throw new Error("La respuesta no contiene ID")
+
+        setIdUsuario(result.usuario.idUsuario)
+        console.log("ID de usuario asignado:", result.usuario.idUsuario)
+      } catch (error) {
+        console.error("Error al obtener ID del usuario:", error)
+        Alert.alert("Error", "No se pudo obtener tu información de usuario.")
+      }
+    }
+
+    fetchUserId()
+  }, [])
 
   useEffect(() => {
     const fetchCamionAsignado = async () => {
@@ -184,7 +209,7 @@ export default function ReportsScreen({ route }) {
     <View style={styles.reportItem}>
       <View style={styles.reportHeader}>
         <View style={styles.reportIconContainer}>
-          <MaterialIcons name="description" size={24} color="#4A90E2" />
+          <MaterialIcons name="description" size={24} color="#3b82f6" />
         </View>
         <View style={styles.reportInfo}>
           <Text style={styles.reportTitle}>{item.nombre}</Text>
@@ -220,14 +245,14 @@ export default function ReportsScreen({ route }) {
         style={[styles.tabButton, activeTab === "create" && styles.activeTabButton]}
         onPress={() => setActiveTab("create")}
       >
-        <MaterialIcons name="add-task" size={20} color={activeTab === "create" ? "#FFFFFF" : "#4A90E2"} />
+        <MaterialIcons name="add-task" size={20} color={activeTab === "create" ? "#FFFFFF" : "#3b82f6"} />
         <Text style={[styles.tabButtonText, activeTab === "create" && styles.activeTabButtonText]}>Nuevo Reporte</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.tabButton, activeTab === "view" && styles.activeTabButton]}
         onPress={() => setActiveTab("view")}
       >
-        <MaterialIcons name="view-list" size={20} color={activeTab === "view" ? "#FFFFFF" : "#4A90E2"} />
+        <MaterialIcons name="view-list" size={20} color={activeTab === "view" ? "#FFFFFF" : "#3b82f6"} />
         <Text style={[styles.tabButtonText, activeTab === "view" && styles.activeTabButtonText]}>Ver Reportes</Text>
       </TouchableOpacity>
     </View>
@@ -255,7 +280,7 @@ export default function ReportsScreen({ route }) {
         <Text style={styles.formLabel}>Contenedor:</Text>
         {loadingContenedores ? (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="small" color="#4A90E2" />
+            <ActivityIndicator size="small" color="#3b82f6" />
             <Text style={styles.loadingText}>Cargando contenedores...</Text>
           </View>
         ) : (
@@ -284,7 +309,7 @@ export default function ReportsScreen({ route }) {
         <TextInput
           style={styles.input}
           placeholder="Ej: Recolección Norte"
-          placeholderTextColor="#9CA3AF"
+          placeholderTextColor="#64748b"
           value={reportData.reportName}
           onChangeText={(text) => handleInputChange("reportName", text)}
         />
@@ -296,7 +321,7 @@ export default function ReportsScreen({ route }) {
           style={styles.input}
           keyboardType="numeric"
           placeholder="Ej: 500"
-          placeholderTextColor="#9CA3AF"
+          placeholderTextColor="#64748b"
           value={reportData.collectedAmount}
           onChangeText={(text) => handleInputChange("collectedAmount", text)}
         />
@@ -307,7 +332,7 @@ export default function ReportsScreen({ route }) {
         <TextInput
           style={styles.input}
           placeholder="Ej: Vacío"
-          placeholderTextColor="#9CA3AF"
+          placeholderTextColor="#64748b"
           value={reportData.containerStatus}
           onChangeText={(text) => handleInputChange("containerStatus", text)}
         />
@@ -320,7 +345,7 @@ export default function ReportsScreen({ route }) {
           multiline
           numberOfLines={4}
           placeholder="Detalles adicionales..."
-          placeholderTextColor="#9CA3AF"
+          placeholderTextColor="#64748b"
           value={reportData.descripcion}
           onChangeText={(text) => handleInputChange("descripcion", text)}
         />
@@ -331,7 +356,7 @@ export default function ReportsScreen({ route }) {
         onPress={handleSubmitReport}
         disabled={isSubmitting}
       >
-        <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.submitButtonGradient}>
+        <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.submitButtonGradient}>
           {isSubmitting ? (
             <ActivityIndicator color="#FFFFFF" size="small" />
           ) : (
@@ -347,11 +372,13 @@ export default function ReportsScreen({ route }) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
+      <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
 
       {/* Header */}
-      <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.header}>
-        <MaterialIcons name="assessment" size={32} color="#FFFFFF" />
+      <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.header}>
+        <View style={styles.headerIconContainer}>
+          <MaterialIcons name="assessment" size={40} color="#bfdbfe" />
+        </View>
         <Text style={styles.headerTitle}>Reportes de Recolección</Text>
         <Text style={styles.headerSubtitle}>Crea y gestiona tus reportes de trabajo</Text>
       </LinearGradient>
@@ -368,7 +395,9 @@ export default function ReportsScreen({ route }) {
 
             {activeTab === "view" && createdReports.length === 0 && !refreshing && (
               <View style={styles.emptyState}>
-                <MaterialIcons name="assignment" size={80} color="#9CA3AF" />
+                <View style={styles.emptyStateIconContainer}>
+                  <MaterialIcons name="assignment" size={60} color="#94a3b8" />
+                </View>
                 <Text style={styles.emptyStateTitle}>Sin Reportes</Text>
                 <Text style={styles.emptyStateText}>
                   No hay reportes creados aún. Crea tu primer reporte usando la pestaña "Nuevo Reporte".
@@ -377,7 +406,9 @@ export default function ReportsScreen({ route }) {
             )}
           </>
         }
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={fetchReports} />}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={fetchReports} colors={["#3b82f6"]} tintColor="#3b82f6" />
+        }
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
       />
@@ -388,37 +419,52 @@ export default function ReportsScreen({ route }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#f8fafc",
   },
   header: {
-    paddingTop: 20,
-    paddingBottom: 30,
-    paddingHorizontal: 20,
+    borderRadius: 24,
+    padding: 24,
     alignItems: "center",
+    margin: 16,
+    shadowColor: "#3b82f6",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 15,
+    elevation: 10,
+  },
+  headerIconContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)",
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginTop: 12,
     marginBottom: 4,
   },
   headerSubtitle: {
     fontSize: 16,
-    color: "rgba(255, 255, 255, 0.8)",
+    color: "#dbeafe",
     textAlign: "center",
   },
   tabsContainer: {
     flexDirection: "row",
     margin: 16,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 12,
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
     padding: 4,
-    shadowColor: "#000",
+    shadowColor: "#9ca3af",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.08,
     shadowRadius: 8,
-    elevation: 2,
+    elevation: 4,
   },
   tabButton: {
     flex: 1,
@@ -426,16 +472,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: 12,
   },
   activeTabButton: {
-    backgroundColor: "#4A90E2",
+    backgroundColor: "#3b82f6",
   },
   tabButtonText: {
     marginLeft: 8,
     fontSize: 14,
     fontWeight: "600",
-    color: "#4A90E2",
+    color: "#3b82f6",
   },
   activeTabButtonText: {
     color: "#FFFFFF",
@@ -444,78 +490,78 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 16,
   },
   formLabel: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "600",
-    color: "#374151",
-    marginBottom: 8,
+    color: "#1f2937",
+    marginBottom: 6,
   },
   input: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
-    padding: 16,
-    fontSize: 16,
-    color: "#1F2937",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    borderColor: "#e2e8f0",
+    borderRadius: 16,
+    padding: 14,
+    fontSize: 15,
+    color: "#1f2937",
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
   },
   textArea: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
-    padding: 16,
-    fontSize: 16,
-    color: "#1F2937",
+    borderColor: "#e2e8f0",
+    borderRadius: 16,
+    padding: 14,
+    fontSize: 15,
+    color: "#1f2937",
     height: 100,
     textAlignVertical: "top",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
   },
   pickerContainer: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
+    borderColor: "#e2e8f0",
+    borderRadius: 16,
     overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
   },
   picker: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
   },
   loadingContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: 16,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 12,
+    padding: 14,
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderColor: "#e2e8f0",
   },
   loadingText: {
     marginLeft: 8,
     fontSize: 14,
-    color: "#6B7280",
+    color: "#64748b",
   },
   submitButton: {
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: "hidden",
-    shadowColor: "#4A90E2",
+    shadowColor: "#3b82f6",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -528,30 +574,30 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 16,
+    paddingVertical: 14,
   },
   submitButtonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "bold",
+    color: "#ffffff",
+    fontSize: 15,
+    fontWeight: "600",
     marginLeft: 8,
   },
   listContent: {
-    paddingBottom: 40,
+    paddingBottom: 32,
   },
   reportItem: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     marginHorizontal: 16,
     marginBottom: 12,
     borderRadius: 16,
     padding: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
     borderLeftWidth: 4,
-    borderLeftColor: "#4A90E2",
+    borderLeftColor: "#3b82f6",
   },
   reportHeader: {
     flexDirection: "row",
@@ -559,10 +605,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   reportIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#EBF4FF",
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#e0e7ff",
     justifyContent: "center",
     alignItems: "center",
     marginRight: 12,
@@ -571,34 +617,34 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   reportTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
-    color: "#1F2937",
-    marginBottom: 4,
+    color: "#1f2937",
+    marginBottom: 2,
   },
   reportDate: {
-    fontSize: 14,
-    color: "#6B7280",
+    fontSize: 13,
+    color: "#64748b",
   },
   reportDetails: {
     borderTopWidth: 1,
-    borderTopColor: "#F3F4F6",
-    paddingTop: 12,
+    borderTopColor: "#f1f5f9",
+    paddingTop: 10,
   },
   reportDetailRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 6,
   },
   reportDetailLabel: {
     fontSize: 14,
-    color: "#6B7280",
+    color: "#64748b",
     fontWeight: "500",
   },
   reportDetailValue: {
     fontSize: 14,
-    color: "#1F2937",
+    color: "#1f2937",
     fontWeight: "600",
     textAlign: "right",
     flex: 1,
@@ -608,18 +654,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 60,
     paddingHorizontal: 20,
+    backgroundColor: "#ffffff",
+    borderRadius: 24,
+    margin: 16,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  emptyStateIconContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#f1f5f9",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 24,
   },
   emptyStateTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#374151",
-    marginTop: 20,
+    color: "#1f2937",
     marginBottom: 10,
   },
   emptyStateText: {
-    fontSize: 16,
-    color: "#6B7280",
+    fontSize: 15,
+    color: "#64748b",
     textAlign: "center",
-    lineHeight: 24,
+    lineHeight: 22,
   },
 })

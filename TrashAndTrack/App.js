@@ -1,9 +1,9 @@
 // App.js
-"use client";
-import { useState, useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+"use client"
+import { useState, useEffect } from "react"
+import { NavigationContainer } from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import {
   View,
   ActivityIndicator,
@@ -12,109 +12,114 @@ import {
   TouchableOpacity,
   Alert,
   StatusBar,
-} from "react-native";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "./src/config/Firebase/firebaseConfig";
-import { LinearGradient } from "expo-linear-gradient";
-import { MaterialIcons } from "@expo/vector-icons";
+  SafeAreaView,
+  ScrollView,
+} from "react-native"
+import { onAuthStateChanged, signOut } from "firebase/auth"
+import { doc, getDoc } from "firebase/firestore"
+import { auth, db } from "./src/config/Firebase/firebaseConfig"
+import { LinearGradient } from "expo-linear-gradient"
+import { MaterialIcons } from "@expo/vector-icons"
 
-// Pantallas
-import LoginScreen from "./src/pages/Login/LoginScreen";
-import HomeScreen from "./src/pages/Home/HomeScreen";
-import ProfileScreen from "./src/pages/Profile/ProfileScreen";
-import RouteScreen from "./src/pages/Route/RouteScreen";
-import CalendarScreen from "./src/pages/Calendar/CalendarScreen";
-import ScanScreen from "./src/pages/Scan/ScanScreen";
-import ReportsScreen from "./src/pages/Reports/ReportsScreen";
-import IncidentsScreen from "./src/pages/Incidents/IncidentsScreen";
-import InfoScreen from "./src/pages/Info/InfoScreen";
-import ChatScreen from "./src/pages/Chat/ChatScreen";
+// --- Pantallas (Sin cambios) ---
+import LoginScreen from "./src/pages/Login/LoginScreen"
+import HomeScreen from "./src/pages/Home/HomeScreen"
+import ProfileScreen from "./src/pages/Profile/ProfileScreen"
+import RouteScreen from "./src/pages/Route/RouteScreen"
+import CalendarScreen from "./src/pages/Calendar/CalendarScreen"
+import ScanScreen from "./src/pages/Scan/ScanScreen"
+import ReportsScreen from "./src/pages/Reports/ReportsScreen"
+import IncidentsScreen from "./src/pages/Incidents/IncidentsScreen"
+import InfoScreen from "./src/pages/Info/InfoScreen"
+import ChatScreen from "./src/pages/Chat/ChatScreen"
 
-const STATUS_PENDING = 0;
-const STATUS_APPROVED = 1;
-const STATUS_REJECTED = 2;
+// --- Constantes (Sin cambios) ---
+const STATUS_PENDING = 0
+const STATUS_APPROVED = 1
+const STATUS_REJECTED = 2
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-const MoreStack = createNativeStackNavigator();
+// --- Navegadores (Sin cambios) ---
+const Stack = createNativeStackNavigator()
+const Tab = createBottomTabNavigator()
+const MoreStack = createNativeStackNavigator()
 
+// --- [NUEVO DISEÑO] Componente de Cabecera Personalizada ---
 function CustomHeader({ userName, navigation, title }) {
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false)
 
   const handleSignOut = async () => {
-  try {
-    await signOut(auth);
-  } catch (e) {
-    console.log("Error al cerrar sesión:", e);
+    try {
+      await signOut(auth)
+    } catch (e) {
+      console.log("Error al cerrar sesión:", e)
+    }
   }
-};
-
 
   return (
-    <LinearGradient
-      colors={["#4A90E2", "#357ABD"]}
-      style={styles.headerContainer}
-    >
-      <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
-      <View style={styles.headerContent}>
-        <View style={styles.headerLeft}>
-          <Text style={styles.headerGreeting}>¡Hola!</Text>
-          <Text style={styles.headerUserName}>{userName || "Usuario"}</Text>
-          {title && <Text style={styles.headerTitle}>{title}</Text>}
-        </View>
-        <View style={styles.headerRight}>
-          <TouchableOpacity
-            style={styles.avatarButton}
-            onPress={() => setShowProfileMenu(!showProfileMenu)}
-          >
-            <View style={styles.avatar}>
-              <MaterialIcons name="person" size={24} color="#FFFFFF" />
+    <View>
+      <LinearGradient colors={["#15285dff", "#11479dff"]} style={styles.headerContainer}>
+        <SafeAreaView>
+          <StatusBar barStyle="light-content" backgroundColor="#1e3a8a" />
+          <View style={styles.headerContent}>
+            <View style={styles.headerLeft}>
+              <Text style={styles.headerGreeting}>Bienvenido de vuelta,</Text>
+              <Text style={styles.headerUserName} numberOfLines={1}>
+                {userName || "Usuario"}
+              </Text>
             </View>
-          </TouchableOpacity>
-        </View>
-      </View>
+            <View style={styles.headerRight}>
+              {/* Botón de Avatar */}
+              <TouchableOpacity style={styles.headerButton} onPress={() => setShowProfileMenu(!showProfileMenu)}>
+                <View style={styles.avatar}>
+                  <MaterialIcons name="person" size={24} color="#3b82f6" />
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
+
+      {/* Menú desplegable del perfil */}
       {showProfileMenu && (
         <View style={styles.profileMenu}>
           <TouchableOpacity
             style={styles.profileMenuItem}
             onPress={() => {
-              setShowProfileMenu(false);
-              navigation.navigate("MoreTab", { screen: "Profile" });
+              setShowProfileMenu(false)
+              navigation.navigate("MoreTab", { screen: "Profile" })
             }}
           >
-            <MaterialIcons name="person" size={20} color="#374151" />
+            <MaterialIcons name="person-outline" size={22} color="#4b5563" />
             <Text style={styles.profileMenuText}>Mi Perfil</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.profileMenuItem}
             onPress={() => {
-              setShowProfileMenu(false);
-              navigation.navigate("MoreTab", { screen: "Info" });
+              setShowProfileMenu(false)
+              navigation.navigate("MoreTab", { screen: "Info" })
             }}
           >
-            <MaterialIcons name="info" size={20} color="#374151" />
+            <MaterialIcons name="info-outline" size={22} color="#4b5563" />
             <Text style={styles.profileMenuText}>Información</Text>
           </TouchableOpacity>
           <View style={styles.profileMenuDivider} />
           <TouchableOpacity
-            style={[styles.profileMenuItem, styles.signOutMenuItem]}
+            style={styles.profileMenuItem}
             onPress={() => {
-              setShowProfileMenu(false);
-              handleSignOut();
+              setShowProfileMenu(false)
+              handleSignOut()
             }}
           >
-            <MaterialIcons name="logout" size={20} color="#EF4444" />
-            <Text style={[styles.profileMenuText, styles.signOutText]}>
-              Cerrar Sesión
-            </Text>
+            <MaterialIcons name="logout" size={22} color="#ef4444" />
+            <Text style={[styles.profileMenuText, styles.signOutText]}>Cerrar Sesión</Text>
           </TouchableOpacity>
         </View>
       )}
-    </LinearGradient>
-  );
+    </View>
+  )
 }
 
+// --- Componentes de Navegación (Sin cambios en la lógica) ---
 function MoreStackNavigator({ userName }) {
   return (
     <MoreStack.Navigator screenOptions={{ headerShown: false }}>
@@ -125,17 +130,14 @@ function MoreStackNavigator({ userName }) {
       <MoreStack.Screen name="Profile" component={ProfileScreen} />
       <MoreStack.Screen name="Info" component={InfoScreen} />
     </MoreStack.Navigator>
-  );
+  )
 }
 
 function MainTabNavigator({ userName }) {
   return (
     <Tab.Navigator
       screenOptions={({ route, navigation }) => ({
-        header: () =>
-          route.name === "HomeTab" ? (
-            <CustomHeader userName={userName} navigation={navigation} />
-          ) : null,
+        header: () => (route.name === "HomeTab" ? <CustomHeader userName={userName} navigation={navigation} /> : null),
         tabBarIcon: ({ focused, color }) => {
           const icons = {
             HomeTab: "home",
@@ -143,30 +145,25 @@ function MainTabNavigator({ userName }) {
             CalendarTab: "calendar-today",
             ScanTab: "qr-code-scanner",
             MoreTab: "more-horiz",
-          };
-          const iconName = icons[route.name] || "circle";
+          }
+          const iconName = icons[route.name] || "circle"
           return (
-            <View
-              style={[
-                styles.tabIconContainer,
-                focused && styles.tabIconContainerActive,
-              ]}
-            >
-              <MaterialIcons
-                name={iconName}
-                size={focused ? 28 : 24}
-                color={color}
-              />
+            <View style={[styles.tabIconContainer, focused && styles.tabIconContainerActive]}>
+              <MaterialIcons name={iconName} size={focused ? 28 : 24} color={color} />
               {focused && <View style={styles.tabIndicator} />}
             </View>
-          );
+          )
         },
-        tabBarActiveTintColor: "#4A90E2",
-        tabBarInactiveTintColor: "#9CA3AF",
+        tabBarActiveTintColor: "#3b82f6",
+        tabBarInactiveTintColor: "#9ca3af",
         tabBarStyle: {
           backgroundColor: "#FFF",
           borderTopWidth: 0,
           elevation: 20,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: -3 },
+          shadowOpacity: 0.05,
+          shadowRadius: 4,
           height: 70,
           paddingBottom: 10,
           paddingTop: 10,
@@ -175,263 +172,245 @@ function MainTabNavigator({ userName }) {
         tabBarItemStyle: { paddingVertical: 5 },
       })}
     >
-      <Tab.Screen
-        name="HomeTab"
-        component={HomeScreen}
-        options={{ tabBarLabel: "Inicio" }}
-      />
-      <Tab.Screen
-        name="RouteTab"
-        component={RouteScreen}
-        options={{ tabBarLabel: "Rutas" }}
-      />
-      <Tab.Screen
-        name="CalendarTab"
-        component={CalendarScreen}
-        options={{ tabBarLabel: "Calendario" }}
-      />
-      <Tab.Screen
-        name="ScanTab"
-        component={ScanScreen}
-        options={{ tabBarLabel: "Escanear" }}
-      />
-      <Tab.Screen name="MoreTab">
-        {(props) => <MoreStackNavigator {...props} userName={userName} />}
-      </Tab.Screen>
+      <Tab.Screen name="HomeTab" component={HomeScreen} options={{ tabBarLabel: "Inicio" }} />
+      <Tab.Screen name="RouteTab" component={RouteScreen} options={{ tabBarLabel: "Rutas" }} />
+      <Tab.Screen name="CalendarTab" component={CalendarScreen} options={{ tabBarLabel: "Calendario" }} />
+      <Tab.Screen name="ScanTab" component={ScanScreen} options={{ tabBarLabel: "Escanear" }} />
+      <Tab.Screen name="MoreTab">{(props) => <MoreStackNavigator {...props} userName={userName} />}</Tab.Screen>
     </Tab.Navigator>
-  );
+  )
 }
 
 function MoreScreen({ navigation }) {
   const options = [
     {
       id: "reports",
-      title: "Reportes",
-      subtitle: "Crear y ver reportes",
+      title: "Reportes de Recolección",
+      subtitle: "Crear y gestionar reportes de trabajo",
       icon: "assessment",
-      color: "#8B5CF6",
+      color: "#3b82f6",
       screen: "Reports",
     },
     {
       id: "incidents",
-      title: "Incidentes",
-      subtitle: "Reportar problemas",
+      title: "Gestión de Incidentes",
+      subtitle: "Reportar y gestionar incidentes",
       icon: "report-problem",
-      color: "#F59E0B",
+      color: "#f59e0b",
       screen: "Incidents",
     },
     {
       id: "chat",
-      title: "Chat Soporte",
-      subtitle: "Contactar administrador",
-      icon: "chat",
-      color: "#10B981",
+      title: "Soporte Técnico",
+      subtitle: "Contactar con administradores",
+      icon: "support-agent",
+      color: "#16a34a",
       screen: "Chat",
     },
     {
       id: "profile",
       title: "Mi Perfil",
-      subtitle: "Configurar cuenta",
+      subtitle: "Configurar información personal",
       icon: "person",
-      color: "#06B6D4",
+      color: "#06b6d4",
       screen: "Profile",
     },
     {
       id: "info",
-      title: "Información",
+      title: "Centro de Información",
       subtitle: "Guías y documentación",
-      icon: "info",
-      color: "#84CC16",
+      icon: "info-outline",
+      color: "#8b5cf6",
       screen: "Info",
     },
-  ];
+  ]
 
   return (
-    <View style={styles.moreContainer}>
-      <View style={styles.moreHeader}>
-        <Text style={styles.moreTitle}>Opciones Adicionales</Text>
-        <Text style={styles.moreSubtitle}>
-          Accede a más funciones de la aplicación
-        </Text>
-      </View>
-      <View style={styles.moreGrid}>
-        {options.map((opt) => (
-          <TouchableOpacity
-            key={opt.id}
-            style={styles.moreOption}
-            onPress={() => navigation.navigate(opt.screen)}
-          >
-            <View
-              style={[styles.moreOptionIcon, { backgroundColor: opt.color }]}
+    <SafeAreaView style={styles.moreContainer}>
+      <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
+
+      {/* Header */}
+      <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.moreHeader}>
+        <View style={styles.moreHeaderIconContainer}>
+          <MaterialIcons name="apps" size={40} color="#bfdbfe" />
+        </View>
+        <Text style={styles.moreHeaderTitle}>Opciones Adicionales</Text>
+        <Text style={styles.moreHeaderSubtitle}>Accede a más funciones de la aplicación</Text>
+      </LinearGradient>
+
+      <ScrollView
+        style={styles.moreScrollView}
+        contentContainerStyle={styles.moreScrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.moreGrid}>
+          {options.map((option) => (
+            <TouchableOpacity
+              key={option.id}
+              style={styles.moreOption}
+              onPress={() => navigation.navigate(option.screen)}
+              activeOpacity={0.7}
             >
-              <MaterialIcons name={opt.icon} size={28} color="#FFF" />
-            </View>
-            <View style={styles.moreOptionContent}>
-              <Text style={styles.moreOptionTitle}>{opt.title}</Text>
-              <Text style={styles.moreOptionSubtitle}>{opt.subtitle}</Text>
-            </View>
-            <MaterialIcons name="chevron-right" size={24} color="#9CA3AF" />
-          </TouchableOpacity>
-        ))}
-      </View>
-    </View>
-  );
+              <View style={styles.moreOptionContent}>
+                <View style={[styles.moreOptionIconContainer, { backgroundColor: `${option.color}15` }]}>
+                  <MaterialIcons name={option.icon} size={32} color={option.color} />
+                </View>
+                <View style={styles.moreOptionTextContainer}>
+                  <Text style={styles.moreOptionTitle}>{option.title}</Text>
+                  <Text style={styles.moreOptionSubtitle}>{option.subtitle}</Text>
+                </View>
+              </View>
+              <View style={styles.moreOptionArrow}>
+                <MaterialIcons name="chevron-right" size={24} color="#64748b" />
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+      </ScrollView>
+    </SafeAreaView>
+  )
 }
 
+// --- Componente Principal App (Sin cambios en la lógica) ---
 export default function App() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [approvalCheckLoading, setApprovalCheckLoading] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [isApproved, setIsApproved] = useState(false);
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [approvalCheckLoading, setApprovalCheckLoading] = useState(false)
+  const [userName, setUserName] = useState("")
+  const [isApproved, setIsApproved] = useState(false)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-      setApprovalCheckLoading(true);
+      setUser(currentUser)
+      setLoading(false)
+      setApprovalCheckLoading(true)
       if (currentUser) {
         try {
-          const docRef = doc(db, "usersApproval", currentUser.uid);
-          const docSnap = await getDoc(docRef);
+          const docRef = doc(db, "usersApproval", currentUser.uid)
+          const docSnap = await getDoc(docRef)
           if (docSnap.exists() && docSnap.data().status === STATUS_APPROVED) {
-            setIsApproved(true);
-            const { nombre, apellidoPaterno, apellidoMaterno } = docSnap.data();
-            setUserName(
-              [nombre, apellidoPaterno, apellidoMaterno]
-                .filter(Boolean)
-                .join(" ") || currentUser.email
-            );
+            setIsApproved(true)
+            const { nombre, apellidoPaterno, apellidoMaterno } = docSnap.data()
+            setUserName([nombre, apellidoPaterno, apellidoMaterno].filter(Boolean).join(" ") || currentUser.email)
           } else {
-            await signOut(auth);
-            Alert.alert("Acceso Denegado", "Tu cuenta no está aprobada.");
+            await signOut(auth)
+            Alert.alert("Acceso Denegado", "Tu cuenta no está aprobada.")
           }
         } catch {
-          await signOut(auth);
-          Alert.alert("Error", "No se pudo verificar tu cuenta.");
+          await signOut(auth)
+          Alert.alert("Error", "No se pudo verificar tu cuenta.")
         }
       }
-      setApprovalCheckLoading(false);
-    });
-    return unsubscribe;
-  }, []);
+      setApprovalCheckLoading(false)
+    })
+    return unsubscribe
+  }, [])
 
   if (loading || approvalCheckLoading) {
     return (
       <View style={styles.loadingContainer}>
         <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
-        <LinearGradient
-          colors={["#4A90E2", "#357ABD", "#2E5984"]}
-          style={StyleSheet.absoluteFillObject}
-        />
+        <LinearGradient colors={["#4A90E2", "#357ABD", "#2E5984"]} style={StyleSheet.absoluteFillObject} />
         <View style={styles.loadingContent}>
-          <MaterialIcons
-            name="local-shipping"
-            size={100}
-            color="#FFF"
-            style={styles.logoGlow}
-          />
+          <MaterialIcons name="local-shipping" size={100} color="#FFF" style={styles.logoGlow} />
           <Text style={styles.loadingTitle}>Trash & Track</Text>
-          <Text style={styles.loadingSubtitle}>
-            Sistema de Gestión de Residuos
-          </Text>
-          <ActivityIndicator
-            size="large"
-            color="#FFF"
-            style={styles.loadingSpinner}
-          />
-          <Text style={styles.loadingText}>
-            {loading ? "Verificando sesión..." : "Cargando..."}
-          </Text>
+          <Text style={styles.loadingSubtitle}>Sistema de Gestión de Residuos</Text>
+          <ActivityIndicator size="large" color="#FFF" style={styles.loadingSpinner} />
+          <Text style={styles.loadingText}>{loading ? "Verificando sesión..." : "Cargando..."}</Text>
         </View>
       </View>
-    );
+    )
   }
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user && isApproved ? (
-          <Stack.Screen name="AppHome">
-            {(props) => <MainTabNavigator {...props} userName={userName} />}
-          </Stack.Screen>
+          <Stack.Screen name="AppHome">{(props) => <MainTabNavigator {...props} userName={userName} />}</Stack.Screen>
         ) : (
           <Stack.Screen name="Login" component={LoginScreen} />
         )}
       </Stack.Navigator>
     </NavigationContainer>
-  );
+  )
 }
 
+// --- [NUEVO DISEÑO] Hoja de Estilos ---
 const styles = StyleSheet.create({
+  // --- Estilos de Carga (Sin cambios) ---
   loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
   loadingContent: { alignItems: "center", padding: 40 },
   logoGlow: { position: "relative", marginBottom: 20 },
-  loadingTitle: {
-    color: "#FFF",
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  loadingSubtitle: {
-    color: "rgba(255,255,255,0.9)",
-    fontSize: 16,
-    marginBottom: 40,
-    textAlign: "center",
-  },
+  loadingTitle: { color: "#FFF", fontSize: 32, fontWeight: "bold", marginBottom: 8 },
+  loadingSubtitle: { color: "rgba(255,255,255,0.9)", fontSize: 16, marginBottom: 40, textAlign: "center" },
   loadingSpinner: { marginBottom: 20 },
-  loadingText: {
-    color: "#FFF",
-    fontSize: 16,
-    textAlign: "center",
-    opacity: 0.9,
+  loadingText: { color: "#FFF", fontSize: 16, textAlign: "center", opacity: 0.9 },
+
+  // --- Estilos de la Cabecera (Actualizados) ---
+  headerContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 25,
   },
-  headerContainer: { paddingTop: 50, paddingBottom: 20, paddingHorizontal: 20 },
   headerContent: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 10,
   },
-  headerLeft: { flex: 1 },
+  headerLeft: {
+    flex: 1,
+    marginRight: 16,
+  },
   headerGreeting: {
     color: "rgba(255,255,255,0.8)",
-    fontSize: 14,
-    marginBottom: 2,
+    fontSize: 16,
   },
-  headerUserName: { color: "#FFF", fontSize: 20, fontWeight: "bold" },
-  headerTitle: { color: "rgba(255,255,255,0.9)", fontSize: 14, marginTop: 2 },
-  headerRight: { flexDirection: "row", alignItems: "center" },
-  avatarButton: { padding: 4 },
+  headerUserName: {
+    color: "#FFF",
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+  headerRight: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  headerButton: {
+    marginLeft: 12,
+    padding: 8,
+  },
   avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "rgba(255,255,255,0.2)",
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#FFF",
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: "rgba(255,255,255,0.3)",
+    borderColor: "rgba(255, 255, 255, 0.5)",
   },
+
+  // --- Estilos del Menú de Perfil (Actualizados) ---
   profileMenu: {
     position: "absolute",
-    top: 90,
+    top: 110,
     right: 20,
     backgroundColor: "#FFF",
     borderRadius: 12,
     padding: 8,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 8,
+    shadowRadius: 15,
+    elevation: 10,
     zIndex: 1000,
-    minWidth: 180,
+    width: 220,
   },
   profileMenuItem: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 12,
+    padding: 12,
     borderRadius: 8,
   },
   profileMenuText: {
@@ -442,61 +421,119 @@ const styles = StyleSheet.create({
   },
   profileMenuDivider: {
     height: 1,
-    backgroundColor: "#E5E7EB",
-    marginVertical: 4,
+    backgroundColor: "#e5e7eb",
+    marginVertical: 6,
+    marginHorizontal: 10,
   },
-  signOutMenuItem: { backgroundColor: "#FEE2E2" },
-  signOutText: { color: "#EF4444" },
+  signOutText: {
+    color: "#ef4444",
+    fontWeight: "600",
+  },
+
+  // --- Estilos de la Barra de Pestañas (Actualizados) ---
   tabIconContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 4,
+    width: 60,
   },
-  tabIconContainerActive: { transform: [{ scale: 1.1 }] },
+  tabIconContainerActive: {},
   tabIndicator: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: "#4A90E2",
-    marginTop: 4,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#3b82f6",
+    marginTop: 6,
   },
-  moreContainer: { flex: 1, backgroundColor: "#F8FAFC", padding: 20 },
-  moreHeader: { marginBottom: 30 },
-  moreTitle: {
+
+  // --- Estilos de la Pantalla "Más" (COMPLETAMENTE REDISEÑADOS) ---
+  moreContainer: {
+    flex: 1,
+    backgroundColor: "#f8fafc",
+  },
+  moreHeader: {
+    borderRadius: 20,
+    padding: 24,
+    alignItems: "center",
+    margin: 8,
+    shadowColor: "#3b82f6",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 15,
+    elevation: 10,
+  },
+  moreHeaderIconContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)",
+  },
+  moreHeaderTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#1F2937",
-    marginBottom: 8,
+    color: "#FFFFFF",
+    marginBottom: 4,
   },
-  moreSubtitle: { fontSize: 16, color: "#6B7280" },
-  moreGrid: { flex: 1 },
+  moreHeaderSubtitle: {
+    fontSize: 16,
+    color: "#dbeafe",
+    textAlign: "center",
+  },
+  moreScrollView: {
+    flex: 1,
+  },
+  moreScrollContent: {
+    paddingBottom: 20,
+  },
+  moreGrid: {
+    padding: 16,
+  },
   moreOption: {
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#FFF",
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
   },
-  moreOptionIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+  moreOptionContent: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  moreOptionIconContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 16,
   },
-  moreOptionContent: { flex: 1 },
+  moreOptionTextContainer: {
+    flex: 1,
+  },
   moreOptionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     marginBottom: 4,
   },
-  moreOptionSubtitle: { fontSize: 14, color: "#6B7280" },
-});
+  moreOptionSubtitle: {
+    fontSize: 14,
+    color: "#64748b",
+    lineHeight: 20,
+  },
+  moreOptionArrow: {
+    marginLeft: 12,
+  },
+  
+})

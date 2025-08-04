@@ -13,6 +13,7 @@ import {
   StatusBar,
   Linking,
   RefreshControl,
+  SafeAreaView,
 } from "react-native"
 import { WebView } from "react-native-webview"
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons"
@@ -141,24 +142,24 @@ const RouteScreen = () => {
       .map((coord, index) => {
         const color =
           coord.type === "planta"
-            ? "#10B981"
+            ? "#16a34a"
             : coord.orden < routeData.progreso_ruta
-              ? "#4A90E2"
+              ? "#3b82f6"
               : coord.orden === routeData.progreso_ruta
-                ? "#F59E0B"
-                : "#EF4444"
+                ? "#f59e0b"
+                : "#ef4444"
         const icon = coord.type === "planta" ? "🏭" : `${coord.orden + 1}`
         return `
           L.marker([${coord.latitude}, ${coord.longitude}])
             .addTo(map)
             .bindPopup(\`
               <div style="text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-                <h3 style="margin: 0 0 8px 0; color: #1F2937; font-size: 16px;">${coord.name}</h3>
-                <p style="margin: 0 0 12px 0; color: #6B7280; font-size: 14px;">${
+                <h3 style="margin: 0 0 8px 0; color: #1f2937; font-size: 16px;">${coord.name}</h3>
+                <p style="margin: 0 0 12px 0; color: #64748b; font-size: 14px;">${
                   coord.type === "planta" ? "Punto de inicio" : `Parada #${coord.orden + 1}`
                 }</p>
                 <button onclick="window.ReactNativeWebView.postMessage('marker_${index}')"
-                    style="background: #4A90E2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600;">
+                    style="background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600;">
                   Ver detalles
                 </button>
               </div>
@@ -328,99 +329,97 @@ const RouteScreen = () => {
 
     return (
       <View style={styles.routeInfoContainer}>
-        <LinearGradient colors={["#FFFFFF", "#F8FAFC"]} style={styles.routeInfoGradient}>
-          {routesData.length > 1 && (
-            <View style={styles.routeSelector}>
-              <Text style={styles.routeSelectorTitle}>Rutas activas:</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {routesData.map((route, index) => (
-                  <TouchableOpacity
-                    key={route.id_ruta}
-                    style={[styles.routeOption, selectedRoute.id_ruta === route.id_ruta && styles.selectedRouteOption]}
-                    onPress={() => {
-                      setSelectedRoute(route)
-                      processRouteData(route)
-                    }}
+        {routesData.length > 1 && (
+          <View style={styles.routeSelector}>
+            <Text style={styles.routeSelectorTitle}>Rutas activas:</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {routesData.map((route, index) => (
+                <TouchableOpacity
+                  key={route.id_ruta}
+                  style={[styles.routeOption, selectedRoute.id_ruta === route.id_ruta && styles.selectedRouteOption]}
+                  onPress={() => {
+                    setSelectedRoute(route)
+                    processRouteData(route)
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.routeOptionText,
+                      selectedRoute.id_ruta === route.id_ruta && styles.selectedRouteOptionText,
+                    ]}
                   >
-                    <Text
-                      style={[
-                        styles.routeOptionText,
-                        selectedRoute.id_ruta === route.id_ruta && styles.selectedRouteOptionText,
-                      ]}
-                    >
-                      {route.nombre_ruta}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-            </View>
-          )}
+                    {route.nombre_ruta}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        )}
 
-          <View style={styles.routeHeader}>
-            <View style={styles.routeTitle}>
-              <Text style={styles.routeName}>{selectedRoute.nombre_ruta}</Text>
-              <Text style={styles.routeDescription}>{selectedRoute.descripcion_ruta}</Text>
-            </View>
-            <View style={styles.statusContainer}>
-              <View
+        <View style={styles.routeHeader}>
+          <View style={styles.routeTitle}>
+            <Text style={styles.routeName}>{selectedRoute.nombre_ruta}</Text>
+            <Text style={styles.routeDescription}>{selectedRoute.descripcion_ruta}</Text>
+          </View>
+          <View style={styles.statusContainer}>
+            <View
+              style={[
+                styles.statusBadge,
+                {
+                  backgroundColor:
+                    selectedRoute.estado_ruta === "PENDIENTE"
+                      ? "#fef3c7"
+                      : selectedRoute.estado_ruta === "INICIADA"
+                        ? "#dbeafe"
+                        : selectedRoute.estado_ruta === "EN_PROCESO"
+                          ? "#fee2e2"
+                          : "#dcfce7",
+                },
+              ]}
+            >
+              <Text
                 style={[
-                  styles.statusBadge,
+                  styles.statusText,
                   {
-                    backgroundColor:
+                    color:
                       selectedRoute.estado_ruta === "PENDIENTE"
-                        ? "#FEF3C7"
+                        ? "#f59e0b"
                         : selectedRoute.estado_ruta === "INICIADA"
-                          ? "#DBEAFE"
+                          ? "#3b82f6"
                           : selectedRoute.estado_ruta === "EN_PROCESO"
-                            ? "#FEE2E2"
-                            : "#D1FAE5",
+                            ? "#ef4444"
+                            : "#16a34a",
                   },
                 ]}
               >
-                <Text
-                  style={[
-                    styles.statusText,
-                    {
-                      color:
-                        selectedRoute.estado_ruta === "PENDIENTE"
-                          ? "#F59E0B"
-                          : selectedRoute.estado_ruta === "INICIADA"
-                            ? "#4A90E2"
-                            : selectedRoute.estado_ruta === "EN_PROCESO"
-                              ? "#EF4444"
-                              : "#10B981",
-                    },
-                  ]}
-                >
-                  {selectedRoute.estado_ruta}
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.progressContainer}>
-            <View style={styles.progressInfo}>
-              <Text style={styles.progressText}>
-                Progreso: {completedEmpresas}/{totalEmpresas} empresas
+                {selectedRoute.estado_ruta}
               </Text>
-              <Text style={styles.progressPercentage}>{progressPercentage}%</Text>
-            </View>
-            <View style={styles.progressBar}>
-              <View style={[styles.progressFill, { width: `${progressPercentage}%` }]} />
             </View>
           </View>
+        </View>
 
-          <View style={styles.routeStats}>
-            <View style={styles.statItem}>
-              <MaterialIcons name="location-on" size={16} color="#4A90E2" />
-              <Text style={styles.statText}>{totalEmpresas} paradas</Text>
-            </View>
-            <View style={styles.statItem}>
-              <MaterialIcons name="map" size={16} color="#4A90E2" />
-              <Text style={styles.statText}>OpenStreetMap</Text>
-            </View>
+        <View style={styles.progressContainer}>
+          <View style={styles.progressInfo}>
+            <Text style={styles.progressText}>
+              Progreso: {completedEmpresas}/{totalEmpresas} empresas
+            </Text>
+            <Text style={styles.progressPercentage}>{progressPercentage}%</Text>
           </View>
-        </LinearGradient>
+          <View style={styles.progressBar}>
+            <View style={[styles.progressFill, { width: `${progressPercentage}%` }]} />
+          </View>
+        </View>
+
+        <View style={styles.routeStats}>
+          <View style={styles.statItem}>
+            <MaterialIcons name="location-on" size={16} color="#3b82f6" />
+            <Text style={styles.statText}>{totalEmpresas} paradas</Text>
+          </View>
+          <View style={styles.statItem}>
+            <MaterialIcons name="map" size={16} color="#3b82f6" />
+            <Text style={styles.statText}>OpenStreetMap</Text>
+          </View>
+        </View>
       </View>
     )
   }
@@ -428,13 +427,13 @@ const RouteScreen = () => {
   const getContainerColor = (tipoResiduo) => {
     switch (tipoResiduo?.toLowerCase()) {
       case "orgánico":
-        return "#10B981"
+        return "#16a34a"
       case "plástico":
-        return "#4A90E2"
+        return "#3b82f6"
       case "químico":
-        return "#EF4444"
+        return "#ef4444"
       default:
-        return "#6B7280"
+        return "#64748b"
     }
   }
 
@@ -456,12 +455,12 @@ const RouteScreen = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-              <MaterialIcons name="close" size={28} color="#9E9E9E" />
+              <MaterialIcons name="close" size={28} color="#64748b" />
             </TouchableOpacity>
 
-            <ScrollView contentContainerStyle={styles.modalScrollContent}>
+            <ScrollView contentContainerStyle={styles.modalScrollContent} showsVerticalScrollIndicator={false}>
               <View style={styles.modalHeader}>
-                <View style={[styles.modalIconContainer, { backgroundColor: isEmpresa ? "#4A90E2" : "#10B981" }]}>
+                <View style={[styles.modalIconContainer, { backgroundColor: isEmpresa ? "#3b82f6" : "#16a34a" }]}>
                   <FontAwesome5 name={isEmpresa ? "building" : "industry"} size={24} color="#FFFFFF" />
                 </View>
                 <Text style={styles.modalTitle}>{selectedPoint.name}</Text>
@@ -470,14 +469,14 @@ const RouteScreen = () => {
 
               <View style={styles.modalSection}>
                 <View style={styles.detailRow}>
-                  <MaterialIcons name="location-on" size={20} color="#4A90E2" />
+                  <MaterialIcons name="location-on" size={20} color="#3b82f6" />
                   <Text style={styles.detailText}>
                     {isEmpresa ? selectedPoint.empresa?.direccion : selectedRoute.direccion_planta}
                   </Text>
                 </View>
                 {isEmpresa && selectedPoint.empresa?.rfc && (
                   <View style={styles.detailRow}>
-                    <MaterialIcons name="business" size={20} color="#4A90E2" />
+                    <MaterialIcons name="business" size={20} color="#3b82f6" />
                     <Text style={styles.detailText}>RFC: {selectedPoint.empresa.rfc}</Text>
                   </View>
                 )}
@@ -515,7 +514,7 @@ const RouteScreen = () => {
                   }, 500)
                 }}
               >
-                <LinearGradient colors={["#10B981", "#059669"]} style={styles.buttonGradient}>
+                <LinearGradient colors={["#16a34a", "#22c55e"]} style={styles.buttonGradient}>
                   <MaterialIcons name="navigation" size={20} color="white" />
                   <Text style={styles.buttonText}>Navegar aquí</Text>
                 </LinearGradient>
@@ -534,7 +533,7 @@ const RouteScreen = () => {
                 >
                   <LinearGradient
                     colors={
-                      isNextPointToRegister && !isRouteCompleted ? ["#4A90E2", "#357ABD"] : ["#9CA3AF", "#6B7280"]
+                      isNextPointToRegister && !isRouteCompleted ? ["#3b82f6", "#1e40af"] : ["#94a3b8", "#64748b"]
                     }
                     style={styles.buttonGradient}
                   >
@@ -559,13 +558,14 @@ const RouteScreen = () => {
   if (loading && !refreshing) {
     return (
       <View style={styles.loadingContainer}>
-        <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
-        <LinearGradient colors={["#4A90E2", "#357ABD"]} style={StyleSheet.absoluteFillObject} />
+        <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
         <View style={styles.loadingContent}>
-          <MaterialIcons name="map" size={80} color="#FFFFFF" />
+          <View style={styles.loadingIconContainer}>
+            <MaterialIcons name="map" size={60} color="#3b82f6" />
+          </View>
           <Text style={styles.loadingTitle}>Cargando rutas...</Text>
           <Text style={styles.loadingSubtext}>Preparando mapa con OpenStreetMap</Text>
-          <ActivityIndicator size="large" color="#FFFFFF" style={styles.loadingSpinner} />
+          <ActivityIndicator size="large" color="#3b82f6" style={styles.loadingSpinner} />
         </View>
       </View>
     )
@@ -573,36 +573,47 @@ const RouteScreen = () => {
 
   if (routesData.length === 0 && !loading) {
     return (
-      <View style={styles.errorContainer}>
-        <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
-        <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.errorGradient}>
-          <Text style={styles.errorTitle}>Sin Rutas Activas</Text>
+      <SafeAreaView style={styles.safeArea}>
+        <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
+        <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.header}>
+          <View style={styles.headerIconContainer}>
+            <MaterialIcons name="route" size={40} color="#bfdbfe" />
+          </View>
+          <Text style={styles.headerTitle}>Sin Rutas Activas</Text>
+          <Text style={styles.headerSubtitle}>No hay rutas disponibles en este momento</Text>
         </LinearGradient>
         <View style={styles.errorContent}>
-          <MaterialIcons name="route" size={100} color="#E5E7EB" />
+          <View style={styles.errorIconContainer}>
+            <MaterialIcons name="route" size={80} color="#94a3b8" />
+          </View>
           <Text style={styles.errorText}>No tienes rutas INICIADAS o EN PROCESO actualmente</Text>
           <Text style={styles.errorSubtext}>
             Las rutas aparecerán aquí cuando sean asignadas y activadas por tu supervisor.
           </Text>
           <TouchableOpacity style={styles.retryButton} onPress={fetchRoutesData}>
-            <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.retryButtonGradient}>
-              <MaterialIcons name="refresh" size={20} color="#FFFFFF" />
-              <Text style={styles.retryButtonText}>Actualizar</Text>
-            </LinearGradient>
+            <MaterialIcons name="refresh" size={20} color="#FFFFFF" />
+            <Text style={styles.retryButtonText}>Actualizar</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </SafeAreaView>
     )
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
 
       <ScrollView
         style={styles.mainScrollView}
         contentContainerStyle={styles.scrollViewContent}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={fetchRoutesData} tintColor="#4A90E2" />}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={fetchRoutesData}
+            colors={["#3b82f6"]}
+            tintColor="#3b82f6"
+          />
+        }
         showsVerticalScrollIndicator={false}
       >
         {renderRouteInfo()}
@@ -619,20 +630,20 @@ const RouteScreen = () => {
               startInLoadingState={true}
               renderLoading={() => (
                 <View style={styles.webviewLoading}>
-                  <ActivityIndicator size="large" color="#4A90E2" />
+                  <ActivityIndicator size="large" color="#3b82f6" />
                   <Text style={styles.webviewLoadingText}>Cargando mapa...</Text>
                 </View>
               )}
             />
           ) : (
             <View style={styles.webviewLoading}>
-              <ActivityIndicator size="large" color="#4A90E2" />
+              <ActivityIndicator size="large" color="#3b82f6" />
               <Text style={styles.webviewLoadingText}>Generando mapa...</Text>
             </View>
           )}
 
           <TouchableOpacity style={styles.recenterButton} onPress={handleRecenterMap}>
-            <MaterialIcons name="my-location" size={24} color="#4A90E2" />
+            <MaterialIcons name="my-location" size={24} color="#3b82f6" />
           </TouchableOpacity>
         </View>
 
@@ -652,7 +663,7 @@ const RouteScreen = () => {
               }
             }}
           >
-            <LinearGradient colors={["#10B981", "#059669"]} style={styles.navigationButtonGradient}>
+            <LinearGradient colors={["#16a34a", "#22c55e"]} style={styles.navigationButtonGradient}>
               <MaterialIcons name="navigation" size={24} color="white" />
               <Text style={styles.navigationButtonText}>Navegación Optimizada</Text>
             </LinearGradient>
@@ -660,52 +671,80 @@ const RouteScreen = () => {
         </View>
       </ScrollView>
       {renderModal()}
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#f8fafc",
   },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#f8fafc",
   },
   loadingContent: {
     alignItems: "center",
     padding: 40,
   },
+  loadingIconContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#e0e7ff",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 24,
+  },
   loadingTitle: {
-    marginTop: 20,
     fontSize: 20,
-    color: "#FFFFFF",
+    color: "#1f2937",
     fontWeight: "bold",
     marginBottom: 8,
   },
   loadingSubtext: {
     fontSize: 16,
-    color: "rgba(255, 255, 255, 0.8)",
+    color: "#64748b",
     marginBottom: 30,
+    textAlign: "center",
   },
   loadingSpinner: {
     marginTop: 10,
   },
-  errorContainer: {
-    flex: 1,
-    backgroundColor: "#F8FAFC",
+  header: {
+    borderRadius: 24,
+    padding: 24,
+    alignItems: "center",
+    margin: 16,
+    shadowColor: "#3b82f6",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 15,
+    elevation: 10,
   },
-  errorGradient: {
-    paddingHorizontal: 20,
-    paddingVertical: 30,
-    paddingTop: 40,
+  headerIconContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)",
   },
-  errorTitle: {
+  headerTitle: {
     fontSize: 24,
     fontWeight: "bold",
     color: "#FFFFFF",
+    marginBottom: 4,
+  },
+  headerSubtitle: {
+    fontSize: 16,
+    color: "#dbeafe",
     textAlign: "center",
   },
   errorContent: {
@@ -714,35 +753,36 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 40,
   },
+  errorIconContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: "#f1f5f9",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 24,
+  },
   errorText: {
     fontSize: 18,
-    color: "#1F2937",
-    marginTop: 20,
+    color: "#1f2937",
     marginBottom: 12,
     textAlign: "center",
     fontWeight: "600",
   },
   errorSubtext: {
     fontSize: 16,
-    color: "#6B7280",
+    color: "#64748b",
     textAlign: "center",
     lineHeight: 24,
     marginBottom: 30,
   },
   retryButton: {
-    borderRadius: 12,
-    overflow: "hidden",
-    shadowColor: "#4A90E2",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 6,
-  },
-  retryButtonGradient: {
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "#3b82f6",
     paddingHorizontal: 24,
     paddingVertical: 12,
+    borderRadius: 12,
   },
   retryButtonText: {
     color: "#FFFFFF",
@@ -751,25 +791,22 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   routeInfoContainer: {
-    borderRadius: 20,
-    overflow: "hidden",
-    margin: 20,
-    marginBottom: 0,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
-    shadowRadius: 16,
-    elevation: 8,
-  },
-  routeInfoGradient: {
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    margin: 16,
     padding: 20,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
   },
   routeSelector: {
     marginBottom: 20,
   },
   routeSelectorTitle: {
     fontSize: 16,
-    color: "#6B7280",
+    color: "#64748b",
     marginBottom: 12,
     fontWeight: "600",
   },
@@ -777,14 +814,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: "#F3F4F6",
+    backgroundColor: "#f1f5f9",
     marginRight: 8,
   },
   selectedRouteOption: {
-    backgroundColor: "#4A90E2",
+    backgroundColor: "#3b82f6",
   },
   routeOptionText: {
-    color: "#374151",
+    color: "#1f2937",
     fontWeight: "600",
   },
   selectedRouteOptionText: {
@@ -802,12 +839,12 @@ const styles = StyleSheet.create({
   routeName: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     marginBottom: 4,
   },
   routeDescription: {
     fontSize: 14,
-    color: "#6B7280",
+    color: "#64748b",
   },
   statusContainer: {
     marginLeft: 12,
@@ -832,23 +869,23 @@ const styles = StyleSheet.create({
   },
   progressText: {
     fontSize: 14,
-    color: "#374151",
+    color: "#1f2937",
     fontWeight: "600",
   },
   progressPercentage: {
     fontSize: 16,
-    color: "#4A90E2",
+    color: "#3b82f6",
     fontWeight: "bold",
   },
   progressBar: {
     height: 8,
-    backgroundColor: "#E5E7EB",
+    backgroundColor: "#e2e8f0",
     borderRadius: 4,
     overflow: "hidden",
   },
   progressFill: {
     height: "100%",
-    backgroundColor: "#4A90E2",
+    backgroundColor: "#3b82f6",
     borderRadius: 4,
   },
   routeStats: {
@@ -856,7 +893,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     paddingTop: 16,
     borderTopWidth: 1,
-    borderTopColor: "#E5E7EB",
+    borderTopColor: "#e2e8f0",
   },
   statItem: {
     flexDirection: "row",
@@ -865,7 +902,7 @@ const styles = StyleSheet.create({
   statText: {
     marginLeft: 6,
     fontSize: 14,
-    color: "#374151",
+    color: "#1f2937",
     fontWeight: "600",
   },
   mainScrollView: {
@@ -877,13 +914,13 @@ const styles = StyleSheet.create({
   mapContainer: {
     flex: 1,
     position: "relative",
-    margin: 20,
-    marginTop: 10,
+    margin: 16,
+    marginTop: 0,
     borderRadius: 16,
     overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
     shadowRadius: 8,
     elevation: 4,
   },
@@ -895,43 +932,43 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#f8fafc",
   },
   webviewLoadingText: {
     marginTop: 16,
     fontSize: 16,
-    color: "#4A90E2",
+    color: "#3b82f6",
     fontWeight: "600",
   },
   recenterButton: {
     position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderRadius: 30,
     width: 50,
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
     shadowRadius: 8,
-    elevation: 8,
+    elevation: 4,
     zIndex: 10,
   },
   actionButtons: {
-    padding: 20,
+    padding: 16,
     paddingTop: 0,
   },
   navigationButton: {
     borderRadius: 16,
     overflow: "hidden",
-    shadowColor: "#10B981",
+    shadowColor: "#16a34a",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
-    elevation: 6,
+    elevation: 5,
   },
   navigationButtonGradient: {
     flexDirection: "row",
@@ -952,9 +989,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContent: {
-    backgroundColor: "#FFFFFF",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    backgroundColor: "#ffffff",
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
     padding: 20,
     maxHeight: "85%",
   },
@@ -963,6 +1000,7 @@ const styles = StyleSheet.create({
     top: 15,
     right: 15,
     zIndex: 1,
+    padding: 5,
   },
   modalScrollContent: {
     paddingBottom: 40,
@@ -983,13 +1021,13 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     textAlign: "center",
     marginBottom: 4,
   },
   modalSubtitle: {
     fontSize: 16,
-    color: "#6B7280",
+    color: "#64748b",
   },
   modalSection: {
     marginBottom: 24,
@@ -1001,26 +1039,26 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontSize: 16,
-    color: "#374151",
+    color: "#1f2937",
     marginLeft: 12,
     flex: 1,
   },
   sectionHeader: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     marginBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#E5E7EB",
+    borderBottomColor: "#e2e8f0",
     paddingBottom: 8,
   },
   containerCard: {
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#f8fafc",
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     borderLeftWidth: 4,
-    borderLeftColor: "#4A90E2",
+    borderLeftColor: "#3b82f6",
   },
   containerHeader: {
     flexDirection: "row",
@@ -1030,12 +1068,12 @@ const styles = StyleSheet.create({
   containerType: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#1F2937",
+    color: "#1f2937",
     marginLeft: 8,
   },
   containerDescription: {
     fontSize: 14,
-    color: "#6B7280",
+    color: "#64748b",
     marginBottom: 8,
   },
   containerDetails: {
@@ -1044,27 +1082,27 @@ const styles = StyleSheet.create({
   },
   containerDetail: {
     fontSize: 12,
-    color: "#9CA3AF",
+    color: "#64748b",
     fontWeight: "600",
   },
   navigateToPointButton: {
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: "hidden",
     marginBottom: 12,
-    shadowColor: "#10B981",
+    shadowColor: "#16a34a",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
-    elevation: 6,
+    elevation: 5,
   },
   registerProgressButton: {
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: "hidden",
-    shadowColor: "#4A90E2",
+    shadowColor: "#3b82f6",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
-    elevation: 6,
+    elevation: 5,
   },
   registerProgressButtonActive: {},
   registerProgressButtonDisabled: {},

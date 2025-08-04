@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import {
   Alert,
   RefreshControl,
   StatusBar,
+  SafeAreaView,
 } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { LinearGradient } from "expo-linear-gradient"
@@ -22,6 +23,7 @@ if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true)
 }
 
+// Datos de las secciones (sin cambios)
 const infoSections = [
   {
     id: "marcoLegal",
@@ -62,7 +64,7 @@ const infoSections = [
   {
     id: "identificacion",
     title: "2. Identificación de Residuos (CRETIB)",
-    icon: "search",
+    icon: "science",
     content: "Debes identificar correctamente los residuos peligrosos industriales para su manejo seguro.",
     subItems: [
       {
@@ -101,8 +103,8 @@ const infoSections = [
   },
   {
     id: "recoleccion",
-    title: "4. Procedimientos de Recolección y Segregación",
-    icon: "inventory",
+    title: "4. Procedimientos de Recolección",
+    icon: "inventory-2",
     content: "Aplica procedimientos correctos al recolectar residuos peligrosos industriales para evitar riesgos.",
     subItems: [
       {
@@ -120,29 +122,9 @@ const infoSections = [
     ],
   },
   {
-    id: "transporte",
-    title: "5. Transporte Seguro y Documentación",
-    icon: "local-shipping",
-    content: "Asegura el transporte correcto de residuos peligrosos industriales con la documentación requerida.",
-    subItems: [
-      {
-        id: "carga",
-        title: "Carga y Seguridad en el Vehículo",
-        content:
-          "• Asegura contenedores para evitar movimientos.\n• No sobrecargues el vehículo.\n• Verifica que los envases estén cerrados herméticamente.",
-      },
-      {
-        id: "documentacion",
-        title: "Manifiesto de Residuos Peligrosos",
-        content:
-          "• Documento legal indispensable que detalla tipo, cantidad, origen y destino del residuo.\n• Llévalo siempre contigo durante el transporte.",
-      },
-    ],
-  },
-  {
     id: "emergencias",
-    title: "6. Manejo de Derrames y Emergencias",
-    icon: "warning",
+    title: "5. Manejo de Emergencias",
+    icon: "warning-amber",
     content: "Debes estar preparado para responder ante incidentes durante el manejo o transporte.",
     subItems: [
       {
@@ -167,7 +149,8 @@ const infoSections = [
   },
 ]
 
-const AccordionItem = ({ title, content, icon, subItems, link }) => {
+// Componente de Acordeón
+const AccordionItem = ({ title, content, icon, subItems, link, isSubItem = false }) => {
   const [expanded, setExpanded] = useState(false)
 
   const toggleExpand = () => {
@@ -180,26 +163,34 @@ const AccordionItem = ({ title, content, icon, subItems, link }) => {
   }
 
   return (
-    <View style={styles.accordionContainer}>
+    <View style={[styles.accordionContainer, isSubItem && styles.subAccordionContainer]}>
       <TouchableOpacity onPress={toggleExpand} style={styles.accordionHeader}>
-        <View style={styles.headerContent}>
-          {icon && <MaterialIcons name={icon} size={24} color="#4A90E2" style={styles.headerIcon} />}
-          <Text style={styles.accordionTitle}>{title}</Text>
-        </View>
-        <MaterialIcons name={expanded ? "expand-less" : "expand-more"} size={24} color="#4A90E2" />
+        {icon && (
+          <View style={styles.iconWrapper}>
+            <MaterialIcons name={icon} size={24} color="#3b82f6" />
+          </View>
+        )}
+        <Text style={[styles.accordionTitle, !icon && styles.accordionTitleNoIcon]}>{title}</Text>
+        <MaterialIcons name={expanded ? "expand-less" : "expand-more"} size={28} color="#64748b" />
       </TouchableOpacity>
       {expanded && (
         <View style={styles.accordionContent}>
           {content && <Text style={styles.accordionText}>{content}</Text>}
           {link && (
             <TouchableOpacity onPress={() => handleLinkPress(link)} style={styles.linkButton}>
-              <MaterialIcons name="open-in-new" size={16} color="#FFFFFF" />
               <Text style={styles.linkButtonText}>Ver Documento Oficial</Text>
+              <MaterialIcons name="open-in-new" size={16} color="#1e40af" />
             </TouchableOpacity>
           )}
           {subItems &&
             subItems.map((subItem) => (
-              <AccordionItem key={subItem.id} title={subItem.title} content={subItem.content} link={subItem.link} />
+              <AccordionItem
+                key={subItem.id}
+                title={subItem.title}
+                content={subItem.content}
+                link={subItem.link}
+                isSubItem={true}
+              />
             ))}
         </View>
       )}
@@ -207,29 +198,32 @@ const AccordionItem = ({ title, content, icon, subItems, link }) => {
   )
 }
 
+// Pantalla de Información
 export default function InfoScreen() {
   const [refreshing, setRefreshing] = useState(false)
 
-  const onRefresh = () => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true)
-    setTimeout(() => setRefreshing(false), 1500)
-  }
+    setTimeout(() => setRefreshing(false), 1000)
+  }, [])
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#4A90E2" />
-
-      {/* Header */}
-      <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.header}>
-        <MaterialIcons name="info" size={32} color="#FFFFFF" />
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
+      <LinearGradient colors={["#1e40af", "#3b82f6"]} style={styles.header}>
+        <View style={styles.headerIconContainer}>
+          <MaterialIcons name="info-outline" size={40} color="#bfdbfe" />
+        </View>
         <Text style={styles.headerTitle}>Centro de Información</Text>
-        <Text style={styles.headerSubtitle}>Guía esencial para recolectores de residuos peligrosos</Text>
+        <Text style={styles.headerSubtitle}>Guía esencial para recolectores</Text>
       </LinearGradient>
 
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#3b82f6"]} tintColor="#3b82f6" />
+        }
         showsVerticalScrollIndicator={false}
       >
         {infoSections.map((section) => (
@@ -241,103 +235,132 @@ export default function InfoScreen() {
             subItems={section.subItems}
           />
         ))}
-        <View style={{ height: 50 }} />
+        <View style={{ height: 20 }} />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   )
 }
 
+// Hoja de Estilos
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: "#f8fafc",
   },
+  // Header
   header: {
-    paddingTop: 50,
-    paddingBottom: 30,
-    paddingHorizontal: 20,
+    borderRadius: 24,
+    padding: 24,
     alignItems: "center",
+    margin: 16,
+    shadowColor: "#3b82f6",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 15,
+    elevation: 10,
+  },
+  headerIconContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)",
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginTop: 12,
     marginBottom: 4,
   },
   headerSubtitle: {
     fontSize: 16,
-    color: "rgba(255, 255, 255, 0.8)",
+    color: "#dbeafe",
     textAlign: "center",
   },
+  // ScrollView
   scrollView: {
     flex: 1,
   },
   scrollContent: {
     padding: 16,
   },
+  // Acordeón
   accordionContainer: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
     borderRadius: 16,
     marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
+    shadowColor: "#9ca3af",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
     overflow: "hidden",
+  },
+  subAccordionContainer: {
+    backgroundColor: "#ffffff",
+    borderWidth: 1,
+    borderColor: "#f1f5f9",
+    marginTop: 12,
+    shadowColor: "transparent",
+    elevation: 0,
   },
   accordionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     padding: 16,
-    backgroundColor: "#FFFFFF",
   },
-  headerContent: {
-    flexDirection: "row",
+  iconWrapper: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#e0e7ff",
+    justifyContent: "center",
     alignItems: "center",
-    flex: 1,
-  },
-  headerIcon: {
     marginRight: 12,
   },
   accordionTitle: {
+    flex: 1,
     fontSize: 16,
     fontWeight: "600",
-    color: "#1F2937",
-    flexShrink: 1,
+    color: "#1f2937",
+  },
+  accordionTitleNoIcon: {
+    marginLeft: 8,
+    fontSize: 15,
+    fontWeight: "500",
+    color: "#1f2937",
   },
   accordionContent: {
-    padding: 16,
-    paddingTop: 0,
-    backgroundColor: "#F8FAFC",
+    paddingHorizontal: 16,
+    paddingBottom: 16,
   },
   accordionText: {
-    fontSize: 14,
-    color: "#374151",
+    fontSize: 15,
+    color: "#64748b",
     lineHeight: 22,
-    marginBottom: 12,
+    marginBottom: 16,
+    paddingLeft: 8,
+    borderLeftWidth: 3,
+    borderLeftColor: "#e2e8f0",
   },
   linkButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#4A90E2",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
+    backgroundColor: "#e0e7ff",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 12,
     alignSelf: "flex-start",
     marginTop: 8,
-    shadowColor: "#4A90E2",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 3,
   },
   linkButtonText: {
-    color: "#FFFFFF",
-    fontSize: 13,
+    color: "#1e40af",
+    fontSize: 14,
     fontWeight: "600",
-    marginLeft: 6,
+    marginRight: 8,
   },
 })

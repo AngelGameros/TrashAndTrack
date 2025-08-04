@@ -16,7 +16,6 @@
     <script type="module" src="../js/main.js"></script>
 
 </head>
-
 <body>
     <div id="side-menu"></div>
     <div id="content"></div>
@@ -51,11 +50,15 @@
         <div class="stat-number full">0</div> <div class="stat-label">Botes Llenos (76-100%)</div>
     </div>
     <div class="stat-card">
+        <div class="stat-number offline">0</div> <div class="stat-label">Sensores Offline</div>
+    </div>
+    <div class="stat-card">
         <div class="stat-number" id="averageFillLevel">0%</div> <div class="stat-label">Nivel Promedio</div>
     </div>
 </section>
 
             <!-- Main Layout -->
+            <section class="content-layout">
                 <!-- Containers Section -->
                 <div class="containers-section">
                     <div class="section-header">
@@ -70,9 +73,8 @@
                         <!-- Los contenedores se cargarán dinámicamente aquí -->
                     </div>
                 </div>
-                
-                <!--
-                <div class="sidebar-panel">
+
+                 <div class="sidebar-panel">
                     <div class="panel-card">
                         <h3 class="panel-title">Alertas Críticas</h3>
                         <div id="alertsList" class="alerts-list">
@@ -82,7 +84,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="panel-card">
                         <h3 class="panel-title">Prioridad de Recolección</h3>
                         <div id="priorityList" class="priority-list">
@@ -92,6 +94,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--
                         <div class="panel-card">
                             <h3 class="panel-title">Estadísticas por Tipo</h3>
                             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
@@ -115,31 +118,24 @@
                     </div>
                     -->
                 </div>
-                
+            </section>
         </main>
     </div>
 
 
-    
-   <!-- Modal con detalles del SVG al hacer clic -->
-<div id="modalContenedor" class="modal-overlay hidden">
-    <div class="modal-content">
-        <button class="modal-close-btn" onclick="closeModal('modalContenedor')">&times;</button>
-        <h2 class="modal-title">Detalles del Contenedor</h2>
-        <div class="modal-body">
-            <p><strong>Nombre:</strong> <span id="modalNombre"></span></p>
-            <p><strong>Tipo:</strong> <span id="modalTipo"></span></p>
-            
-            <p><strong>Peso Actual:</strong> <span id="modalPeso"></span></p>
-            <p><strong>Peso Máximo:</strong> <span id="modalMaximo"></span></p>
-            <p><strong>Temperatura:</strong> <span id="modalTemperatura"></span></p>
-            <p><strong>Nivel de Llenado:</strong> <span id="modalPorcentaje"></span></p>
-        </div>
-        <div class="modal-actions">
-            <button class="btn-small btn-secondary" onclick="closeModal('modalContenedor')">Cerrar</button>
+    <!-- Modal para Ver Detalles del Contenedor -->
+    <div id="viewContainerModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeModal('viewContainerModal')">&times;</button>
+            <h2 class="modal-title">Detalles del Contenedor</h2>
+            <div id="viewContainerDetails">
+                <!-- Los detalles se poblarán aquí -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn-small btn-secondary" onclick="closeModal('viewContainerModal')">Cerrar</button>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Modal para Editar Contenedor -->
     <div id="editContainerModal" class="modal-overlay hidden">

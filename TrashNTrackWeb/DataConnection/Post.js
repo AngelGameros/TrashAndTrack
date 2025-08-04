@@ -16,7 +16,7 @@ export async function fetchPost(endpoint,info){
         if(!response.ok){
             const errorBody = await response.json();
             const errorMessage = `Error HTTP ${response.status}: ${errorBody || response.statusText}`;
-            console.error("Error al crear incidente en la API:", errorMessage);
+            console.error("Error al crear mensaje en la API:", errorMessage);
             throw new Error(errorMessage);
         }
         const result = await response.json();
@@ -96,65 +96,35 @@ export async function postUsuarios(newUsuario){
 // =======================================
 // POST PARA CONTENEDORES (un solo contenedor) SOLO PARA SENSORES
 // =======================================
-export async function postContainer(data, collectionName) {
-    const url = `${config.api.url}containers/${collectionName}`;
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    };
+export async function postContainer(newContainer,coleccion){
+    if(!newContainer){
+        throw new Error("Los datos del contenedor no pueden estar vacíos.");
+    }
+    // El endpoint es simplemente "Containers" para crear un solo contenedor
+    return fetchPost("Containers/"+coleccion, newContainer);
 
-    try {
-        const response = await fetch(url, options);
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+    /* Información que espera el método (para un solo contenedor):
+        newContainer = {
+            deviceId: int,
+            clientId: int,
+            name: string,
+            status: string,
+            type: string,
+            maxWeight_kg: double,
+            values: {
+                device_id: int,
+                ToC: double,
+                RH: double,
+                CO2_PPM: double,
+                GLP_PPM: double,
+                CH4_PPM: double,
+                H2_PPM: double
+            }
         }
-        return await response.json();
-    } catch (error) {
-        console.error('Error in postContainer:', error);
-        throw error;
-    }
-}
-
-// =======================================
-// POST PARA CONTENEDORES (actualización por lotes) SOLO DATOS DE SENSORES
-// =======================================
-export async function postBatchUpdateContainers(containersList){
-    if(!containersList || !Array.isArray(containersList) || containersList.length === 0){
-        throw new Error("La lista de contenedores no puede estar vacía o no es un arreglo.");
-    }
-    // El endpoint para la actualización por lotes es "Containers/batch-update"
-    return fetchPost("Containers/batch-update", containersList);
-
-
-    /* Información que espera el método (para actualización por lotes):
-        containersList = [
-            {
-                deviceId: int,
-                clientId: int,
-                name: string,
-                status: string,
-                type: string,
-                maxWeight_kg: double,
-                values: {
-                    device_id: int,
-                    ToC: double,
-                    RH: double,
-                    CO2_PPM: double,
-                    GLP_PPM: double,
-                    CH4_PPM: double,
-                    H2_PPM: double
-                }
-            },
-            // ... más objetos de contenedor
-        ]
-    NOTA: createdAt, updatedAt e Id son generados/manejados por el backend.
-          Para actualizaciones, el 'deviceId' se usa para encontrar el registro existente.
+    NOTA: createdAt, updatedAt e Id son generados por el backend.
 */
 }
+
 
 
 
@@ -277,39 +247,5 @@ export async function postUbicacion(newUbicacion){
     "latitud": 32.50112300,
     "longitud": -117.00345600
     }
-    */
-}
-// =======================================
-// POST PARA RutasEmpresas
-// =======================================
-export async function postRutasEmpresas(newRutaEmpresa){
-    if(!newRutaEmpresa){
-        throw new Error("Los datos no pueden estar vacíos");
-    }
-    return fetchPost("RutasEmpresas", newRutaEmpresa);
-    
-    /* datos esperados
-{
-    "idRuta" : 3,
-    "idEmpresa": 2,
-    "orden": 2
-}
-    */
-}
-
-// =======================================
-// POST PARA RutasPlantas
-// =======================================
-export async function postRutasPlantas(newRutaPlanta){
-    if(!newRutaPlanta){
-        throw new Error("Los datos no pueden estar vacíos");
-    }
-    return fetchPost("RutasPlantas", newRutaPlanta);
-    
-    /* datos esperados
-{
-    "idRuta" : 3,
-    "idPlanta": 2
-}
     */
 }

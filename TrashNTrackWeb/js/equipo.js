@@ -1,6 +1,6 @@
 // equipo.js
 import { getUsuarios, getUserById } from '../DataConnection/Gets.js'; // Importa las funciones GET
-import { putUsuario } from '../DataConnection/Put.js';
+import { putUsuario } from '../DataConnection/Puts.js';
 
 
 let users = []; // Array para almacenar los datos de los usuarios
@@ -213,6 +213,7 @@ async function handleEditUserSubmit(event) {
     event.preventDefault();
 
     const idUsuario = parseInt(document.getElementById('editUserId').value);
+    const user = users.find(u => u.idUsuario === idUsuario);
     const nombre = document.getElementById('editNombre').value;
     const primerApell = document.getElementById('editPrimerApell').value;
     const segundoApellido = document.getElementById('editsegundoApellido').value;
@@ -229,10 +230,12 @@ async function handleEditUserSubmit(event) {
 
     const updatedUser = {
         nombre,
-        primerApellido: primerApell, // Propiedad camelCase para el backend
+        primerApellido: primerApell,
         segundoApellido: segundoApellido || null,
-        numeroTelefono
+        numeroTelefono,
+        firebase_uid: user.firebaseUid  // importante para el segundo PUT
     };
+
 
     try {
         console.log("ID de usuario a enviar:", idUsuario);

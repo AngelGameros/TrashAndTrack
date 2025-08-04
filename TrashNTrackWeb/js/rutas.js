@@ -1,6 +1,6 @@
 // rutas.js
-import { getRutas, getPlantas, getEmpresas, getUsuarios, getUbicaciones } from "../DataConnection/Gets.js" // Importa la función para obtener rutas detalladas
-import { postRutas } from "../DataConnection/Post.js"
+import { getRutas, getPlantas, getEmpresas, getUsuarios, getRutasDetalladas } from "../DataConnection/Gets.js" // Agregamos getRutasDetalladas
+import { postRutas, postRutasEmpresas, postRutasPlantas } from "../DataConnection/Post.js"
 
 
 // Global Variables
@@ -11,12 +11,12 @@ let markers = []
 let routeLine = null
 let allRoutes = []
 let filteredRoutes = []
-let loadingOverlay = null // Reference to the loading overlay
+let loadingOverlay = null
 let plantasList = []
 let empresasList = []
 let usuariosList = []
-let ubicacionesList = []
 let selectedCompanies = []
+let routeDetails = null // Nueva variable para almacenar los detalles de la ruta
 
 // Initialize Map
 function initializeMap() {
@@ -25,18 +25,14 @@ function initializeMap() {
   if (mapElement) {
     console.log("Elemento #routeMap encontrado.")
     if (map) {
-      // Destroy existing map if it was already initialized
       map.remove()
       console.log("Mapa existente removido.")
     }
-    // Centered near Baja California, zoomed out
     map = L.map("routeMap").setView([29.5, -114.5], 6)
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map)
     console.log("Mapa inicializado correctamente.")
-
-    // Invalidate map size after initialization to ensure it renders properly
     map.invalidateSize()
     console.log("map.invalidateSize() llamado.")
   } else {
@@ -77,10 +73,23 @@ function renderRouteCards() {
     routeCard.className = "route-card"
     routeCard.dataset.routeId = route.id
 
-    // Get user name
+    // Cambiar esta parte en renderRouteCards():
     const usuario =
-      usuariosList && usuariosList.find ? usuariosList.find((u) => u.idUsuario === route.idUsuarioAsignado) : null
-    const nombreUsuario = usuario ? `${usuario.nombre} ${usuario.primerApellido}` : "Usuario no encontrado"
+      usuariosList && usuariosList.find
+        ? usuariosList.find((u) => {
+            // Probar diferentes campos de ID
+            const userId = u.idUsuario || u.id || u.userId
+            console.log("Comparando usuario:", userId, "con ruta:", route.idUsuarioAsignado)
+            return userId === route.idUsuarioAsignado
+          })
+        : null
+
+    console.log("Usuario encontrado:", usuario)
+    console.log("Lista completa de usuarios:", usuariosList)
+
+    const nombreUsuario = usuario
+      ? `${usuario.nombre} ${usuario.primerApellido}${usuario.segundoApellido ? " " + usuario.segundoApellido : ""}`
+      : `Usuario no encontrado`
 
     const statusClass = (route.estado || "desconocido").toLowerCase().replace(" ", "-")
 
@@ -96,7 +105,7 @@ function renderRouteCards() {
         <p><i class="fas fa-chart-line"></i> Progreso: ${route.progresoRuta || 0}%</p>
       </div>
       <div class="route-actions">
-        <button class="btn btn-small btn-view" onclick="showRouteDetails(${route.id})">Ver Detalles</button>
+        <button class="btn btn-small btn-view" onclick="showRouteDetails(${route.id})">Ver en el mapa</button>
         <button class="btn btn-small btn-edit" onclick="editRoute(${route.id})">Editar</button>
       </div>
     `
@@ -104,9 +113,11 @@ function renderRouteCards() {
   })
 }
 
-// Add markers and draw route line on the map
-function addMarkersToMap() {
-  // Clear existing markers and lines
+// Nueva función para agregar marcadores usando los datos detallados de la ruta
+function addMarkersToMapFromDetails() {
+  console.log("=== INICIO addMarkersToMapFromDetails ===")
+
+  // Limpiar marcadores y líneas existentes
   markers.forEach((marker) => map.removeLayer(marker))
   markers = []
   if (routeLine) {
@@ -114,16 +125,38 @@ function addMarkersToMap() {
     routeLine = null
   }
 
-  if (selectedRoute) {
-    const routePoints = []
+  if (!routeDetails) {
+    console.log("No hay detalles de ruta disponibles")
+    map.setView([29.5, -114.5], 6)
+    return
+  }
 
-    // Find plant location
-    const planta = plantasList.find((p) => p.id === selectedRoute.idPlanta)
-    if (planta) {
-      const plantaUbicacion = ubicacionesList.find((u) => u.idUbicacion === planta.idUbicacion)
-      if (plantaUbicacion) {
-        const plantLat = Number.parseFloat(plantaUbicacion.latitud)
-        const plantLng = Number.parseFloat(plantaUbicacion.longitud)
+  console.log("Procesando detalles de ruta:", routeDetails)
+  const routeId = routeDetails.id_ruta || routeDetails.id || routeDetails.idRuta
+  console.log("ID de la ruta que se está procesando:", routeId)
+  console.log("coordenadas_inicio_json (raw):", routeDetails.coordenadas_inicio_json)
+  console.log("coordenadas_ruta_json (raw):", routeDetails.coordenadas_ruta_json)
+
+  const routePoints = []
+
+  try {
+    // 1. Agregar punto de inicio (planta)
+    if (
+      routeDetails.coordenadas_inicio_json &&
+      routeDetails.coordenadas_inicio_json !== null &&
+      routeDetails.coordenadas_inicio_json !== "null" &&
+      routeDetails.coordenadas_inicio_json !== ""
+    ) {
+      console.log("Parseando coordenadas de inicio...")
+      const coordenadasInicio = JSON.parse(routeDetails.coordenadas_inicio_json)
+      console.log("Coordenadas de inicio parseadas:", coordenadasInicio)
+
+      if (coordenadasInicio && Array.isArray(coordenadasInicio) && coordenadasInicio.length > 0) {
+        const puntoInicio = coordenadasInicio[0].punto
+        const plantLat = Number.parseFloat(puntoInicio.latitud)
+        const plantLng = Number.parseFloat(puntoInicio.longitud)
+
+        console.log("Coordenadas de planta:", { lat: plantLat, lng: plantLng })
 
         if (!isNaN(plantLat) && !isNaN(plantLng)) {
           const plantMarker = L.marker([plantLat, plantLng], {
@@ -136,79 +169,205 @@ function addMarkersToMap() {
               shadowSize: [41, 41],
             }),
           }).addTo(map)
-          plantMarker.bindPopup(`<b>${planta.nombre}</b><br>Planta de origen`).openPopup()
+
+          plantMarker.bindPopup(`<b>${puntoInicio.nombre}</b><br>Planta de origen<br>Ruta ID: ${routeId}`).openPopup()
           markers.push(plantMarker)
           routePoints.push([plantLat, plantLng])
+          console.log("✓ Marcador de planta agregado:", puntoInicio.nombre)
         }
       }
+    } else {
+      console.warn("coordenadas_inicio_json está vacío, null o undefined")
     }
 
-    // Find company locations (if we store company IDs in the route)
-    if (selectedRoute.empresasIds && Array.isArray(selectedRoute.empresasIds)) {
-      selectedRoute.empresasIds.forEach((empresaId) => {
-        const empresa = empresasList.find((e) => e.id === empresaId)
-        if (empresa) {
-          const empresaUbicacion = ubicacionesList.find((u) => u.idUbicacion === empresa.idUbicacion)
-          if (empresaUbicacion) {
-            const companyLat = Number.parseFloat(empresaUbicacion.latitud)
-            const companyLng = Number.parseFloat(empresaUbicacion.longitud)
+    // 2. Agregar puntos de empresas
+    if (
+      routeDetails.coordenadas_ruta_json &&
+      routeDetails.coordenadas_ruta_json !== null &&
+      routeDetails.coordenadas_ruta_json !== "null" &&
+      routeDetails.coordenadas_ruta_json !== ""
+    ) {
+      console.log("Parseando coordenadas de ruta...")
+      const coordenadasRuta = JSON.parse(routeDetails.coordenadas_ruta_json)
+      console.log("Coordenadas de ruta parseadas:", coordenadasRuta)
 
-            if (!isNaN(companyLat) && !isNaN(companyLng)) {
-              const companyMarker = L.marker([companyLat, companyLng]).addTo(map)
-              companyMarker.bindPopup(`<b>${empresa.nombre}</b><br>Empresa destino`)
-              markers.push(companyMarker)
-              routePoints.push([companyLat, companyLng])
-            }
+      if (coordenadasRuta && Array.isArray(coordenadasRuta) && coordenadasRuta.length > 0) {
+        // Ordenar por orden si existe
+        coordenadasRuta.sort((a, b) => (a.punto.orden || 0) - (b.punto.orden || 0))
+
+        coordenadasRuta.forEach((coordenada, index) => {
+          const punto = coordenada.punto
+          const companyLat = Number.parseFloat(punto.latitud)
+          const companyLng = Number.parseFloat(punto.longitud)
+
+          console.log(`Empresa ${index + 1}:`, {
+            nombre: punto.nombre,
+            lat: companyLat,
+            lng: companyLng,
+            orden: punto.orden,
+          })
+
+          if (!isNaN(companyLat) && !isNaN(companyLng)) {
+            const companyMarker = L.marker([companyLat, companyLng], {
+              icon: L.icon({
+                iconUrl: "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+                shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41],
+              }),
+            }).addTo(map)
+
+            companyMarker.bindPopup(
+              `<b>${punto.nombre}</b><br>Empresa destino<br>Orden: ${punto.orden || index + 1}<br>Ruta ID: ${routeId}`,
+            )
+            markers.push(companyMarker)
+            routePoints.push([companyLat, companyLng])
+            console.log("✓ Marcador de empresa agregado:", punto.nombre)
           }
-        }
-      })
+        })
+      }
+    } else {
+      console.warn("coordenadas_ruta_json está vacío, null o undefined")
     }
 
-    // Draw polyline
+    // 3. Dibujar línea de ruta
+    console.log("Puntos totales para la ruta:", routePoints.length)
     if (routePoints.length > 1) {
-      routeLine = L.polyline(routePoints, { color: "blue" }).addTo(map)
+      routeLine = L.polyline(routePoints, {
+        color: "blue",
+        weight: 3,
+        opacity: 0.7,
+      }).addTo(map)
       map.fitBounds(routeLine.getBounds(), { padding: [50, 50] })
+      console.log("✓ Línea de ruta dibujada con", routePoints.length, "puntos")
     } else if (routePoints.length === 1) {
       map.setView(routePoints[0], 12)
+      console.log("✓ Mapa centrado en único punto disponible")
+    } else {
+      console.warn("⚠ No se encontraron puntos válidos para mostrar en el mapa")
+      map.setView([29.5, -114.5], 6)
     }
-  } else {
+  } catch (error) {
+    console.error("Error al parsear coordenadas de la ruta:", error)
+    console.error("Datos que causaron el error:", {
+      coordenadas_inicio_json: routeDetails.coordenadas_inicio_json,
+      coordenadas_ruta_json: routeDetails.coordenadas_ruta_json,
+    })
     map.setView([29.5, -114.5], 6)
   }
+
+  console.log("=== FIN addMarkersToMapFromDetails ===")
 }
 
-// Show route details (select a route and update map)
-function showRouteDetails(routeId) {
-  selectedRoute = allRoutes.find((route) => route.id === routeId)
-  if (selectedRoute) {
-    console.log("Ruta Seleccionada:", selectedRoute)
-    addMarkersToMap() // Update map for the selected route
-    // Highlight the selected card
-    document.querySelectorAll(".route-card").forEach((card) => {
-      card.classList.remove("selected")
-    })
-    document.querySelector(`.route-card[data-route-id="${routeId}"]`).classList.add("selected")
-    
-  
+// Función modificada para mostrar detalles de ruta
+async function showRouteDetails(routeId) {
+  try {
+    showLoadingOverlay()
+    console.log("=== INICIO showRouteDetails ===")
+    console.log("Solicitando detalles para ruta ID:", routeId)
+    console.log("Tipo de routeId:", typeof routeId)
+
+    // Asegurar que routeId sea un número
+    const numericRouteId = Number(routeId)
+    console.log("ID numérico:", numericRouteId)
+
+    // Obtener detalles de la ruta específica
+    console.log("Llamando a getRutasDetalladas con ID:", numericRouteId)
+    const response = await getRutasDetalladas(numericRouteId)
+    console.log("Respuesta completa de getRutasDetalladas:", response)
+
+    if (response && response.status === 0) {
+      const routeData = response.data
+      console.log("Datos recibidos (antes de procesar):", routeData)
+
+      // Verificar si es un array y tomar el elemento correcto
+      if (Array.isArray(routeData)) {
+        console.log("Los datos son un array con", routeData.length, "elementos")
+
+        // Si es un array, buscar el elemento que coincida con el ID
+        const matchingRoute = routeData.find(
+          (route) => route.id_ruta === numericRouteId || route.id === numericRouteId || route.idRuta === numericRouteId,
+        )
+
+        if (matchingRoute) {
+          routeDetails = matchingRoute
+          console.log("Ruta encontrada en el array:", routeDetails)
+        } else {
+          console.error("No se encontró la ruta con ID", numericRouteId, "en el array")
+          console.log(
+            "IDs disponibles en el array:",
+            routeData.map((r) => r.id_ruta || r.id || r.idRuta),
+          )
+          alert("No se encontraron detalles para esta ruta específica")
+          return
+        }
+      } else if (routeData) {
+        // Si no es un array, usar directamente
+        routeDetails = routeData
+        console.log("Usando datos directamente (no es array):", routeDetails)
+
+        // Verificar que los datos correspondan al ID solicitado
+        const dataRouteId = routeDetails.id_ruta || routeDetails.id || routeDetails.idRuta
+        if (dataRouteId && dataRouteId !== numericRouteId) {
+          console.warn("ADVERTENCIA: El ID de los datos recibidos no coincide con el solicitado")
+          console.warn("ID solicitado:", numericRouteId, "ID recibido:", dataRouteId)
+        }
+      } else {
+        console.error("No hay datos en la respuesta")
+        alert("No se recibieron datos de la ruta")
+        return
+      }
+
+      console.log("=== DATOS FINALES PARA EL MAPA ===")
+      console.log("routeDetails final:", routeDetails)
+      console.log("coordenadas_inicio_json:", routeDetails.coordenadas_inicio_json)
+      console.log("coordenadas_ruta_json:", routeDetails.coordenadas_ruta_json)
+
+      // Actualizar mapa con los nuevos datos
+      addMarkersToMapFromDetails()
+
+      // Resaltar la tarjeta seleccionada
+      document.querySelectorAll(".route-card").forEach((card) => {
+        card.classList.remove("selected")
+      })
+      const selectedCard = document.querySelector(`.route-card[data-route-id="${routeId}"]`)
+      if (selectedCard) {
+        selectedCard.classList.add("selected")
+      }
+
+      // Actualizar selectedRoute para mantener compatibilidad
+      selectedRoute = allRoutes.find((route) => route.id === numericRouteId)
+      console.log("selectedRoute actualizado:", selectedRoute)
+    } else {
+      console.error("Error al obtener detalles de la ruta:", response)
+      alert("Error al cargar los detalles de la ruta")
+    }
+  } catch (error) {
+    console.error("Error al obtener detalles de la ruta:", error)
+    alert("Error de conexión al cargar los detalles de la ruta")
+  } finally {
+    hideLoadingOverlay()
+    console.log("=== FIN showRouteDetails ===")
   }
 }
-
 
 // Edit route (placeholder function)
 function editRoute(routeId) {
   const routeToEdit = allRoutes.find((r) => r.id === routeId)
   if (routeToEdit) {
     alert(`Editar ruta: ${routeToEdit.nombre} (ID: ${routeId})`)
-    // Here you would typically open a modal or navigate to an edit page
-    // and pre-fill a form with routeToEdit data.
     console.log("Ruta a editar:", routeToEdit)
   }
 }
-window.editRoute = editRoute // Make it globally accessible
+window.editRoute = editRoute
 
 // Clear selected route and map display
 function clearSelection() {
   selectedRoute = null
-  addMarkersToMap() // Clears markers and line from map
+  routeDetails = null
+  addMarkersToMapFromDetails() // Esto limpiará el mapa ya que routeDetails será null
   document.querySelectorAll(".route-card").forEach((card) => {
     card.classList.remove("selected")
   })
@@ -229,29 +388,24 @@ function filterRoutes(searchTerm = "") {
   })
   renderRouteCards()
 }
-window.filterRoutes = filterRoutes // Make it globally accessible for onkeyup in HTML
+window.filterRoutes = filterRoutes
 
 // Handle filter button clicks
 function setupFilterButtons() {
   const filterButtons = document.querySelectorAll(".filter-btn")
   filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      // Update active button
       filterButtons.forEach((b) => b.classList.remove("active"))
       btn.classList.add("active")
-
-      // Update filter
       currentFilter = btn.dataset.filter
-
-      // Clear selection and update
       clearSelection()
       const searchInput = document.querySelector(".search-input")
-      filterRoutes(searchInput ? searchInput.value : "") // Re-apply search term with new filter
+      filterRoutes(searchInput ? searchInput.value : "")
     })
   })
 }
 
-// NUEVA FUNCIÓN: Calcular y actualizar estadísticas basadas en las rutas
+// Update stats based on routes
 function updateStatsBasedOnRoutes(routes) {
   let active = 0
   let completed = 0
@@ -284,8 +438,7 @@ async function loadData() {
   try {
     console.log("Starting to load routes data...")
 
-    // Load users and locations FIRST
-    await loadUsersAndLocations()
+    await loadUsersOnly() // Solo cargar usuarios, ya no necesitamos ubicaciones
 
     const apiResponse = await getRutas()
     console.log("API Response:", apiResponse)
@@ -315,42 +468,29 @@ async function loadData() {
   }
 }
 
-async function loadUsersAndLocations() {
+async function loadUsersOnly() {
   try {
-    const [usuariosResponse, ubicacionesResponse] = await Promise.all([getUsuarios(), getUbicaciones()])
-
+    const usuariosResponse = await getUsuarios()
     if (usuariosResponse && usuariosResponse.status === 0) {
-      usuariosList = usuariosResponse.data
-    }
-
-    if (ubicacionesResponse && ubicacionesResponse.status === 0) {
-      ubicacionesList = ubicacionesResponse.data
+      // Cambiar esta línea para usar la estructura correcta
+      usuariosList = usuariosResponse.usuarios || usuariosResponse.data
+      console.log("Usuarios cargados:", usuariosResponse)
+      console.log("Lista de usuarios final:", usuariosList)
     }
   } catch (error) {
-    console.error("Error loading users and locations:", error)
+    console.error("Error loading users:", error)
   }
 }
 
 async function refreshData() {
   await loadData()
-  // Al recargar, si había una ruta seleccionada, la volvemos a seleccionar para que se muestre en el mapa.
-  if (selectedRoute) {
+  if (selectedRoute && routeDetails) {
     const updatedRoute = allRoutes.find((r) => r.id === selectedRoute.id)
     if (updatedRoute) {
-      showRouteDetails(updatedRoute.id) // Vuelve a mostrar detalles y marcadores de la ruta
+      showRouteDetails(updatedRoute.id)
     } else {
-      clearSelection() // Si la ruta ya no existe, limpia la selección
+      clearSelection()
     }
-  }
-}
-
-// General Modal Functions (assuming you have these in a shared script or similar)
-function openModal(modalId) {
-  const modal = document.getElementById(modalId)
-  if (modal) {
-    modal.style.display = "block"
-  } else {
-    console.error(`Modal con ID '${modalId}' no encontrado.`)
   }
 }
 
@@ -362,13 +502,12 @@ function closeModal(modalId) {
     console.error(`Modal con ID '${modalId}' no encontrado.`)
   }
 }
-window.closeModal = closeModal // Make it global for onclick in HTML
+window.closeModal = closeModal
 
 // Loading Overlay Functions
 function showLoadingOverlay() {
   if (loadingOverlay) {
     loadingOverlay.classList.remove("hidden")
-    // Asegúrate de que el overlay sea visible
     loadingOverlay.style.opacity = "1"
     loadingOverlay.style.pointerEvents = "auto"
   }
@@ -377,13 +516,11 @@ function showLoadingOverlay() {
 function hideLoadingOverlay() {
   if (loadingOverlay) {
     loadingOverlay.classList.add("hidden")
-    // Permite que el CSS de transición haga su trabajo para el fade
-    // Después de un pequeño retraso, quita pointer-events
     setTimeout(() => {
       if (loadingOverlay.classList.contains("hidden")) {
         loadingOverlay.style.pointerEvents = "none"
       }
-    }, 300) // Coincide con la duración de la transición CSS
+    }, 300)
   }
 }
 
@@ -455,9 +592,6 @@ createRouteModal.innerHTML = `
           <label for="routeStatus">Estado de la Ruta</label>
           <select id="routeStatus" name="routeStatus">
             <option value="Pendiente">Pendiente</option>
-            <option value="Activa">Activa</option>
-            <option value="Completada">Completada</option>
-            <option value="Retrasada">Retrasada</option>
           </select>
         </div>
 
@@ -467,7 +601,6 @@ createRouteModal.innerHTML = `
         </div>
       </form>
       
-      <!-- Mensajes de estado -->
       <div id="routeLoadingMessage" class="message-container" style="display: none;">
         <p><i class="fas fa-spinner fa-spin"></i> <span id="routeLoadingText">Procesando...</span></p>
       </div>
@@ -511,7 +644,6 @@ function clearRouteMessages() {
   document.getElementById("routeSuccessMessage").style.display = "none"
   document.getElementById("routeErrorMessage").style.display = "none"
 
-  // Clear validation errors
   document.getElementById("routeNameError").textContent = ""
   document.getElementById("routeDescriptionError").textContent = ""
   document.getElementById("plantSelectError").textContent = ""
@@ -522,7 +654,6 @@ function clearRouteMessages() {
 // Load plants and companies data
 async function loadPlantsAndCompanies() {
   try {
-    // Wait a bit for modal to be fully rendered
     await new Promise((resolve) => setTimeout(resolve, 100))
 
     const plantSelect = document.getElementById("plantSelect")
@@ -539,19 +670,16 @@ async function loadPlantsAndCompanies() {
     userSelect.innerHTML = '<option value="">Cargando usuarios...</option>'
 
     try {
-      // Load all data
-      const [plantasResponse, empresasResponse, usuariosResponse, ubicacionesResponse] = await Promise.all([
+      const [plantasResponse, empresasResponse, usuariosResponse] = await Promise.all([
         getPlantas(),
         getEmpresas(),
         getUsuarios(),
-        getUbicaciones(),
       ])
 
       console.log("Plantas response:", plantasResponse)
       console.log("Empresas response:", empresasResponse)
       console.log("Usuarios response:", usuariosResponse)
 
-      // Load plants
       if (plantasResponse && plantasResponse.status === 0 && Array.isArray(plantasResponse.data)) {
         plantasList = plantasResponse.data
         populatePlantsSelect()
@@ -560,7 +688,6 @@ async function loadPlantsAndCompanies() {
         console.error("Error en respuesta de plantas:", plantasResponse)
       }
 
-      // Load companies
       if (empresasResponse && empresasResponse.status === 0 && Array.isArray(empresasResponse.data)) {
         empresasList = empresasResponse.data
         populateCompaniesSelect()
@@ -569,18 +696,12 @@ async function loadPlantsAndCompanies() {
         console.error("Error en respuesta de empresas:", empresasResponse)
       }
 
-      // Load users
-      if (usuariosResponse && usuariosResponse.status === 0 && Array.isArray(usuariosResponse.data)) {
-        usuariosList = usuariosResponse.data
+      if (usuariosResponse && usuariosResponse.status === 0 && Array.isArray(usuariosResponse.usuarios)) {
+        usuariosList = usuariosResponse.usuarios
         populateUsersSelect()
       } else {
         userSelect.innerHTML = '<option value="">Error cargando usuarios</option>'
         console.error("Error en respuesta de usuarios:", usuariosResponse)
-      }
-
-      // Load locations
-      if (ubicacionesResponse && ubicacionesResponse.status === 0 && Array.isArray(ubicacionesResponse.data)) {
-        ubicacionesList = ubicacionesResponse.data
       }
     } catch (apiError) {
       console.error("Error in API calls:", apiError)
@@ -624,14 +745,15 @@ function populateCompaniesSelect() {
 
 function populateUsersSelect() {
   const userSelect = document.getElementById("userSelect")
-  userSelect.innerHTML = '<option value="">Seleccione un usuario...</option>'
-
-  usuariosList.forEach((usuario) => {
-    const option = document.createElement("option")
-    option.value = usuario.idUsuario
-    option.textContent = `${usuario.nombre} ${usuario.primerApellido} (${usuario.tipoUsuario})`
-    userSelect.appendChild(option)
-  })
+  userSelect.innerHTML = '<option value="">Selecciona un recolector</option>'
+  usuariosList
+    .filter((usuario) => usuario.tipoUsuario.toLowerCase() === "recolector")
+    .forEach((usuario) => {
+      const option = document.createElement("option")
+      option.value = usuario.idUsuario
+      option.textContent = `${usuario.nombre} ${usuario.primerApellido} ${usuario.segundoApellido}`
+      userSelect.appendChild(option)
+    })
 }
 
 function addSelectedCompany() {
@@ -645,15 +767,12 @@ function addSelectedCompany() {
   const companyId = Number.parseInt(selectedOption.value)
   const companyName = selectedOption.textContent
 
-  // Check if company is already selected
   if (selectedCompanies.find((c) => c.id === companyId)) {
     return
   }
 
   selectedCompanies.push({ id: companyId, nombre: companyName })
   updateSelectedCompaniesList()
-
-  // Reset select
   companiesSelect.selectedIndex = -1
 }
 
@@ -688,7 +807,6 @@ function updateSelectedCompaniesList() {
 function validateRouteForm(formData) {
   let isValid = true
 
-  // Validate route name
   if (!formData.routeName.trim()) {
     document.getElementById("routeNameError").textContent = "El nombre de la ruta es requerido"
     isValid = false
@@ -696,7 +814,6 @@ function validateRouteForm(formData) {
     document.getElementById("routeNameError").textContent = ""
   }
 
-  // Validate plant selection
   if (!formData.plantSelect) {
     document.getElementById("plantSelectError").textContent = "Debe seleccionar una planta"
     isValid = false
@@ -704,7 +821,6 @@ function validateRouteForm(formData) {
     document.getElementById("plantSelectError").textContent = ""
   }
 
-  // Validate companies selection
   if (selectedCompanies.length === 0) {
     document.getElementById("companiesSelectError").textContent = "Debe seleccionar al menos una empresa"
     isValid = false
@@ -712,7 +828,6 @@ function validateRouteForm(formData) {
     document.getElementById("companiesSelectError").textContent = ""
   }
 
-  // Validate user selection
   if (!formData.userSelect) {
     document.getElementById("userSelectError").textContent = "Debe seleccionar un usuario"
     isValid = false
@@ -732,7 +847,6 @@ async function handleRouteFormSubmit(e) {
     routeName: formData.get("routeName").trim(),
     routeDescription: formData.get("routeDescription").trim(),
     plantSelect: formData.get("plantSelect"),
-    companiesSelect: formData.get("companiesSelect"),
     userSelect: formData.get("userSelect"),
     routeStatus: formData.get("routeStatus"),
   }
@@ -746,37 +860,65 @@ async function handleRouteFormSubmit(e) {
   document.getElementById("routeLoadingText").textContent = "Creando ruta..."
 
   try {
-    const apiData = {
-      nombre: routeData.routeName,
-      fechaCreacion: new Date().toISOString().split("T")[0],
+    const nuevaRuta = {
+      nombreRuta: routeData.routeName,
+      fechaCreacion: new Date().toISOString(),
       descripcion: routeData.routeDescription || "",
       estado: routeData.routeStatus,
-      idUsuarioAsignado: Number.parseInt(routeData.userSelect),
+      idUsuarioAsignado: Number(routeData.userSelect),
       progresoRuta: 0,
     }
 
-    const result = await postRutas(apiData)
+    const result = await postRutas(nuevaRuta)
+
+    if (!result || result.status !== 0) {
+      throw new Error(result.message || "No se pudo obtener el ID de la ruta creada")
+    }
+
+    const idRuta = result.data?.id
+
+    if (!idRuta) {
+      throw new Error("No se pudo obtener el ID de la ruta creada")
+    }
+
+    const plantaData = {
+      idRuta: Number(idRuta),
+      idPlanta: Number(routeData.plantSelect),
+    }
+
+    console.log("Planta a asociar:", plantaData)
+    await postRutasPlantas(plantaData)
+
+    console.log("Empresas seleccionadas global:", selectedCompanies)
+
+    if (selectedCompanies.length === 0) {
+      throw new Error("No se seleccionó ninguna empresa para la ruta")
+    }
+
+    for (let i = 0; i < selectedCompanies.length; i++) {
+      const empresaData = {
+        idRuta: Number(idRuta),
+        idEmpresa: Number(selectedCompanies[i].id),
+        orden: i + 1,
+      }
+      console.log("Enviando empresa:", empresaData)
+      await postRutasEmpresas(empresaData)
+    }
 
     document.getElementById("routeLoadingMessage").style.display = "none"
+    document.getElementById("routeSuccessMessage").style.display = "block"
+    document.getElementById("routeSuccessText").textContent = "¡Ruta creada exitosamente!"
 
-    if (result && result.status === 0) {
-      document.getElementById("routeSuccessMessage").style.display = "block"
-      document.getElementById("routeSuccessText").textContent = "¡Ruta creada exitosamente!"
+    await loadData()
 
-      await loadData()
-
-      setTimeout(() => {
-        closeNewRouteModal()
-      }, 2000)
-    } else {
-      document.getElementById("routeErrorMessage").style.display = "block"
-      document.getElementById("routeErrorText").textContent = result.message || "Error desconocido al crear la ruta"
-    }
+    setTimeout(() => {
+      closeNewRouteModal()
+    }, 2000)
   } catch (error) {
     document.getElementById("routeLoadingMessage").style.display = "none"
     document.getElementById("routeErrorMessage").style.display = "block"
     document.getElementById("routeErrorText").textContent = error.message || "Error al conectar con el servidor"
-    console.error("Error creating route:", error)
+    console.error("Error al crear ruta:", error)
   }
 }
 
@@ -794,11 +936,11 @@ window.addEventListener("click", (event) => {
 })
 
 // Make functions global for onclick handlers
-window.showRouteDetails = showRouteDetails // Needs to be global for onclick in renderRouteCards
-window.editRoute = editRoute // Already global, keeping for consistency
-window.filterRoutes = filterRoutes // Already global
-window.clearSelection = clearSelection // Already global
-window.refreshData = refreshData // Using refreshData to handle re-selection after load
+window.showRouteDetails = showRouteDetails
+window.editRoute = editRoute
+window.filterRoutes = filterRoutes
+window.clearSelection = clearSelection
+window.refreshData = refreshData
 window.removeSelectedCompany = removeSelectedCompany
 
 // Declare handleNewRouteSubmit function
@@ -809,16 +951,11 @@ function handleNewRouteSubmit(e) {
 
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
-  // Get reference to the loading overlay early
   loadingOverlay = document.getElementById("loadingOverlay")
-
-  initializeMap() // Initialize map on page load
-  loadData() // Load data from API
-
-  // Setup filter buttons
+  initializeMap()
+  loadData()
   setupFilterButtons()
 
-  // Set up the "Nueva Ruta" button
   const newRouteBtn = document.getElementById("newContainerBtn")
   if (newRouteBtn) {
     newRouteBtn.addEventListener("click", openNewRouteModal)
@@ -826,7 +963,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn('Elemento "newContainerBtn" (Nueva Ruta) no encontrado.')
   }
 
-  // Set up new route form submission
   const newRouteForm = document.getElementById("newRouteForm")
   if (newRouteForm) {
     newRouteForm.addEventListener("submit", handleNewRouteSubmit)

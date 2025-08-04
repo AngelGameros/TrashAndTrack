@@ -883,6 +883,12 @@ body {
   border: 1px solid #fca5a5;
 }
 
+ /* This can also be in rutas.css */
+        #routeMap {
+            height: 600px; /* Or any other suitable height */
+            width: 100%;
+        }
+
 /* Responsive styles for route modal */
 @media (max-width: 768px) {
   .route-modal .modal-content {

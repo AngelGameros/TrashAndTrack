@@ -13,7 +13,7 @@
 
 
     <script type="module" src="../js/main.js"></script>
-    
+
 </head>
 <body>
 
@@ -67,7 +67,13 @@
                     <div class="map-container">
                         <div class="map-header">
                             <h2 class="map-title">Mapa de Rutas - Baja California</h2>
-                            
+                            <div class="filter-buttons">
+                                <button class="filter-btn active" data-filter="all">Todas</button>
+                                <button class="filter-btn" data-filter="active">Activas</button>
+                                <button class="filter-btn" data-filter="completed">Completadas</button>
+                                <button class="filter-btn" data-filter="delayed">Retrasadas</button>
+                                <button class="refresh-btn" onclick="refreshData()">🔄 Actualizar</button>
+                            </div>
                         </div>
                         <div class="map-canvas">
                             <div id="routeMap"></div> 

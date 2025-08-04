@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,19 +19,20 @@ namespace TrashNTrack
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-    WebHost.CreateDefaultBuilder(args)
-        .UseKestrel(options =>
-        {
-            // Escucha en todas las IPs disponibles en el puerto 5000 (HTTP)
-            options.ListenAnyIP(5000);
-
-            // Escucha en todas las IPs disponibles en el puerto 5001 (HTTPS)
-            options.ListenAnyIP(5001, listenOptions =>
-            {
-                listenOptions.UseHttps(); // Requiere que tengas certificado v�lido (usa el default)
-            });
-        })
-        .UseStartup<Startup>();
-
+            WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    // ✅ AÑADE ESTA LÍNEA para cargar tu archivo de configuración
+                    config.AddJsonFile("config/config.json", optional: false, reloadOnChange: true);
+                })
+                .UseKestrel(options =>
+                {
+                    options.ListenAnyIP(5000);
+                    options.ListenAnyIP(5001, listenOptions =>
+                    {
+                        listenOptions.UseHttps();
+                    });
+                })
+                .UseStartup<Startup>();
     }
 }

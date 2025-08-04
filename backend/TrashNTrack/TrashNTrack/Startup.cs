@@ -17,7 +17,6 @@ namespace TrashNTrack
             Configuration = configuration;
             string json = File.ReadAllText(Path.Combine(env.ContentRootPath, "config", "config.json"));
             Config.Configuration = JsonConvert.DeserializeObject<Config>(json);
-
         }
 
         public IConfiguration Configuration { get; }
@@ -31,8 +30,6 @@ namespace TrashNTrack
 
             // ✅ Registrar el servicio MQTT como HostedService
             services.AddHostedService<MqttBackgroundService>();
-
-            services.AddSingleton<SqlServerConnection>(); 
 
             services.AddCors(options =>
             {

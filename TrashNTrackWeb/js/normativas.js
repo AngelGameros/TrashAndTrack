@@ -2,14 +2,13 @@ const infoSections = [
   {
     id: "marcoLegal",
     title: "1. Marco Legal y Responsabilidades",
-    icon: "📄",
+    icon: "fas fa-gavel", // Cambiado a FontAwesome
     content:
       "Como recolector de residuos peligrosos industriales, es clave conocer el marco legal que regula tus operaciones y responsabilidades.",
     subItems: [
       {
         id: "lgpgir",
-        title:
-          "Ley General para la Prevención y Gestión Integral de los Residuos (LGPGIR)",
+        title: "Ley General para la Prevención y Gestión Integral de los Residuos (LGPGIR)",
         content:
           "La ley fundamental en México para residuos peligrosos. Establece las bases para prevenir, valorizar y gestionar residuos peligrosos industriales, detallando obligaciones de generadores, transportistas y destinatarios.",
         link: "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGPGIR.pdf",
@@ -39,9 +38,8 @@ const infoSections = [
   {
     id: "identificacion",
     title: "2. Identificación de Residuos (CRETIB)",
-    icon: "🔍",
-    content:
-      "Debes identificar correctamente los residuos peligrosos industriales para su manejo seguro.",
+    icon: "fas fa-search", // Cambiado a FontAwesome
+    content: "Debes identificar correctamente los residuos peligrosos industriales para su manejo seguro.",
     subItems: [
       {
         id: "cretib",
@@ -60,9 +58,8 @@ const infoSections = [
   {
     id: "epp",
     title: "3. Equipo de Protección Personal (EPP)",
-    icon: "🛡️",
-    content:
-      "Tu seguridad es primero. Usa siempre el EPP adecuado cuando manejes residuos peligrosos industriales.",
+    icon: "fas fa-hard-hat", // Cambiado a FontAwesome
+    content: "Tu seguridad es primero. Usa siempre el EPP adecuado cuando manejes residuos peligrosos industriales.",
     subItems: [
       {
         id: "eppIndispensable",
@@ -81,9 +78,8 @@ const infoSections = [
   {
     id: "recoleccion",
     title: "4. Procedimientos de Recolección y Segregación",
-    icon: "📦",
-    content:
-      "Aplica procedimientos correctos al recolectar residuos peligrosos industriales para evitar riesgos.",
+    icon: "fas fa-boxes", // Cambiado a FontAwesome
+    content: "Aplica procedimientos correctos al recolectar residuos peligrosos industriales para evitar riesgos.",
     subItems: [
       {
         id: "procedimiento",
@@ -102,7 +98,7 @@ const infoSections = [
   {
     id: "transporte",
     title: "5. Transporte Seguro y Documentación",
-    icon: "🚌",
+    icon: "fas fa-truck", // Cambiado a FontAwesome
     content:
       "Asegura el transporte correcto de residuos peligrosos industriales con la documentación requerida y las medidas de seguridad.",
     subItems: [
@@ -120,102 +116,153 @@ const infoSections = [
       },
     ],
   },
-];
+]
 
-// Función para crear un elemento acordeón
-function createAccordionItem(section) {
-  const item = document.createElement("div");
-  item.className = "accordion-item";
+// Función para crear un elemento acordeón (ACTUALIZADA para el CSS moderno)
+function createAccordionItem(section, index) {
+  const item = document.createElement("div")
+  item.className = "accordion-item"
+  item.style.animationDelay = `${(index + 1) * 0.1}s` // Animación escalonada
 
   // Header botón para accesibilidad
-  const header = document.createElement("button");
-  header.className = "accordion-header";
-  header.setAttribute("aria-expanded", "false");
-  header.setAttribute("aria-controls", `${section.id}-content`);
-  header.id = `${section.id}-header`;
-  header.type = "button";
+  const header = document.createElement("button")
+  header.className = "accordion-header"
+  header.setAttribute("aria-expanded", "false")
+  header.setAttribute("aria-controls", `${section.id}-content`)
+  header.id = `${section.id}-header`
+  header.type = "button"
 
-  const headerContent = document.createElement("div");
-  headerContent.className = "header-content";
-  headerContent.innerHTML = `<span class="header-icon">${section.icon}</span> ${section.title}`;
+  // Contenido del header con el nuevo diseño
+  const headerContent = document.createElement("div")
+  headerContent.className = "header-content"
 
-  header.appendChild(headerContent);
+  // Icono moderno
+  const iconDiv = document.createElement("div")
+  iconDiv.className = "header-icon"
+  iconDiv.innerHTML = `<i class="${section.icon}"></i>`
 
-  // Icono para indicar expansión
-  const chevron = document.createElement("span");
-  chevron.className = "icon-chevron";
-  chevron.textContent = "▼";
-  header.appendChild(chevron);
+  // Título
+  const titleDiv = document.createElement("div")
+  titleDiv.className = "header-title"
+  titleDiv.textContent = section.title
+
+  headerContent.appendChild(iconDiv)
+  headerContent.appendChild(titleDiv)
+  header.appendChild(headerContent)
+
+  // Icono chevron moderno
+  const chevron = document.createElement("div")
+  chevron.className = "icon-chevron"
+  chevron.innerHTML = '<i class="fas fa-chevron-down"></i>'
+  header.appendChild(chevron)
 
   // Contenido principal
-  const content = document.createElement("div");
-  content.className = "accordion-content";
-  content.id = `${section.id}-content`;
-  content.setAttribute("role", "region");
-  content.setAttribute("aria-labelledby", header.id);
+  const content = document.createElement("div")
+  content.className = "accordion-content"
+  content.id = `${section.id}-content`
+  content.setAttribute("role", "region")
+  content.setAttribute("aria-labelledby", header.id)
 
-  const mainText = document.createElement("p");
-  mainText.className = "accordion-text";
-  mainText.textContent = section.content;
-  content.appendChild(mainText);
+  const mainText = document.createElement("p")
+  mainText.className = "accordion-text"
+  mainText.textContent = section.content
+  content.appendChild(mainText)
 
   // Subitems (si hay)
   if (section.subItems && section.subItems.length) {
     section.subItems.forEach((sub) => {
-      const subTitle = document.createElement("h3");
-      subTitle.textContent = sub.title;
-      subTitle.style.marginTop = "12px";
-      content.appendChild(subTitle);
+      const subTitle = document.createElement("h3")
+      subTitle.textContent = sub.title
+      subTitle.style.marginTop = "20px"
+      subTitle.style.marginBottom = "12px"
+      subTitle.style.color = "#1f2937"
+      subTitle.style.fontWeight = "600"
+      subTitle.style.fontSize = "16px"
+      content.appendChild(subTitle)
 
-      const subText = document.createElement("p");
-      subText.className = "accordion-text";
-      subText.textContent = sub.content;
-      content.appendChild(subText);
+      const subText = document.createElement("p")
+      subText.className = "accordion-text"
+      subText.textContent = sub.content
+      content.appendChild(subText)
 
       if (sub.link) {
-        const linkBtn = document.createElement("button");
-        linkBtn.className = "link-button";
-        linkBtn.textContent = "Ver documento oficial";
-        linkBtn.type = "button";
-        linkBtn.addEventListener("click", () => {
-          window.open(sub.link, "_blank");
-        });
-        content.appendChild(linkBtn);
+        const linkBtn = document.createElement("a")
+        linkBtn.className = "link-button"
+        linkBtn.href = sub.link
+        linkBtn.target = "_blank"
+        linkBtn.rel = "noopener noreferrer"
+        linkBtn.innerHTML = `
+          <i class="fas fa-external-link-alt"></i>
+          Ver documento oficial
+        `
+        content.appendChild(linkBtn)
       }
-    });
+    })
   }
 
-  // Evento para abrir/cerrar acordeón
+  // Evento para abrir/cerrar acordeón (ACTUALIZADO)
   header.addEventListener("click", () => {
-    const expanded = header.getAttribute("aria-expanded") === "true";
-    header.setAttribute("aria-expanded", !expanded);
-    if (!expanded) {
-      content.classList.add("expanded");
-      chevron.textContent = "▲";
-    } else {
-      content.classList.remove("expanded");
-      chevron.textContent = "▼";
-    }
-  });
+    const expanded = header.getAttribute("aria-expanded") === "true"
 
-  item.appendChild(header);
-  item.appendChild(content);
-  return item;
+    // Cerrar todos los otros acordeones
+    document.querySelectorAll(".accordion-item").forEach((otherItem) => {
+      if (otherItem !== item) {
+        otherItem.classList.remove("active")
+        const otherContent = otherItem.querySelector(".accordion-content")
+        const otherHeader = otherItem.querySelector(".accordion-header")
+        otherContent.classList.remove("expanded")
+        otherHeader.setAttribute("aria-expanded", "false")
+      }
+    })
+
+    // Toggle el actual
+    header.setAttribute("aria-expanded", !expanded)
+    if (!expanded) {
+      item.classList.add("active")
+      content.classList.add("expanded")
+    } else {
+      item.classList.remove("active")
+      content.classList.remove("expanded")
+    }
+  })
+
+  item.appendChild(header)
+  item.appendChild(content)
+  return item
 }
 
 function renderAccordion() {
-  const container = document.getElementById("accordionContainer");
-  container.innerHTML = ""; // limpiar
+  console.log("🔄 Renderizando acordeón...")
+  const container = document.getElementById("accordionContainer")
+  container.innerHTML = "" // limpiar
 
-  infoSections.forEach((section) => {
-    const accordionItem = createAccordionItem(section);
-    container.appendChild(accordionItem);
-  });
+  infoSections.forEach((section, index) => {
+    const accordionItem = createAccordionItem(section, index)
+    container.appendChild(accordionItem)
+  })
+
+  console.log(`✅ ${infoSections.length} secciones renderizadas`)
 }
 
-// Botón refrescar (simula recarga)
-document.getElementById("refreshBtn").addEventListener("click", () => {
-  renderAccordion();
-});
+// Inicialización cuando el DOM esté listo
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("🚀 Iniciando módulo de información...")
+  renderAccordion()
 
-renderAccordion();
+  // Botón refrescar
+  const refreshBtn = document.getElementById("refreshBtn")
+  if (refreshBtn) {
+    refreshBtn.addEventListener("click", () => {
+      console.log("🔄 Refrescando contenido...")
+
+      // Efecto visual en el botón
+      refreshBtn.style.transform = "rotate(360deg)"
+      setTimeout(() => {
+        refreshBtn.style.transform = ""
+      }, 500)
+
+      // Renderizar de nuevo
+      renderAccordion()
+    })
+  }
+})

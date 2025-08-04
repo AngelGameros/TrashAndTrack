@@ -3,78 +3,46 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using MongoDB.Driver;
-using MongoDB.Bson;
-using Microsoft.Extensions.Configuration;
+using MongoDB.Bson; // Asegúrate de tener esta importación
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]")] // Ruta base: /api/containers
 public class ContainersController : ControllerBase
 {
     private readonly MongoDbConnection _mongoDbConnection;
-    private readonly IConfiguration _configuration;
 
-    public ContainersController(IConfiguration configuration)
+    public ContainersController()
     {
-        _configuration = configuration;
-        _mongoDbConnection = new MongoDbConnection(configuration);
+        _mongoDbConnection = new MongoDbConnection();
     }
 
-    // Endpoint dinámico para el simulador
-    [HttpPost("{collectionName}")]
-    public async Task<IActionResult> PostContainer(string collectionName, [FromBody] ContainerInfo container)
-    {
-        if (container == null)
-        {
-            return BadRequest(new { error = "No se recibieron datos del contenedor." });
-        }
-
-        try
-        {
-            var collection = _mongoDbConnection.GetCollection<ContainerInfo>(collectionName);
-            
-            // ✅ Simplemente inserta un nuevo documento
-            container.Id = ObjectId.GenerateNewId().ToString(); // Asegurar un nuevo ID
-            container.CreatedAt = DateTime.UtcNow; // Registrar la fecha de creación
-            container.UpdatedAt = DateTime.UtcNow; // La fecha de actualización será la misma
-            
-            await collection.InsertOneAsync(container);
-            
-            Console.WriteLine($"Nuevo dato de contenedor insertado en la colección '{collectionName}': {container.DeviceID}");
-            return Ok(new { message = $"Dato de contenedor insertado en la colección '{collectionName}'.", id = container.Id });
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine($"Error al procesar PostContainer para la colección '{collectionName}': {ex.Message}");
-            return StatusCode(500, new { error = ex.Message });
-        }
-    }
-
-    // Endpoint para obtener todos los contenedores de una colección específica
-    [HttpGet("{collectionName}")]
-    public async Task<ActionResult<List<ContainerInfo>>> GetAllContainers(string collectionName)
+    [HttpGet]
+    public async Task<ActionResult<List<ContainerData>>> GetAllContainers()
     {
         try
         {
-            var collection = _mongoDbConnection.GetCollection<ContainerInfo>(collectionName);
+            var collection = _mongoDbConnection.GetCollection<ContainerData>();
             var containers = await collection.Find(_ => true).ToListAsync();
 
+            // Devuelve lista vacía en lugar de NotFound
             if (containers == null || containers.Count == 0)
             {
-                return Ok(new List<ContainerInfo>());
+                Console.WriteLine("No se encontraron contenedores. Devolviendo lista vacía.");
+                return new List<ContainerData>();
             }
 
+            Console.WriteLine($"Se recuperaron {containers.Count} contenedores de la base de datos.");
             return Ok(containers);
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine($"Error al obtener contenedores de la colección '{collectionName}': {ex.Message}");
+            Console.Error.WriteLine($"Error al obtener todos los contenedores: {ex.Message}");
             return StatusCode(500, $"Error interno del servidor: {ex.Message}");
         }
     }
 
-    // Endpoint para actualizar por lotes en una colección específica
-    [HttpPost("batch-update/{collectionName}")]
-    public async Task<IActionResult> BatchUpdateContainers(string collectionName, [FromBody] List<ContainerInfo> containers)
+    [HttpPost("batch-update")]
+    public async Task<IActionResult> BatchUpdateContainers([FromBody] List<ContainerData> containers)
     {
         if (containers == null || containers.Count == 0)
         {
@@ -83,38 +51,65 @@ public class ContainersController : ControllerBase
 
         try
         {
-            var collection = _mongoDbConnection.GetCollection<ContainerInfo>(collectionName);
+            var collection = _mongoDbConnection.GetCollection<ContainerData>();
             var results = new List<object>();
+            var insertedIds = new List<string>();
 
             foreach (var container in containers)
             {
-                var filter = Builders<ContainerInfo>.Filter.Eq(c => c.DeviceID, container.DeviceID);
-                var existing = await collection.Find(filter).FirstOrDefaultAsync();
+                // Buscar por DeviceID en lugar de Id para evitar duplicados
+                var existing = await collection.Find(c => c.DeviceID == container.DeviceID).FirstOrDefaultAsync();
 
                 if (existing == null)
                 {
+                    // Nuevo contenedor
                     container.Id = ObjectId.GenerateNewId().ToString();
-                    container.CreatedAt = DateTime.UtcNow;
-                    container.UpdatedAt = DateTime.UtcNow;
+                    container.LastUpdated = DateTime.UtcNow;
+
                     await collection.InsertOneAsync(container);
+
+                    insertedIds.Add(container.Id);
                     results.Add(new { action = "inserted", id = container.Id });
+
+                    Console.WriteLine($"Nuevo contenedor insertado: {container.DeviceID}");
                 }
                 else
                 {
-                    container.Id = existing.Id;
-                    container.CreatedAt = existing.CreatedAt;
-                    container.UpdatedAt = DateTime.UtcNow;
-                    var result = await collection.ReplaceOneAsync(filter, container);
-                    results.Add(new { action = result.ModifiedCount > 0 ? "updated" : "unchanged", id = existing.Id });
+                    // Contenedor existente: actualizar
+                    var filter = Builders<ContainerData>.Filter.Eq(c => c.DeviceID, container.DeviceID);
+                    var update = Builders<ContainerData>.Update
+                        .Set(c => c.ClientID, container.ClientID)
+                        .Set(c => c.Name, container.Name)
+                        .Set(c => c.Status, container.Status)
+                        .Set(c => c.Type, container.Type)
+                        .Set(c => c.MaxWeight_kg, container.MaxWeight_kg)
+                        .Set(c => c.Values, container.Values)
+                        .Set(c => c.LastUpdated, DateTime.UtcNow);
+
+                    var result = await collection.UpdateOneAsync(filter, update);
+
+                    results.Add(new
+                    {
+                        action = result.ModifiedCount > 0 ? "updated" : "unchanged",
+                        id = existing.Id
+                    });
+
+                    Console.WriteLine($"Contenedor actualizado: {container.DeviceID} (ID: {existing.Id})");
                 }
             }
 
-            return Ok(new { message = $"Procesados {containers.Count} contenedores en la colección '{collectionName}'.", details = results });
+            return Ok(new
+            {
+                message = $"Procesados {containers.Count} contenedores",
+                details = results,
+                insertedIds = insertedIds
+            });
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine($"Error al procesar batch-update para la colección '{collectionName}': {ex.Message}");
+            Console.Error.WriteLine($"Error al procesar batch-update: {ex.Message}");
             return StatusCode(500, new { error = ex.Message });
         }
     }
+
 }

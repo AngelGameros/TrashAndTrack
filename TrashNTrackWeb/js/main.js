@@ -1,5 +1,6 @@
 //import
 import { showSideMenu, loadComponent } from './sidebar.js';
+import { updateGrafica } from './dashboard.js';
 
 //event
 window.addEventListener('load', init);
@@ -8,4 +9,5 @@ window.addEventListener('load', init);
 function init() {
     console.log('Initializing Application...');
     showSideMenu(); //show side menu
+    updateGrafica();
 }

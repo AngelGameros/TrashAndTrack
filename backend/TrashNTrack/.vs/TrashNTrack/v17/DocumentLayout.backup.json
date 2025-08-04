@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\rutasplantascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\rutasplantascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\rutavista\\rutadetalladamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutavista\\rutadetalladamapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\rutasplantas\\rutaplanta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutasplantas\\rutaplanta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\rutavista\\rutadetalladaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutavista\\rutadetalladaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\rutasempresascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\rutasempresascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\controllers\\rutascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\controllers\\rutascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\models\\rutasempresas\\rutaempresa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\models\\rutasempresas\\rutaempresa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|c:\\xampp\\htdocs\\trashntrackfinal\\trashandtrack\\backend\\trashntrack\\trashntrack\\config\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{44425B0A-5681-4738-B699-8C11AAB06E00}|TrashNTrack\\TrashNTrack.csproj|solutionrelative:trashntrack\\config\\config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -51,53 +51,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "RutaPlanta.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutasPlantas\\RutaPlanta.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\RutasPlantas\\RutaPlanta.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutasPlantas\\RutaPlanta.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\RutasPlantas\\RutaPlanta.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAAmwBoAAAAAAAAAAAAAAA==",
+              "Title": "RutaDetalladaViewModel.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T22:52:59.769Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RutaEmpresa.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutasEmpresas\\RutaEmpresa.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Models\\RutasEmpresas\\RutaEmpresa.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutasEmpresas\\RutaEmpresa.cs",
-              "RelativeToolTip": "TrashNTrack\\Models\\RutasEmpresas\\RutaEmpresa.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBgAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T22:45:53.088Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "RutasEmpresasController.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\RutasEmpresasController.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\RutasEmpresasController.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\RutasEmpresasController.cs",
-              "RelativeToolTip": "TrashNTrack\\Controllers\\RutasEmpresasController.cs",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAIwGUAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T22:39:00.434Z",
+              "WhenOpened": "2025-08-03T06:38:41.561Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RutasPlantasController.cs",
-              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\RutasPlantasController.cs",
-              "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\RutasPlantasController.cs",
-              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\RutasPlantasController.cs",
-              "RelativeToolTip": "TrashNTrack\\Controllers\\RutasPlantasController.cs",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAqwHEAAABRAAAAAAAAAA==",
+              "Title": "RutaDetalladaMapper.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
+              "RelativeToolTip": "TrashNTrack\\Models\\RutaVista\\RutaDetalladaMapper.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAA7wA4AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T22:38:45.561Z",
+              "WhenOpened": "2025-08-03T06:33:28.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RutasController.cs",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\RutasController.cs",
+              "RelativeDocumentMoniker": "TrashNTrack\\Controllers\\RutasController.cs",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Controllers\\RutasController.cs",
+              "RelativeToolTip": "TrashNTrack\\Controllers\\RutasController.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAIwD0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T06:31:15.832Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Config.json",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.json",
+              "RelativeDocumentMoniker": "TrashNTrack\\Config\\Config.json",
+              "ToolTip": "C:\\xampp\\htdocs\\TrashNTrackFinal\\TrashAndTrack\\backend\\TrashNTrack\\TrashNTrack\\Config\\Config.json",
+              "RelativeToolTip": "TrashNTrack\\Config\\Config.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-03T05:05:20.742Z",
               "EditorCaption": ""
             }
           ]

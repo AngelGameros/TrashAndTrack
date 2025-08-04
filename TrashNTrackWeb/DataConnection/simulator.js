@@ -1,123 +1,219 @@
 // simulator.js
 import { postContainer } from './Post.js';
+import { getContainer } from './Gets.js';
 
-let simulatorInterval;
-let selectedCollection = 'Contenedor Individual Shell'; // Colección por defecto
+export const sensorAliasMap = {
+  toC:    'ToC',
+  rh:     'RH',
+  cO2_PPM:'CO2_PPM',
+  glP_PPM:'GLP_PPM',
+  cH4_PPM:'CH4_PPM',
+  h2_PPM: 'H2_PPM'
+};
 
-const containers = [
-    { name: 'Contenedor Inteligente Orgánico', deviceId: "1", id_empresa: 1, type: '1', maxWeight: 200 },
-    { name: 'Contenedor Básico Plástico', deviceId: "2", id_empresa: 1, type: '2', maxWeight: 500 },
-    { name: 'Contenedor Químico Peligroso', deviceId: "3", id_empresa: 1, type: '3', maxWeight: 1500 },
-    { name: 'Contenedor de Industrias ABC', deviceId: "4", id_empresa: 2, type: '4', maxWeight: 300 },
-    { name: 'Contenedor de Metalurgica XYZ', deviceId: "5", id_empresa: 2, type: '5', maxWeight: 800 },
-    { name: 'Contenedor de Quimicos SA', deviceId: "6", id_empresa: 2, type: '6', maxWeight: 1000 },
-    { name: 'Contenedor de Textilera Fina', deviceId: "7", id_empresa: 9, type: '5', maxWeight: 400 },
-    { name: 'Contenedor de Plastico Reciclado', deviceId: "8", id_empresa: 10, type: '4', maxWeight: 1200 },
-    { name: 'Contenedor de Plastico Reciclado (1)', deviceId: "9", id_empresa: 10, type: '6', maxWeight: 600 }
+export const sensorCharts = {};
+export let selectedCollection = 'ContenedorInteligenteOrganico';
+
+export const containers = [
+  { name: 'ContenedorInteligenteOrganico', deviceId: "1", id_empresa: 1, type: '1', maxWeight: 200 },
+  { name: 'ContenedorBasicoPlastico',       deviceId: "2", id_empresa: 1, type: '2', maxWeight: 500 },
+  { name: 'ContenedorQuimicoPeligroso',      deviceId: "3", id_empresa: 1, type: '3', maxWeight: 1500 },
+  { name: 'ContenedorIndustriasABC',         deviceId: "4", id_empresa: 2, type: '4', maxWeight: 300 },
+  { name: 'ContenedorMetalurgicaXYZ',        deviceId: "5", id_empresa: 2, type: '5', maxWeight: 800 },
+  { name: 'ContenedorQuimicosSA',            deviceId: "6", id_empresa: 2, type: '6', maxWeight: 1000 },
+  { name: 'ContenedorTextileraFina',         deviceId: "7", id_empresa: 9, type: '5', maxWeight: 400 },
+  { name: 'ContenedorPlasticoReciclado',     deviceId: "8", id_empresa: 10,type: '4', maxWeight: 1200 },
+  { name: 'ContenedorPlasticoReciclado',     deviceId: "9", id_empresa: 10,type: '6', maxWeight: 600 }
 ];
 
-function logMessage(message, type = 'info') {
-    const logDiv = document.getElementById('log');
-    const p = document.createElement('p');
-    p.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-    p.className = `log-${type}`;
-    logDiv.prepend(p);
-    if (logDiv.children.length > 50) {
-        logDiv.removeChild(logDiv.lastChild);
-    }
-}
+let simulatorInterval = null;
+let chartUpdateInterval = null;
 
 function getRandomSensorValue(baseValue, maxVariation = 2.0) {
-    const variation = (Math.random() * maxVariation * 2) - maxVariation;
-    return parseFloat((baseValue + variation).toFixed(2));
+  const variation = (Math.random() * maxVariation * 2) - maxVariation;
+  return parseFloat((baseValue + variation).toFixed(2));
 }
 
-function generateContainerData(containerConfig) {
-    const baseToC = 25.0;
-    const baseRH = 70.0;
-    const baseCO2 = 400.0;
-    const baseGLP = 10.0;
-    const baseCH4 = 2.0;
-    const baseH2 = 5.0;
-
-    return {
-        DeviceID: containerConfig.deviceId, // Correcto
-        ClientID: containerConfig.clientId,
-        Name: containerConfig.name,
-        Status: "active",//Math.random() > 0.5 ? "active" : "inactive",
-        Type: containerConfig.type,
-        MaxWeight_kg: containerConfig.maxWeight,
-        Values: {
-            ToC: getRandomSensorValue(baseToC),
-            RH: getRandomSensorValue(baseRH),
-            CO2_PPM: getRandomSensorValue(baseCO2, 50.0),
-            GLP_PPM: getRandomSensorValue(baseGLP, 5.0),
-            CH4_PPM: getRandomSensorValue(baseCH4, 1.0),
-            H2_PPM: getRandomSensorValue(baseH2, 2.0)
-        }
-    };
+export function generateContainerData(containerConfig) {
+  return {
+    DeviceID:   containerConfig.deviceId,
+    id_empresa: containerConfig.id_empresa,
+    Name:       containerConfig.name,
+    Status:     "active",
+    Type:       containerConfig.type,
+    MaxWeight_kg: containerConfig.maxWeight,
+    Values: {
+      ToC:     getRandomSensorValue(25.0),
+      RH:      getRandomSensorValue(70.0),
+      CO2_PPM: getRandomSensorValue(400.0, 50.0),
+      GLP_PPM: getRandomSensorValue(10.0, 5.0),
+      CH4_PPM: getRandomSensorValue(2.0, 1.0),
+      H2_PPM:  getRandomSensorValue(5.0, 2.0)
+    },
+    createdAt: new Date().toISOString()
+  };
 }
 
-async function sendContainerData() {
-    const containerConfig = containers.find(c => c.name === selectedCollection);
-    if (!containerConfig) {
-        logMessage(`Error: No se encontró la configuración para el contenedor seleccionado: ${selectedCollection}`, 'error');
-        return;
-    }
+export function sendContainerData(logCallback) {
+  const cfg = containers.find(c => c.name === selectedCollection);
+  if (!cfg) {
+    logCallback?.(`Error: no existe configuración para "${selectedCollection}"`, 'error');
+    return;
+  }
 
-    const data = generateContainerData(containerConfig);
-    logMessage(`Intentando enviar datos a la colección: ${selectedCollection} (DeviceID: ${data.DeviceID}, ClientID: ${data.ClientID})...`, 'info');
-    try {
-        const response = await postContainer(data, selectedCollection);
-        logMessage(`Datos enviados exitosamente a la colección: ${selectedCollection}. Respuesta: ${JSON.stringify(response)}`, 'success');
-    } catch (error) {
-        logMessage(`Error al enviar datos a la colección: ${selectedCollection}. Error: ${error.message}`, 'error');
-        console.error("Detalle del error:", error);
-    }
+  const payload = generateContainerData(cfg);
+  logCallback?.(`Enviando datos a "${selectedCollection}"…`, 'info');
+
+  postContainer(payload, selectedCollection)
+    .then(res => {
+      logCallback?.(`Envío exitoso: ${JSON.stringify(res)}`, 'success');
+    })
+    .catch(err => {
+      logCallback?.(`Error enviando datos: ${err.message}`, 'error');
+      console.error(err);
+    });
 }
 
-export function startSimulator() {
-    if (simulatorInterval) {
-        logMessage("El simulador ya está en marcha.", 'warning');
-        return;
+export function initCharts(collection) {
+  Object.values(sensorAliasMap).forEach(sensor => {
+    if (sensorCharts[sensor]) {
+      sensorCharts[sensor].destroy();
     }
-    logMessage(`Iniciando simulador para la colección: ${selectedCollection}...`, 'info');
-    document.getElementById('containerSelector').disabled = true;
-    sendContainerData();
-    simulatorInterval = setInterval(sendContainerData, 3000);
-    document.getElementById('startButton').disabled = true;
-    document.getElementById('stopButton').disabled = false;
+    const el = document.getElementById(`chart-${sensor}`);
+    if (!el) return;
+    sensorCharts[sensor] = Highcharts.chart(el, {
+      chart: { type: 'line' },
+      title: { text: sensor },
+      series: [{ name: sensor, data: [] }],
+      xAxis: { type: 'datetime' }
+    });
+  });
+
+  updateCharts(collection);
 }
 
-export function stopSimulator() {
-    if (!simulatorInterval) {
-        logMessage("El simulador no está en marcha.", 'warning');
-        return;
-    }
+export async function updateCharts(collection) {
+  try {
+    const resp = await getContainer(collection);
+    const items = Array.isArray(resp?.data) ? resp.data
+                : Array.isArray(resp)      ? resp
+                : [];
+
+    if (!items.length) return;
+
+    const seriesData = {};
+    items.forEach(item => {
+      const raw = item.Values || item.values;
+      const ts  = new Date(item.updatedAt || item.createdAt).getTime();
+      Object.entries(raw).forEach(([k, v]) => {
+        const key = sensorAliasMap[k];
+        if (!key) return;
+        seriesData[key] = seriesData[key] || [];
+        seriesData[key].push([ts, v]);
+      });
+    });
+
+    Object.entries(seriesData).forEach(([sensor, data]) => {
+      const chart = sensorCharts[sensor];
+      if (chart) chart.series[0].setData(data, true);
+    });
+  } catch (err) {
+    console.error('Error actualizando gráficas:', err);
+  }
+}
+
+export function startSimulator(logCallback) {
+  if (simulatorInterval) {
+    logCallback?.('El simulador ya está activo.', 'warning');
+    return;
+  }
+  logCallback?.(`Simulador iniciado para "${selectedCollection}"`, 'success');
+  sendContainerData(logCallback);
+  simulatorInterval = setInterval(() => sendContainerData(logCallback), 3000);
+  startChartsUpdate(logCallback);
+}
+
+export function stopSimulator(logCallback) {
+  if (simulatorInterval) {
     clearInterval(simulatorInterval);
     simulatorInterval = null;
-    logMessage("Simulador detenido.", 'info');
-    document.getElementById('containerSelector').disabled = false;
-    document.getElementById('startButton').disabled = false;
-    document.getElementById('stopButton').disabled = true;
+    logCallback?.('Simulador detenido.', 'info');
+  }
+  stopChartsUpdate(logCallback);
 }
 
+export function startChartsUpdate(logCallback) {
+  stopChartsUpdate();
+  chartUpdateInterval = setInterval(() => updateCharts(selectedCollection), 5000);
+  logCallback?.('Actualización de gráficas automática iniciada.', 'info');
+}
+
+export function stopChartsUpdate(logCallback) {
+  if (chartUpdateInterval) {
+    clearInterval(chartUpdateInterval);
+    chartUpdateInterval = null;
+    logCallback?.('Actualización de gráficas detenida.', 'info');
+  }
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    const containerSelector = document.getElementById('containerSelector');
-    
-    containers.forEach(container => {
-        const option = document.createElement('option');
-        option.value = container.name;
-        option.textContent = container.name;
-        containerSelector.appendChild(option);
-    });
+  const selector   = document.getElementById('containerSelector');
+  const btnStart   = document.getElementById('startButton');
+  const btnStop    = document.getElementById('stopButton');
+  const btnRefresh = document.getElementById('refreshButton');
+  const logDiv     = document.getElementById('log');
 
-    containerSelector.addEventListener('change', (event) => {
-        selectedCollection = event.target.value;
-        logMessage(`Contenedor seleccionado: ${selectedCollection}`, 'info');
-    });
+  // logging helper
+  function logMessage(msg, type = 'info') {
+    if (!logDiv) return;
+    const p = document.createElement('p');
+    p.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+    p.className = type;
+    logDiv.prepend(p);
+    while (logDiv.children.length > 50) {
+      logDiv.removeChild(logDiv.lastChild);
+    }
+  }
 
-    document.getElementById('startButton').addEventListener('click', startSimulator);
-    document.getElementById('stopButton').addEventListener('click', stopSimulator);
-    document.getElementById('stopButton').disabled = true;
+  // llenar <select> con contenedores
+  containers.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.name;
+    opt.textContent = c.name;
+    selector.appendChild(opt);
+  });
+
+  // estado inicial
+  selector.value  = selectedCollection;
+  btnStop.disabled = true;
+  initCharts(selectedCollection);
+
+  // cambiar colección
+  selector.addEventListener('change', () => {
+    selectedCollection = selector.value;
+    logMessage(`Contenedor seleccionado: ${selectedCollection}`, 'info');
+    initCharts(selectedCollection);
+  });
+
+  // iniciar
+  btnStart.addEventListener('click', () => {
+    startSimulator(logMessage);
+    btnStart.disabled = true;
+    btnStop.disabled  = false;
+    selector.disabled = true;
+  });
+
+  // detener
+  btnStop.addEventListener('click', () => {
+    stopSimulator(logMessage);
+    btnStart.disabled = false;
+    btnStop.disabled  = true;
+    selector.disabled = false;
+  });
+
+  // refrescar gráficas manual
+  btnRefresh.addEventListener('click', () => {
+    updateCharts(selectedCollection);
+  });
 });

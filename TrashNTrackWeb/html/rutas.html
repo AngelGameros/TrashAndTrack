@@ -13,7 +13,7 @@
 
 
     <script type="module" src="../js/main.js"></script>
-    
+
 </head>
 <body>
 
@@ -67,7 +67,13 @@
                     <div class="map-container">
                         <div class="map-header">
                             <h2 class="map-title">Mapa de Rutas - Baja California</h2>
-                            
+                            <div class="filter-buttons">
+                                <button class="filter-btn active" data-filter="all">Todas</button>
+                                <button class="filter-btn" data-filter="active">Activas</button>
+                                <button class="filter-btn" data-filter="completed">Completadas</button>
+                                <button class="filter-btn" data-filter="delayed">Retrasadas</button>
+                                <button class="refresh-btn" onclick="refreshData()">🔄 Actualizar</button>
+                            </div>
                         </div>
                         <div class="map-canvas">
                             <div id="routeMap"></div> 
@@ -106,46 +112,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal para Nueva Ruta -->
-    <div id="newRouteModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Nueva Ruta</h2>
-                <span class="close" onclick="closeModal('newRouteModal')">&times;</span>
-            </div>
-            <form id="newRouteForm" class="modal-body">
-                <div class="form-group">
-                    <label for="routeName">Nombre de la Ruta *</label>
-                    <input type="text" id="routeName" name="routeName" required placeholder="Ej: Ruta Norte A-B">
-                </div>
-
-                <div class="form-group">
-                    <label for="routeDescription">Descripción</label>
-                    <textarea id="routeDescription" name="routeDescription" rows="3" placeholder="Descripción de la ruta"></textarea>
-                </div>
-
-
-
-                <div class="form-group">
-                    <label for="routeStatus">Estado de la Ruta</label>
-                    <select id="routeStatus" name="routeStatus">
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="Activa">Activa</option>
-                        <option value="Completada">Completada</option>
-                        <option value="Retrasada">Retrasada</option>
-                    </select>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('newRouteModal')">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Crear Ruta</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     

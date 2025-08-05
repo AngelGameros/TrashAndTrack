@@ -1,21 +1,48 @@
 // camiones.js
 import { getCamiones, getCamionesById } from '../DataConnection/Gets.js'; // Import the GET functions
+import { getUsuarios } from '../DataConnection/Gets.js'; // Descomenta esta línea
+import { postCamiones } from "../DataConnection/Post.js";
+import { putCamiones } from "../DataConnection/Puts.js";
+
 
 let trucks = []; // Array para almacenar los datos de los camiones, ahora poblado desde la API
+
+// Función mock para simular la obtención de usuarios
+// Elimina esta función cuando uses tu getUsuarios real
+// async function getUsuarios() {
+//     return new Promise(resolve => {
+//         setTimeout(() => {
+//             resolve({
+//                 usuarios: [
+//                     { "idUsuario": 1, "nombre": "Christian", "primerApellido": "Martinez", "segundoApellido": "Hernandez", "correo": "christian.martinez@gmail.com", "numeroTelefono": "6645464315", "firebaseUid": "aMhnX4DwdtQkrt6GKPEQcwnLwhe2", "tipoUsuario": "recolector" },
+//                     { "idUsuario": 2, "nombre": "María", "primerApellido": "Pérez", "segundoApellido": "García", "correo": "maria.perez@gmail.com", "numeroTelefono": "6641234567", "firebaseUid": "bBhnX4DwdtQkrt6GKPEQcwnLwhe2", "tipoUsuario": "recolector" },
+//                     { "idUsuario": 3, "nombre": "Juan", "primerApellido": "Gómez", "segundoApellido": "López", "correo": "juan.gomez@gmail.com", "numeroTelefono": "6647654321", "firebaseUid": "cCmnX4DwdtQkrt6GKPEQcwnLwhe2", "tipoUsuario": "recolector" }
+//                 ]
+//             });
+//         }, 500);
+//     });
+// }
+
 
 // Función para mostrar/ocultar mensajes de error de campo
 function displayFieldError(fieldId, message, isEditModal = false) {
     const prefix = isEditModal ? 'edit' : '';
     const errorElement = document.getElementById(prefix + fieldId + 'Error');
     const inputElement = document.getElementById(prefix + fieldId);
-    if (message) {
+
+    // Verifica si el elemento del error existe antes de manipularlo
+    if (errorElement) {
         errorElement.textContent = message;
-        errorElement.style.display = 'block';
-        inputElement.classList.add('invalid');
-    } else {
-        errorElement.textContent = '';
-        errorElement.style.display = 'none';
-        inputElement.classList.remove('invalid');
+        errorElement.style.display = message ? 'block' : 'none';
+    }
+    
+    // Verifica si el elemento del input existe antes de manipularlo
+    if (inputElement) {
+        if (message) {
+            inputElement.classList.add('invalid');
+        } else {
+            inputElement.classList.remove('invalid');
+        }
     }
 }
 
@@ -30,7 +57,7 @@ function validateAnio(anio) {
 
 // Función de validación para la capacidad de carga
 function validateCapacidadCarga(capacidad) {
-    if (capacidad === null || isNaN(capacidad) || capacidad <= 0 || capacidad > 9999) { // Límite de 200
+    if (capacidad === null || isNaN(capacidad) || capacidad <= 0 || capacidad > 9999) {
         return "La capacidad de carga debe ser un número positivo, máximo 9999.";
     }
     return ""; // Sin error
@@ -39,14 +66,15 @@ function validateCapacidadCarga(capacidad) {
 // Renderizar camiones en la cuadrícula
 async function renderTrucks(filteredTrucks = null) {
     const trucksGrid = document.getElementById('trucksGrid');
+    if (!trucksGrid) {
+      console.error("El elemento con id 'trucksGrid' no fue encontrado.");
+      return;
+    }
     trucksGrid.innerHTML = ''; // Limpiar las tarjetas existentes
 
     if (!filteredTrucks) {
         try {
             const apiResponse = await getCamiones(); // Fetch all trucks from the API
-            // console.log("API Response for all trucks:", apiResponse); // Debugging: See what getCamiones returns
-
-            // FIX: Access the 'camiones' array from the apiResponse
             if (apiResponse && Array.isArray(apiResponse.camiones)) {
                 trucks = apiResponse.camiones;
             } else {
@@ -88,6 +116,10 @@ async function renderTrucks(filteredTrucks = null) {
                     <span class="info-value">${truck.anio || 'N/A'}</span>
                 </div>
                 <div class="info-row">
+                    <span class="info-label">Estado:</span>
+                    <span class="info-value">${truck.estado || 'N/A'}</span>
+                </div>
+                <div class="info-row">
                     <span class="info-label">Capacidad de Carga:</span>
                     <span class="info-value">${truck.capacidadCarga !== undefined && truck.capacidadCarga !== null ? `${truck.capacidadCarga}` : 'N/A'}</span>
                 </div>
@@ -104,6 +136,207 @@ async function renderTrucks(filteredTrucks = null) {
     attachButtonListeners();
 }
 
+// Función para poblar el select de usuarios para el modal de creación
+async function populateUserSelect() {
+    const userSelect = document.getElementById('usuarioTruck');
+    if (!userSelect) return;
+
+    // Limpiar opciones previas, manteniendo el placeholder
+    userSelect.innerHTML = '<option value="" disabled selected>Seleccione un usuario</option>';
+    try {
+        const apiResponse = await getUsuarios();
+        console.log("Respuesta de la API de usuarios para CREAR:", apiResponse); // Log para depuración
+        const users = apiResponse?.usuarios;
+        if (users && Array.isArray(users)) {
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.idUsuario;
+                option.textContent = `${user.nombre} ${user.primerApellido} ${user.segundoApellido}`;
+                userSelect.appendChild(option);
+            });
+        } else {
+            console.error("Respuesta de la API de usuarios no es la esperada para CREAR:", apiResponse);
+            // Mostrar error visual al usuario
+            const errorOption = document.createElement('option');
+            errorOption.textContent = 'Error al cargar usuarios';
+            errorOption.disabled = true;
+            userSelect.appendChild(errorOption);
+        }
+    } catch (error) {
+        console.error("Error al cargar usuarios para CREAR:", error);
+        const errorOption = document.createElement('option');
+        errorOption.textContent = 'Error al cargar usuarios';
+        errorOption.disabled = true;
+        userSelect.appendChild(errorOption);
+    }
+}
+
+// Función para poblar el select de usuarios para el modal de edición
+async function populateEditUserSelect(selectedUserId) {
+    const userSelect = document.getElementById('editUsuario');
+    if (!userSelect) return;
+
+    // Limpiar opciones previas, manteniendo el placeholder
+    userSelect.innerHTML = '<option value="" disabled selected>Seleccione un usuario</option>';
+    try {
+        const apiResponse = await getUsuarios();
+        console.log("Respuesta de la API de usuarios para EDICIÓN:", apiResponse); // Log para depuración
+        const users = apiResponse?.usuarios;
+        if (users && Array.isArray(users)) {
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.idUsuario;
+                option.textContent = `${user.nombre} ${user.primerApellido} ${user.segundoApellido}`;
+                if (user.idUsuario === selectedUserId) {
+                    option.selected = true;
+                }
+                userSelect.appendChild(option);
+            });
+        } else {
+            console.error("Respuesta de la API de usuarios no es la esperada para EDICIÓN:", apiResponse);
+            // Mostrar error visual al usuario
+            const errorOption = document.createElement('option');
+            errorOption.textContent = 'Error al cargar usuarios';
+            errorOption.disabled = true;
+            userSelect.appendChild(errorOption);
+        }
+    } catch (error) {
+        console.error("Error al cargar usuarios para EDICIÓN:", error);
+        const errorOption = document.createElement('option');
+        errorOption.textContent = 'Error al cargar usuarios';
+        errorOption.disabled = true;
+        userSelect.appendChild(errorOption);
+    }
+}
+
+
+// Variables y lógica para el modal de creación
+const newTruckBtn = document.getElementById('newTruckBtn');
+const createTruckModal = document.getElementById('createTruckModal');
+const createTruckForm = document.getElementById('createTruckForm');
+const closeCreateModal = document.getElementById('closeCreateModal');
+const closeViewModal = document.getElementById('closeViewModal');
+const closeEditModal = document.getElementById('closeEditModal');
+const cancelCreateBtn = document.getElementById('cancelCreateBtn');
+
+
+function closeModal(modalId = 'createTruckModal') {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+        modalElement.classList.add('hidden');
+        if (modalId === 'createTruckModal') {
+            createTruckForm.reset(); // Limpiar el formulario de creación
+        }
+    }
+}
+window.closeModal = closeModal;
+
+// Oyente de evento para abrir el modal de creación
+if(newTruckBtn) {
+    newTruckBtn.addEventListener('click', () => {
+        populateUserSelect(); // Llama a la función para cargar usuarios
+        createTruckModal.classList.remove('hidden');
+    });
+}
+
+
+if(closeCreateModal) {
+    closeCreateModal.addEventListener('click', () => closeModal('createTruckModal'));
+}
+
+if(cancelCreateBtn) {
+    cancelCreateBtn.addEventListener('click', () => closeModal('createTruckModal'));
+}
+
+// Cerrar el modal haciendo clic fuera del contenido
+window.addEventListener('click', (event) => {
+    if (event.target === createTruckModal) {
+        closeModal('createTruckModal');
+    }
+});
+if(createTruckForm) {
+    createTruckForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        // Limpiar errores previos
+        displayFieldError('placaTruck', '');
+        displayFieldError('marcaTruck', '');
+        displayFieldError('modeloTruck', '');
+        displayFieldError('anioTruck', '');
+        displayFieldError('capacidadCargaTruck', '');
+        displayFieldError('usuarioTruck', '');
+        displayFieldError('estadoTruck', '');
+        
+        // Obtener valores del formulario
+        const placa = document.getElementById('placaTruck').value.trim();
+        const marca = document.getElementById('marcaTruck').value.trim();
+        const modelo = document.getElementById('modeloTruck').value.trim();
+        const anio = parseInt(document.getElementById('anioTruck').value);
+        const capacidadCarga = parseFloat(document.getElementById('capacidadCargaTruck').value);
+        const idUsuario = document.getElementById('usuarioTruck').value;
+        const estado = document.getElementById('estadoTruck').value;
+
+        let isValid = true;
+        if (!placa) {
+            displayFieldError('placaTruck', 'La placa es obligatoria.');
+            isValid = false;
+        }
+        if (!marca) {
+            displayFieldError('marcaTruck', 'La marca es obligatoria.');
+            isValid = false;
+        }
+        if (!modelo) {
+            displayFieldError('modeloTruck', 'El modelo es obligatorio.');
+            isValid = false;
+        }
+        const anioError = validateAnio(anio);
+        if (anioError) {
+            displayFieldError('anioTruck', anioError);
+            isValid = false;
+        }
+        const capacidadCargaError = validateCapacidadCarga(capacidadCarga);
+        if (capacidadCargaError) {
+            displayFieldError('capacidadCargaTruck', capacidadCargaError);
+            isValid = false;
+        }
+        if (!idUsuario) {
+            displayFieldError('usuarioTruck', 'Debe seleccionar un usuario.');
+            isValid = false;
+        }
+        if (estado === "") {
+            displayFieldError('estadoTruck', 'El estado es obligatorio.');
+            isValid = false;
+        }
+        
+        if (!isValid) return;
+
+        const newTruckData = {
+            placa,
+            marca,
+            modelo,
+            anio,
+            capacidadCarga,
+            idUsuario: Number(idUsuario),
+            estado
+        };
+
+        console.log("Datos del nuevo camión:", newTruckData);
+
+        try {
+            await postCamiones(newTruckData); // Descomenta esta línea
+            // alert("Camión creado correctamente."); // Reemplazado por un mensaje personalizado para evitar alert()
+            console.log("Camión creado correctamente."); // Muestra un mensaje en consola para simulación
+            closeModal('createTruckModal');
+            renderTrucks(); // Llama a la función para recargar la lista de camiones
+        } catch (error) {
+            console.error("Error al crear camión:", error);
+            // alert("Hubo un error al crear el camión. Intente más tarde."); // Reemplazado
+            console.log("Hubo un error al crear el camión. Intente más tarde.");
+        }
+    });
+}
+
+
 // Adjuntar oyentes de eventos a los botones "Ver Detalles" y "Editar"
 function attachButtonListeners() {
     document.querySelectorAll('.btn-view').forEach(button => {
@@ -116,6 +349,7 @@ function attachButtonListeners() {
     document.querySelectorAll('.btn-edit').forEach(button => {
         button.onclick = (event) => {
             const truckId = event.target.dataset.id;
+            // Aquí se llama a la función para mostrar el modal de edición
             showEditTruckModal(truckId);
         };
     });
@@ -123,28 +357,27 @@ function attachButtonListeners() {
 
 // Mostrar Modal de Detalles del Camión
 async function showViewTruckModal(truckId) {
-    // console.log("camiones.js: Attempting to show details for truckId:", truckId); // Debugging: What ID is passed?
-    const apiResponse = await getCamionesById(truckId); // Fetch truck details by ID from API
-    // console.log("camiones.js: Received raw API response for view modal:", apiResponse); // Debugging: What raw data did getCamionesById return?
-
-    // FIX: Access the actual truck object from apiResponse.camiones
+    const apiResponse = await getCamionesById(truckId);
     const truck = apiResponse && apiResponse.camiones ? apiResponse.camiones : null;
-
-    // console.log("camiones.js: Extracted truck object for view modal:", truck); // Debugging: What is the extracted truck object?
 
     if (!truck) {
         console.error("Camión no encontrado o datos no recibidos:", truckId);
-        // Optionally display a user-friendly error message in the modal or on the page
         return;
     }
 
     const detailsDiv = document.getElementById('viewTruckDetails');
+    if (!detailsDiv) {
+      console.error("El elemento con id 'viewTruckDetails' no fue encontrado.");
+      return;
+    }
+
     detailsDiv.innerHTML = `
         <div class="modal-info-row"><span class="modal-info-label">ID Camión:</span><span class="modal-info-value">${truck.idCamion || 'N/A'}</span></div>
         <div class="modal-info-row"><span class="modal-info-label">Placa:</span><span class="modal-info-value">${truck.placa || 'N/A'}</span></div>
         <div class="modal-info-row"><span class="modal-info-label">Marca:</span><span class="modal-info-value">${truck.marca || 'N/A'}</span></div>
         <div class="modal-info-row"><span class="modal-info-label">Modelo:</span><span class="modal-info-value">${truck.modelo || 'N/A'}</span></div>
         <div class="modal-info-row"><span class="modal-info-label">Año:</span><span class="modal-info-value">${truck.anio || 'N/A'}</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Estado:</span><span class="modal-info-value">${truck.estado || 'N/A'}</span></div>
         <div class="modal-info-row"><span class="modal-info-label">Capacidad de Carga:</span><span class="modal-info-value">${truck.capacidadCarga !== undefined && truck.capacidadCarga !== null ? `${truck.capacidadCarga}` : 'N/A'}</span></div>
         <div class="modal-info-row"><span class="modal-info-label">ID Usuario:</span><span class="modal-info-value">${truck.idUsuario || 'N/A'}</span></div>
     `;
@@ -153,68 +386,64 @@ async function showViewTruckModal(truckId) {
 
 // Mostrar Modal de Edición de Camión
 async function showEditTruckModal(truckId) {
-    // console.log("camiones.js: Attempting to show edit modal for truckId:", truckId); // Debugging
     const apiResponse = await getCamionesById(truckId);
-    // console.log("camiones.js: Received raw API response for edit modal:", apiResponse); // Debugging
-
-    // FIX: Access the actual truck object from apiResponse.camiones
     const truck = apiResponse && apiResponse.camiones ? apiResponse.camiones : null;
-
-    // console.log("camiones.js: Extracted truck object for edit modal:", truck); // Debugging
 
     if (!truck) {
         console.error("Camión no encontrado para editar:", truckId);
         return;
     }
 
-    document.getElementById('editTruckId').value = truck.idCamion || ''; // Use idCamion from API
-    document.getElementById('editPlaca').value = truck.placa || ''; //
-    document.getElementById('editMarca').value = truck.marca || ''; //
-    document.getElementById('editModelo').value = truck.modelo || ''; //
-    document.getElementById('editAnio').value = truck.anio || ''; //
-    document.getElementById('editCapacidadCarga').value = truck.capacidadCarga || ''; // Use capacidadCarga
+    // console.log para depuración
+    console.log("Datos del camión para edición:", truck);
+
+    document.getElementById('editTruckId').value = truck.idCamion || '';
+    document.getElementById('editPlaca').value = truck.placa || '';
+    document.getElementById('editMarca').value = truck.marca || '';
+    document.getElementById('editModelo').value = truck.modelo || '';
+    document.getElementById('editAnio').value = truck.anio || '';
+    document.getElementById('editEstado').value = truck.estado || '';
+    document.getElementById('editCapacidadCarga').value = truck.capacidadCarga || '';
+
+    // Llenar y seleccionar el usuario correcto en el select
+    await populateEditUserSelect(truck.idUsuario);
 
     // Limpiar errores previos al abrir el modal de edición
     displayFieldError('Placa', '', true);
     displayFieldError('Marca', '', true);
     displayFieldError('Modelo', '', true);
     displayFieldError('Anio', '', true);
+    displayFieldError('Estado', '', true);
     displayFieldError('CapacidadCarga', '', true);
+    displayFieldError('Usuario', '', true); // Nuevo campo de usuario en el modal de edición
 
     document.getElementById('editTruckModal').classList.remove('hidden');
 }
-
-// Función para cerrar cualquier modal
-function closeModal(modalId) {
-    const modalElement = document.getElementById(modalId);
-    if (modalElement) {
-        modalElement.classList.add('hidden');
-    }
-}
-window.closeModal = closeModal;
-
 
 // Manejar el envío del formulario de Edición de Camión
 document.getElementById('editTruckForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     const truckId = document.getElementById('editTruckId').value;
-    
-    // Limpiar mensajes de error previos del modal de edición
+
+    // Limpiar errores
     displayFieldError('Placa', '', true);
     displayFieldError('Marca', '', true);
     displayFieldError('Modelo', '', true);
     displayFieldError('Anio', '', true);
+    displayFieldError('Estado', '', true);
     displayFieldError('CapacidadCarga', '', true);
+    displayFieldError('Usuario', '', true);
 
-    const editPlaca = document.getElementById('editPlaca').value;
-    const editMarca = document.getElementById('editMarca').value;
-    const editModelo = document.getElementById('editModelo').value;
+    const editPlaca = document.getElementById('editPlaca').value.trim();
+    const editMarca = document.getElementById('editMarca').value.trim();
+    const editModelo = document.getElementById('editModelo').value.trim();
     const editAnio = parseInt(document.getElementById('editAnio').value);
+    const editEstado = document.getElementById('editEstado').value;
     const editCapacidadCarga = parseFloat(document.getElementById('editCapacidadCarga').value);
+    const editIdUsuario = document.getElementById('editUsuario').value; // Nuevo campo de usuario
 
     let isValid = true;
 
-    // Validaciones para el modal de edición
     if (!editPlaca) {
         displayFieldError('Placa', 'La placa es obligatoria.', true);
         isValid = false;
@@ -231,37 +460,43 @@ document.getElementById('editTruckForm').addEventListener('submit', async (event
         displayFieldError('CapacidadCarga', capacidadCargaError, true);
         isValid = false;
     }
-
-    if (!isValid) {
-        return;
+    if (!editIdUsuario) {
+        displayFieldError('Usuario', 'Debe seleccionar un usuario.', true);
+        isValid = false;
     }
 
+    if (!isValid) return;
+
     const updatedData = {
-        idCamion: parseInt(truckId), // Ensure ID is parsed as integer if API expects it
+        idCamion: Number(truckId),
         placa: editPlaca,
         marca: editMarca,
         modelo: editModelo,
         anio: editAnio,
-        capacidadCarga: editCapacidadCarga, // Use capacidadCarga for API
+        capacidadCarga: editCapacidadCarga,
+        idUsuario: Number(editIdUsuario), // Asegurarse de que el ID sea un número
+        estado: editEstado
     };
 
-    console.log("Simulando actualización de camión:", updatedData);
-    
-    // Here you would typically make an API call to update the truck (PUT/PATCH request)
-    // For example:
-    // try {
-    //     await updateCamion(updatedData); // You'd need to implement updateCamion in Gets.js or a separate file for PUT/PATCH
-    //     console.log("Camión actualizado exitosamente en la API!");
-    //     closeModal('editTruckModal');
-    //     renderTrucks(); // Re-render to show changes
-    // } catch (error) {
-    //     console.error("Error al actualizar camión en la API:", error);
-    //     // Display a general error message to the user
-    // }
 
-    closeModal('editTruckModal');
-    renderTrucks(); // Re-render to reflect changes (though not persistent without API update)
+    if(closeViewModal) {
+    closeViewModal.addEventListener('click', () => closeModal('viewTruckModal'));
+    }
+    if(closeEditModal) {
+    closeEditModal.addEventListener('click', () => closeModal('editTruckModal'));
+}
+    try {
+        await putCamiones(truckId, updatedData);
+        console.log("Camión actualizado correctamente.");
+        closeModal('editTruckModal');
+        renderTrucks(); // Recargar para mostrar cambios
+    } catch (error) {
+        console.error("Error al actualizar camión:", error);
+        // alert("Hubo un error al actualizar el camión. Intente más tarde."); // Reemplazado
+        console.log("Hubo un error al actualizar el camión. Intente más tarde.");
+    }
 });
+
 
 // Función para manejar la búsqueda (ahora llamada en tiempo real)
 async function handleSearch() {
@@ -269,7 +504,6 @@ async function handleSearch() {
     const allTrucksResponse = await getCamiones(); // Fetch all trucks from the API
     let allTrucks = [];
 
-    // FIX: Access the 'camiones' array from the apiResponse
     if (allTrucksResponse && Array.isArray(allTrucksResponse.camiones)) {
         allTrucks = allTrucksResponse.camiones;
     } else {
@@ -283,24 +517,17 @@ async function handleSearch() {
     }
 
     const filteredTrucks = allTrucks.filter(truck => {
-        // Se busca en ID, placa, marca, modelo.
         return (
-            (truck.idCamion && truck.idCamion.toString().toLowerCase().includes(searchTerm)) || // Use idCamion
-            (truck.placa && truck.placa.toLowerCase().includes(searchTerm)) || //
-            (truck.marca && truck.marca.toLowerCase().includes(searchTerm)) || //
-            (truck.modelo && truck.modelo.toLowerCase().includes(searchTerm)) //
+            (truck.idCamion && truck.idCamion.toString().toLowerCase().includes(searchTerm)) ||
+            (truck.placa && truck.placa.toLowerCase().includes(searchTerm)) ||
+            (truck.marca && truck.marca.toLowerCase().includes(searchTerm)) ||
+            (truck.modelo && truck.modelo.toLowerCase().includes(searchTerm))
         );
     });
     renderTrucks(filteredTrucks);
 }
-// Hacer la función handleSearch globalmente accesible para oninput
 window.handleSearch = handleSearch;
 
-
-// Redirigir a la página de Nuevo Camión
-document.getElementById('newTruckBtn').addEventListener('click', () => {
-    window.location.href = 'registrarCamion.html';
-});
 
 // Cargar y renderizar camiones cuando la ventana se carga
 window.onload = () => {

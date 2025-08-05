@@ -313,3 +313,25 @@ export async function postRutasPlantas(newRutaPlanta){
 }
     */
 }
+
+// =======================================
+// POST PARA CAMIONES
+// =======================================
+export async function postCamiones(newCamion){
+  if(!newCamion){
+    throw new Error("Los datos no pueden estar vacíos");
+  }
+  return fetchPost("Camiones", newCamion);
+  
+   /* datos esperados:
+      {
+        "placa": "ABC-1234",
+        "marca": "Volvo",
+        "anio": 2020,    
+        "capacidadCarga": 5000,
+        "modelo": "F150",
+        "idUsuario": 4,
+        "estado": "activo o inactivo"  
+      }
+      */
+}

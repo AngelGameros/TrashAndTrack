@@ -214,3 +214,23 @@ export async function putRutasPlantas(nuevoEstado) {
 }
     */
 }
+
+
+// =======================================
+// PUT para CAMIONES
+// =======================================
+export async function putCamiones(id, infoCamion) {
+    if (!id) {
+        throw new Error("Se debe especificar el id del camión.");
+    }
+    if (!infoCamion) {
+        throw new Error("La información del camión no puede estar vacía.");
+    }
+
+    return putData(`Camiones/${id}`, infoCamion);
+}
+
+
+
+
+

@@ -1,99 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Contenedores</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #0056b3;
-            text-align: center;
-        }
-        .controls {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        button#startButton {
-            background-color: #28a745;
-            color: white;
-        }
-        button#startButton:hover:not(:disabled) {
-            background-color: #218838;
-        }
-        button#stopButton {
-            background-color: #dc3545;
-            color: white;
-        }
-        button#stopButton:hover:not(:disabled) {
-            background-color: #c82333;
-        }
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        #log {
-            border: 1px solid #ddd;
-            padding: 10px;
-            height: 300px;
-            overflow-y: scroll;
-            background-color: #e9e9e9;
-            border-radius: 5px;
-        }
-        #log p {
-            margin: 5px 0;
-            padding: 3px;
-            border-bottom: 1px dashed #ccc;
-        }
-        #log p:last-child {
-            border-bottom: none;
-        }
-        .log-info { color: #333; }
-        .log-success { color: #28a745; font-weight: bold; }
-        .log-error { color: #dc3545; font-weight: bold; }
-        .log-warning { color: #ffc107; }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Simulador de Contenedores</title>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <style>
+    #charts-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .chart-box {
+      width: 300px;
+      height: 200px;
+    }
+    #log {
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: .5rem;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Simulador de Datos de Contenedores</h1>
-        <p>Este simulador enviará datos aleatorios de contenedores a tu API de .NET Core cada 3 segundos.</p>
-        
-        <div class="controls">
-            <label for="containerSelector">Seleccionar Contenedor:</label>
-            <select id="containerSelector">
-                </select>
-            <button id="startButton">Iniciar Simulador</button>
-            <button id="stopButton">Detener Simulador</button>
-        </div>
-        
-        <h2>Registro de Actividad:</h2>
-        <div id="log">
-            </div>
-    </div>
+  <select id="containerSelector"></select>
+  <button id="startButton">Iniciar</button>
+  <button id="stopButton">Detener</button>
+  <button id="refreshButton">Refrescar gráficas</button>
 
-    <script type="module" src="./simulator.js"></script>
+  <div id="charts-container">
+    <div id="chart-ToC"   class="chart-box"></div>
+    <div id="chart-RH"    class="chart-box"></div>
+    <div id="chart-CO2_PPM" class="chart-box"></div>
+    <div id="chart-GLP_PPM" class="chart-box"></div>
+    <div id="chart-CH4_PPM" class="chart-box"></div>
+    <div id="chart-H2_PPM"  class="chart-box"></div>
+  </div>
+
+  <div id="log"></div>
+
+  <script type="module" src="./simulator.js"></script>
 </body>
 </html>
